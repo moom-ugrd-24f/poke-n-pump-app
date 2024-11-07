@@ -1,35 +1,43 @@
+import { Ionicons } from '@expo/vector-icons';
 import { Tabs } from 'expo-router';
 import React from 'react';
-
-import { TabBarIcon } from '@/components/navigation/TabBarIcon';
-import { Colors } from '@/constants/Colors';
-import { useColorScheme } from '@/hooks/useColorScheme';
+import { Text } from 'react-native';
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
-
   return (
-    <Tabs
-      screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+    <Tabs screenOptions={{ 
         headerShown: false,
-      }}>
+        tabBarStyle: { 
+          backgroundColor: '#307676', 
+          borderTopColor: "#307676", 
+          marginLeft: 10, 
+          marginRight: 10, 
+          padding: 10, 
+          borderTopLeftRadius: 10,
+          borderTopRightRadius: 10,
+          borderBottomLeftRadius: 0,
+          borderBottomRightRadius: 0
+        },
+    }}>
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Home',
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'home' : 'home-outline'} color={color} />
-          ),
+          tabBarIcon: ({ size, focused }) => <Ionicons name="home" size={size} color={focused ? 'yellow' : 'white'} />,
+          tabBarLabel: ({ focused }) => <Text style={{ color: focused ? 'yellow' : 'white', fontSize: 10 }}>Home</Text>
         }}
       />
       <Tabs.Screen
-        name="explore"
+        name="ranking"
         options={{
-          title: 'Explore',
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'code-slash' : 'code-slash-outline'} color={color} />
-          ),
+          tabBarIcon: ({ size, focused }) => <Ionicons name="trophy" size={size} color={focused ? 'yellow' : 'white'} />,
+          tabBarLabel: ({ focused }) => <Text style={{ color: focused ? 'yellow' : 'white', fontSize: 10 }}>Ranking</Text>
+        }}
+      />
+      <Tabs.Screen
+        name="settings"
+        options={{
+          tabBarIcon: ({ size, focused }) => <Ionicons name="settings" size={size} color={focused ? 'yellow' : 'white'} />,
+          tabBarLabel: ({ focused }) => <Text style={{ color: focused ? 'yellow' : 'white', fontSize: 10 }}>Settings</Text>
         }}
       />
     </Tabs>
