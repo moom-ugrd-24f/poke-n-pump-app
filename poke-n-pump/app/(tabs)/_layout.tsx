@@ -10,10 +10,21 @@ export default function TabLayout() {
 
   return (
     <Tabs
-      screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+      screenOptions={{ 
         headerShown: false,
-      }}>
+        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].icon,
+        tabBarInactiveTintColor: Colors[colorScheme ?? 'light'].default,
+        tabBarStyle: { 
+          backgroundColor: Colors[colorScheme ?? 'light'].tint,
+          borderTopColor: Colors[colorScheme ?? 'light'].tint,
+          marginLeft: 10, 
+          marginRight: 10, 
+          borderTopLeftRadius: 10,
+          borderTopRightRadius: 10,
+          borderBottomLeftRadius: 0,
+          borderBottomRightRadius: 0
+        },
+    }}>
       <Tabs.Screen
         name="index"
         options={{
@@ -24,14 +35,24 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="explore"
+        name="ranking"
         options={{
-          title: 'Explore',
+          title: 'Ranking',
           tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'code-slash' : 'code-slash-outline'} color={color} />
+            <TabBarIcon name={focused ? 'trophy' : 'trophy-outline'} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="settings"
+        options={{
+          title: 'Settings',
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon name={focused ? 'settings' : 'settings-outline'} color={color} />
           ),
         }}
       />
     </Tabs>
   );
 }
+
