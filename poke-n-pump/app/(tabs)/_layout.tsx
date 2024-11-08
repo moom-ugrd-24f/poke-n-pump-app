@@ -15,8 +15,8 @@ export default function TabLayout() {
         tabBarActiveTintColor: Colors[colorScheme ?? 'light'].icon,
         tabBarInactiveTintColor: Colors[colorScheme ?? 'light'].default,
         tabBarStyle: { 
-          backgroundColor: Colors[colorScheme ?? 'light'].tint,
-          borderTopColor: Colors[colorScheme ?? 'light'].tint,
+          backgroundColor: Colors[colorScheme ?? 'light'].backgroundLight,
+          borderTopColor: Colors[colorScheme ?? 'light'].backgroundLight,
           marginLeft: 10, 
           marginRight: 10, 
           borderTopLeftRadius: 10,
