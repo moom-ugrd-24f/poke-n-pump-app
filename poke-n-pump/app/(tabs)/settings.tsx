@@ -1,16 +1,17 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { ThemedText } from '@/components/ThemedText';
+import { ThemedView } from '@/components/ThemedView';
+import { StyleSheet } from 'react-native';
 
 export default function SettingsScreen() {
   return (
-    <View style={styles.settingsView}>
-      <Text>Settings Screen</Text>
-    </View>
+    <ThemedView style={styles.settingsView}>
+      <ThemedText>Settings Screen</ThemedText>
+    </ThemedView>
   );
 }
 
 const styles = StyleSheet.create({
   settingsView: {
-    backgroundColor: '#164847',
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',

@@ -5,14 +5,16 @@ import { Text } from 'react-native';
 
 export default function TabLayout() {
   return (
-    <Tabs screenOptions={{ 
+    <Tabs
+      screenOptions={{ 
         headerShown: false,
+        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].icon,
+        tabBarInactiveTintColor: Colors[colorScheme ?? 'light'].default,
         tabBarStyle: { 
-          backgroundColor: '#307676', 
-          borderTopColor: "#307676", 
+          backgroundColor: Colors[colorScheme ?? 'light'].tint,
+          borderTopColor: Colors[colorScheme ?? 'light'].tint,
           marginLeft: 10, 
           marginRight: 10, 
-          padding: 10, 
           borderTopLeftRadius: 10,
           borderTopRightRadius: 10,
           borderBottomLeftRadius: 0,
@@ -29,17 +31,22 @@ export default function TabLayout() {
       <Tabs.Screen
         name="ranking"
         options={{
-          tabBarIcon: ({ size, focused }) => <Ionicons name="trophy" size={size} color={focused ? 'yellow' : 'white'} />,
-          tabBarLabel: ({ focused }) => <Text style={{ color: focused ? 'yellow' : 'white', fontSize: 10 }}>Ranking</Text>
+          title: 'Ranking',
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon name={focused ? 'trophy' : 'trophy-outline'} color={color} />
+          ),
         }}
       />
       <Tabs.Screen
         name="settings"
         options={{
-          tabBarIcon: ({ size, focused }) => <Ionicons name="settings" size={size} color={focused ? 'yellow' : 'white'} />,
-          tabBarLabel: ({ focused }) => <Text style={{ color: focused ? 'yellow' : 'white', fontSize: 10 }}>Settings</Text>
+          title: 'Settings',
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon name={focused ? 'settings' : 'settings-outline'} color={color} />
+          ),
         }}
       />
     </Tabs>
   );
 }
+

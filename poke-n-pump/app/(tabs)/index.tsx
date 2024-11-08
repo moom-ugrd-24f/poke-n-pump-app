@@ -1,16 +1,17 @@
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet } from 'react-native';
+import { ThemedText } from '@/components/ThemedText';
+import { ThemedView } from '@/components/ThemedView';
 
 export default function HomeScreen() {
   return (
-    <View style={styles.homeView}>
-      <Text>Home Screen</Text>
-    </View>
+    <ThemedView style={styles.homeView}>
+      <ThemedText>Home Screen</ThemedText>
+    </ThemedView>
   );
 }
 
 const styles = StyleSheet.create({
   homeView: {
-    backgroundColor: '#164847',
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
