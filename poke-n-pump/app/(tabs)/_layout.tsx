@@ -1,9 +1,13 @@
-import { Ionicons } from '@expo/vector-icons';
 import { Tabs } from 'expo-router';
 import React from 'react';
-import { Text } from 'react-native';
+
+import { TabBarIcon } from '@/components/navigation/TabBarIcon';
+import { Colors } from '@/constants/Colors';
+import { useColorScheme } from '@/hooks/useColorScheme';
 
 export default function TabLayout() {
+  const colorScheme = useColorScheme();
+
   return (
     <Tabs
       screenOptions={{ 
@@ -11,8 +15,8 @@ export default function TabLayout() {
         tabBarActiveTintColor: Colors[colorScheme ?? 'light'].icon,
         tabBarInactiveTintColor: Colors[colorScheme ?? 'light'].default,
         tabBarStyle: { 
-          backgroundColor: Colors[colorScheme ?? 'light'].tint,
-          borderTopColor: Colors[colorScheme ?? 'light'].tint,
+          backgroundColor: Colors[colorScheme ?? 'light'].backgroundLight,
+          borderTopColor: Colors[colorScheme ?? 'light'].backgroundLight,
           marginLeft: 10, 
           marginRight: 10, 
           borderTopLeftRadius: 10,
@@ -24,8 +28,10 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          tabBarIcon: ({ size, focused }) => <Ionicons name="home" size={size} color={focused ? 'yellow' : 'white'} />,
-          tabBarLabel: ({ focused }) => <Text style={{ color: focused ? 'yellow' : 'white', fontSize: 10 }}>Home</Text>
+          title: 'Home',
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon name={focused ? 'home' : 'home-outline'} color={color} />
+          ),
         }}
       />
       <Tabs.Screen
