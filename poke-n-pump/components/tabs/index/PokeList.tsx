@@ -35,7 +35,7 @@ export default function PokeList() {
                         lightBorderColor={Colors[colorScheme ?? 'light'].mainLight}
                         darkBorderColor={Colors[colorScheme ?? 'dark'].mainLight}
                     >
-                        <ThemedText style={styles.title}>{pokee.name}</ThemedText>
+                        <ThemedText type='default' lightColor={Colors[colorScheme ?? 'light'].reverse} darkColor={Colors[colorScheme ?? 'light'].reverse}>{pokee.name}</ThemedText>
                     </ThemedView>
                 )) }
             </ThemedScrollView>
@@ -57,10 +57,6 @@ const styles = StyleSheet.create({
         padding: 10,
         borderWidth: 5,
         borderRadius: 10,
-    },
-    title: {
-        textAlign: 'center',
-        fontSize: 20,
     },
     image: {
         height: 50,

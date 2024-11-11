@@ -15,11 +15,12 @@ export function ThemedText({
   type = 'default',
   ...rest
 }: ThemedTextProps) {
-  const color = useThemeColor({ light: lightColor, dark: darkColor }, 'text');
+  const color = useThemeColor({ light: lightColor, dark: darkColor }, 'mainLight');
 
   return (
     <Text
       style={[
+        { textAlign: 'center' },
         { color },
         type === 'default' ? styles.default : undefined,
         type === 'title' ? styles.title : undefined,

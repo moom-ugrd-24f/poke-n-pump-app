@@ -13,11 +13,7 @@ export default function ProfileContainer() {
     <ThemedView style={styles.profileView}>
         <ThemedView style={styles.userContainer}>
             <Image source={avatar} style={styles.avatar} />
-            <ThemedText
-              style={styles.text}
-              lightColor={Colors[colorScheme ?? 'light'].textLight}
-              darkColor={Colors[colorScheme ?? 'light'].textLight}
-            >Jane Fonda</ThemedText>
+            <ThemedText type='default'>Jane Fonda</ThemedText>
         </ThemedView>
         <Ionicons name="notifications-outline" size={24} color={Colors[colorScheme ?? 'light'].icon} />
     </ThemedView>
@@ -42,8 +38,5 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     borderRadius: 50,
-  },
-  text: {
-    fontSize: 20,
   },
 });

@@ -6,8 +6,7 @@
 export const Colors = {
   light: {
     default: '#fff',
-    text: '#000',
-    textLight: '#fff',
+    reverse: '#000',
     background: '#003030',
     backgroundLight: '#004D4D',
     icon: '#FFE33D',
@@ -20,8 +19,7 @@ export const Colors = {
   },
   dark: {
     default: '#000',
-    text: '#000',
-    textLight: '#fff',
+    reverse: '#fff',
     background: '#003030',
     backgroundLight: '#004D4D',
     icon: '#FFE33D',
@@ -31,5 +29,5 @@ export const Colors = {
     sub: '#FFA5E9',
     subLight: '#FFC9F2',
     subDark: '#FF5BD7',
-  },
+  }
 };
