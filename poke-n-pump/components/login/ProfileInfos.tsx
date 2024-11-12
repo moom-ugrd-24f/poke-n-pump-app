@@ -12,6 +12,8 @@ export default function ProfileInfos() {
     const colorScheme = useColorScheme();
     const [image, setImage] = useState<string | null>(null);
 
+    const themeColor = Colors[colorScheme ?? 'light'];
+
     const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -29,9 +31,25 @@ export default function ProfileInfos() {
 
   return (
     <ThemedView style={styles.profileView}>
+        <ThemedText type="title">Welcome to{" "}
+            <ThemedText 
+            type="title" 
+            lightColor={themeColor.sub} 
+            darkColor={themeColor.sub}>
+                Poke
+            </ThemedText>
+            &
+            <ThemedText
+            type="title" 
+            lightColor={themeColor.sub} 
+            darkColor={themeColor.sub}>
+                Pump
+            </ThemedText>
+            !
+        {"\n"}Let me know about you.</ThemedText>
         { image ? <Image source={{ uri: image }} style={styles.image} /> : <Ionicons name="person-circle" size={150} color="white" onPress={pickImage} /> }
         <ThemedView style={styles.username}>
-            <ThemedText type='subtitle' lightColor={Colors[colorScheme ?? 'light'].default} darkColor={Colors[colorScheme ?? 'light'].default}>Nickname</ThemedText>
+            <ThemedText type='subtitle' lightColor={themeColor.default} darkColor={themeColor.default}>Nickname</ThemedText>
             <ThemedTextInput />
         </ThemedView> 
     </ThemedView>
@@ -40,11 +58,11 @@ export default function ProfileInfos() {
 
 const styles = StyleSheet.create({
     profileView: {
-        height: '25%',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'space-between',
+        gap: 20
     },
     image: {
         width: 125,

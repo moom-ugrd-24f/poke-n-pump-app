@@ -9,6 +9,8 @@ import { Colors } from '@/constants/Colors';
 export default function PokeList() {
     const colorScheme = useColorScheme();
 
+    const themeColor = Colors[colorScheme ?? 'light'];
+
     const pokees = [
         { name: 'Pikachu' },
         { name: 'Charmander' },
@@ -30,12 +32,12 @@ export default function PokeList() {
                     <ThemedView
                         key={index}
                         style={styles.pokeeContainer}
-                        lightColor={Colors[colorScheme ?? 'light'].mainLight}
-                        darkColor={Colors[colorScheme ?? 'dark'].mainLight}
-                        lightBorderColor={Colors[colorScheme ?? 'light'].mainLight}
-                        darkBorderColor={Colors[colorScheme ?? 'dark'].mainLight}
+                        lightColor={themeColor.mainLight}
+                        darkColor={themeColor.mainLight}
+                        lightBorderColor={themeColor.mainLight}
+                        darkBorderColor={themeColor.mainLight}
                     >
-                        <ThemedText type='default' lightColor={Colors[colorScheme ?? 'light'].reverse} darkColor={Colors[colorScheme ?? 'light'].reverse}>{pokee.name}</ThemedText>
+                        <ThemedText type='default' lightColor={themeColor.reverse} darkColor={themeColor.reverse}>{pokee.name}</ThemedText>
                     </ThemedView>
                 )) }
             </ThemedScrollView>
@@ -48,6 +50,7 @@ const styles = StyleSheet.create({
         height: '70%',
         width: '90%',
         alignItems: 'center',
+        marginBottom: 5,
     },
     pokeesContainer: {
         width: '100%',
