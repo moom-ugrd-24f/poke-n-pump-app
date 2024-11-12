@@ -1,5 +1,6 @@
 import { Button, type ButtonProps } from 'react-native-elements';
 import { useThemeColor } from '@/hooks/useThemeColor';
+import { ThemedView } from './ThemedView';
 
 export type ThemedButtonProps = ButtonProps & {
   lightColor?: string;
@@ -26,20 +27,22 @@ export function ThemedButton({
   const textColor = useThemeColor({ light: lightTextColor, dark: darkTextColor }, 'subDark');
 
   return (
-    <Button
-      buttonStyle={[
-        {
-          backgroundColor,
-          borderColor,
-          borderWidth: 5,
-          borderRadius: 20,
-          width: '100%',
-        },
-        buttonStyle,
-      ]}
-      titleStyle={[{ color: textColor, fontSize: 20 }, titleStyle]}
-      {...otherProps}
-    />
+    <ThemedView>
+      <Button
+        buttonStyle={[
+          {
+            backgroundColor,
+            borderColor,
+            borderWidth: 5,
+            borderRadius: 20,
+            width: '100%',
+          },
+          buttonStyle,
+        ]}
+        titleStyle={[{ color: textColor, fontSize: 20 }, titleStyle]}
+        {...otherProps}
+      />
+    </ThemedView>
   );
 }
 

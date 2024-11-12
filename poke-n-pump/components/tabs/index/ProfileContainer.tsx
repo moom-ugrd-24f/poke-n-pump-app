@@ -13,7 +13,7 @@ export default function ProfileContainer() {
     <ThemedView style={styles.profileView}>
         <ThemedView style={styles.userContainer}>
             <Image source={avatar} style={styles.avatar} />
-            <ThemedText type='default'>Jane Fonda</ThemedText>
+            <ThemedText type='default' lightColor={Colors[colorScheme ?? 'light'].default}>Jane Fonda</ThemedText>
         </ThemedView>
         <Ionicons name="notifications-outline" size={24} color={Colors[colorScheme ?? 'light'].icon} />
     </ThemedView>
