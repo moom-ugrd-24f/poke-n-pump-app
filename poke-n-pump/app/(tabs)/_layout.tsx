@@ -8,15 +8,17 @@ import { useColorScheme } from '@/hooks/useColorScheme';
 export default function TabLayout() {
   const colorScheme = useColorScheme();
 
+  const themeColor = Colors[colorScheme ?? 'light'];
+
   return (
     <Tabs
       screenOptions={{ 
         headerShown: false,
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].icon,
-        tabBarInactiveTintColor: Colors[colorScheme ?? 'light'].default,
+        tabBarActiveTintColor: themeColor.icon,
+        tabBarInactiveTintColor: themeColor.default,
         tabBarStyle: { 
-          backgroundColor: Colors[colorScheme ?? 'light'].backgroundLight,
-          borderTopColor: Colors[colorScheme ?? 'light'].backgroundLight,
+          backgroundColor: themeColor.backgroundLight,
+          borderTopColor: themeColor.backgroundLight,
           marginLeft: 10, 
           marginRight: 10, 
           borderTopLeftRadius: 10,

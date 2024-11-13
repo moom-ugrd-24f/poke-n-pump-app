@@ -37,7 +37,22 @@ export default function RootLayout() {
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false, contentStyle: { backgroundColor: Colors[colorScheme ?? 'light'].background } }} />
+        <Stack.Screen 
+          name="(login)/index" 
+          options={{ 
+            headerShown: false, 
+            gestureEnabled: false, 
+            contentStyle: { backgroundColor: Colors[colorScheme ?? 'light'].background }
+          }} 
+        />
+        <Stack.Screen 
+          name="(tabs)" 
+          options={{ 
+            headerShown: false, 
+            gestureEnabled: false, 
+            contentStyle: { backgroundColor: Colors[colorScheme ?? 'light'].background } 
+          }}
+        />
       </Stack>
     </ThemeProvider>
   );
