@@ -42,9 +42,9 @@ export default function ProfileInfos() {
 
 const styles = StyleSheet.create({
     visibilityView: {
+        height: '40%',
         display: 'flex',
         flexDirection: 'column',
-        gap: 50,
         alignItems: 'center',
         justifyContent: 'space-between',
     },

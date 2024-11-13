@@ -58,11 +58,11 @@ export default function ProfileInfos() {
 
 const styles = StyleSheet.create({
     profileView: {
+        height: '40%',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'space-between',
-        gap: 20
     },
     image: {
         width: 125,
