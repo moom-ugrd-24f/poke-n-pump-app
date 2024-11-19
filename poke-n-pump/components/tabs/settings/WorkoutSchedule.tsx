@@ -26,17 +26,25 @@ interface IWorkoutSession {
 
 export default function WorkoutSchedule() {
     const colorScheme = useColorScheme();
-
     const themeColor = Colors[colorScheme ?? 'light'];
+    const emptySchedule = {
+        "mon": false,
+        "tue": false,
+        "wed": false,
+        "thu": false,
+        "fri": false,
+        "sat": false,
+        "sun": false
+    };
 
     const [workoutSchedule, setWorkoutSchedule] = useState([
-        { day: 'S', workoutSession: false, color: 'red' },
-        { day: 'M', workoutSession: false },
-        { day: 'T', workoutSession: false },
-        { day: 'W', workoutSession: false },
-        { day: 'T', workoutSession: false },
-        { day: 'F', workoutSession: false },
-        { day: 'S', workoutSession: false, color: 'blue' },
+        { day: 'S', workoutSession: emptySchedule.mon, color: 'red' },
+        { day: 'M', workoutSession: emptySchedule.tue },
+        { day: 'T', workoutSession: emptySchedule.wed },
+        { day: 'W', workoutSession: emptySchedule.thu },
+        { day: 'T', workoutSession: emptySchedule.fri },
+        { day: 'F', workoutSession: emptySchedule.sat },
+        { day: 'S', workoutSession: emptySchedule.sun, color: 'blue' },
     ]);
 
     const toggleWorkoutSession = (index: number) => {
