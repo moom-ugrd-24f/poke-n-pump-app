@@ -5,6 +5,24 @@ import { Ionicons } from '@expo/vector-icons';
 import { ThemedText } from '../../ThemedText';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { store } from 'expo-router/build/global-state/router-store';
+
+interface IWorkoutSchedule {
+    mon: boolean;
+    tue: boolean;
+    wed: boolean;
+    thu: boolean;
+    fri: boolean;
+    sat: boolean;
+    sun: boolean;
+}
+
+interface IWorkoutSession {
+    day: string;
+    workoutSession: boolean;
+    color?: string;
+}
 
 export default function WorkoutSchedule() {
     const colorScheme = useColorScheme();
