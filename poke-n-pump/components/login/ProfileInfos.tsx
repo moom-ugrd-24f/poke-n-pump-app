@@ -4,13 +4,16 @@ import * as ImagePicker from 'expo-image-picker';
 import { useState } from 'react';
 import { ThemedView } from '../ThemedView';
 import { ThemedText } from '../ThemedText';
+import { ThemedButton } from '../ThemedButton';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { ThemedTextInput } from '../ThemedTextInput';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function ProfileInfos() {
     const colorScheme = useColorScheme();
     const [image, setImage] = useState<string | null>(null);
+    const [username, setUsername] = useState('');	
 
     const themeColor = Colors[colorScheme ?? 'light'];
 
