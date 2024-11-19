@@ -47,6 +47,30 @@ export default function WorkoutSchedule() {
         { day: 'S', workoutSession: emptySchedule.sun, color: 'blue' },
     ]);
 
+    useEffect(() => {
+        loadWorkoutSchedule();
+    }, []);
+
+    const loadWorkoutSchedule = async () => {
+        try {
+            const schedule = await AsyncStorage.getItem('workout-schedule');
+            const scheduleJson = schedule !== null ? JSON.parse(schedule) : emptySchedule;
+            setWorkoutSchedule(
+                [
+                    { day: 'S', workoutSession: scheduleJson.mon, color: 'red' },
+                    { day: 'M', workoutSession: scheduleJson.tue },
+                    { day: 'T', workoutSession: scheduleJson.wed },
+                    { day: 'W', workoutSession: scheduleJson.thu },
+                    { day: 'T', workoutSession: scheduleJson.fri },
+                    { day: 'F', workoutSession: scheduleJson.sat },
+                    { day: 'S', workoutSession: scheduleJson.sun, color: 'blue' },
+                ]
+            );
+        } catch (e) {
+            console.error(e);
+        }
+    }
+
     const toggleWorkoutSession = (index: number) => {
         setWorkoutSchedule((prevSchedule) =>
         prevSchedule.map((session, i) =>
