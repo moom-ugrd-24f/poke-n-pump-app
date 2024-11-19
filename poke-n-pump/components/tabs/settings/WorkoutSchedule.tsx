@@ -73,10 +73,11 @@ export default function WorkoutSchedule() {
 
     const toggleWorkoutSession = (index: number) => {
         setWorkoutSchedule((prevSchedule) =>
-        prevSchedule.map((session, i) =>
-            i === index ? { ...session, workoutSession: !session.workoutSession } : session
-        )
+            prevSchedule.map((session, i) =>
+                i === index ? { ...session, workoutSession: !session.workoutSession } : session
+            )
         );
+        storeWorkoutSchedule(workoutSchedule);
     };
 
     return (
@@ -109,3 +110,22 @@ const styles = StyleSheet.create({
         padding: 10,
     }
 });
+
+const storeWorkoutSchedule = async (workoutSchedule: Array<IWorkoutSession>) => {
+
+    const schedule = {
+        "mon": workoutSchedule[0].workoutSession,
+        "tue": workoutSchedule[1].workoutSession,
+        "wed": workoutSchedule[2].workoutSession,
+        "thu": workoutSchedule[3].workoutSession,
+        "fri": workoutSchedule[4].workoutSession,
+        "sat": workoutSchedule[5].workoutSession,
+        "sun": workoutSchedule[6].workoutSession
+    }
+    try {
+        const value = JSON.stringify(schedule);
+        await AsyncStorage.setItem('workout-schedule', value);
+    } catch (e) {
+        console.error(e);
+    }
+}
