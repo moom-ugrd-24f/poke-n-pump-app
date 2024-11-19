@@ -75,4 +75,13 @@ const styles = StyleSheet.create({
         gap: 10,
         alignItems: 'center',
     },
+    usernameInput: {
+        display: 'flex',
+        flexDirection: 'row',
+        gap: 10,
+        alignItems: 'center',
+    },
+    checkButton: {
+        width: 100
+    }
 });
