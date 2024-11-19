@@ -18,6 +18,7 @@ export default function RootLayout() {
   const [loaded] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
   });
+  const [isFirstTimeLoad, setIsFirstTimeLoad] = useState(false) 
 
   useEffect(() => {
     if (loaded) {
@@ -31,30 +32,64 @@ export default function RootLayout() {
     }, 0);
   }, []);
 
+  useEffect(() => {
+    checkFirstTimeLoaded();
+  }, []);
+
+  const checkFirstTimeLoaded = async () => {
+    try {
+      const firstTime = await AsyncStorage.getItem('nickname');
+      if (firstTime === null) {
+        setIsFirstTimeLoad(true);
+      } else {
+        setIsFirstTimeLoad(false);
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
   if (!loaded) {
     return null;
   }
 
-  return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen 
-          name="(login)/index" 
-          options={{ 
-            headerShown: false, 
-            gestureEnabled: false, 
-            contentStyle: { backgroundColor: Colors[colorScheme ?? 'light'].background }
-          }} 
-        />
-        <Stack.Screen 
-          name="(tabs)" 
-          options={{ 
-            headerShown: false, 
-            gestureEnabled: false, 
-            contentStyle: { backgroundColor: Colors[colorScheme ?? 'light'].background } 
-          }}
-        />
-      </Stack>
-    </ThemeProvider>
-  );
+  if (isFirstTimeLoad) {
+    return (
+      <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+        <Stack>
+          <Stack.Screen 
+            name="(login)/index" 
+            options={{ 
+              headerShown: false, 
+              gestureEnabled: false, 
+              contentStyle: { backgroundColor: Colors[colorScheme ?? 'light'].background }
+            }} 
+          />
+          <Stack.Screen 
+            name="(tabs)" 
+            options={{ 
+              headerShown: false, 
+              gestureEnabled: false, 
+              contentStyle: { backgroundColor: Colors[colorScheme ?? 'light'].background } 
+            }}
+          />
+        </Stack>
+      </ThemeProvider>
+    );
+  } else {
+    return (
+      <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+        <Stack>
+          <Stack.Screen 
+            name="(tabs)" 
+            options={{ 
+              headerShown: false, 
+              gestureEnabled: false, 
+              contentStyle: { backgroundColor: Colors[colorScheme ?? 'light'].background } 
+            }}
+          />
+        </Stack>
+      </ThemeProvider>
+    );
+  }
 }
