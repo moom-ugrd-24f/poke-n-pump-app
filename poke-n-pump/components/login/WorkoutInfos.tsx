@@ -1,16 +1,9 @@
 import { StyleSheet } from 'react-native';
 import { ThemedView } from '../ThemedView';
-import { useState } from 'react';
-import { Ionicons } from '@expo/vector-icons';
 import { ThemedText } from '../ThemedText';
-import { Colors } from '@/constants/Colors';
-import { useColorScheme } from '@/hooks/useColorScheme';
 import WorkoutSchedule from '../WorkoutSchedule';
 
 export default function ProfileInfos() {
-  const colorScheme = useColorScheme();
-
-  const themeColor = Colors[colorScheme ?? 'light'];
 
   return (
     <ThemedView style={styles.visibilityView}>
