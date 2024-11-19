@@ -53,17 +53,17 @@ export default function WorkoutSchedule() {
 
     const loadWorkoutSchedule = async () => {
         try {
-            const schedule = await AsyncStorage.getItem('workout-schedule');
-            const scheduleJson = schedule !== null ? JSON.parse(schedule) : emptySchedule;
+            const scheduleString = await AsyncStorage.getItem('workout-schedule');
+            const schedule = scheduleString !== null ? JSON.parse(scheduleString) : emptySchedule;
             setWorkoutSchedule(
                 [
-                    { day: 'S', workoutSession: scheduleJson.mon, color: 'red' },
-                    { day: 'M', workoutSession: scheduleJson.tue },
-                    { day: 'T', workoutSession: scheduleJson.wed },
-                    { day: 'W', workoutSession: scheduleJson.thu },
-                    { day: 'T', workoutSession: scheduleJson.fri },
-                    { day: 'F', workoutSession: scheduleJson.sat },
-                    { day: 'S', workoutSession: scheduleJson.sun, color: 'blue' },
+                    { day: 'S', workoutSession: schedule.mon, color: 'red' },
+                    { day: 'M', workoutSession: schedule.tue },
+                    { day: 'T', workoutSession: schedule.wed },
+                    { day: 'W', workoutSession: schedule.thu },
+                    { day: 'T', workoutSession: schedule.fri },
+                    { day: 'F', workoutSession: schedule.sat },
+                    { day: 'S', workoutSession: schedule.sun, color: 'blue' },
                 ]
             );
         } catch (e) {
