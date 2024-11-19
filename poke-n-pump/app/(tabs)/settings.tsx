@@ -2,7 +2,7 @@ import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { StyleSheet } from 'react-native';
 import VisibilityOption from '@/components/tabs/settings/VisibilityOption';
-import WorkoutSchedule from '@/components/tabs/settings/WorkoutSchedule';
+import WorkoutSchedule from '@/components/WorkoutSchedule';
 import ShameOption from '@/components/tabs/settings/ShameOption';
 
 export default function SettingsScreen() {
