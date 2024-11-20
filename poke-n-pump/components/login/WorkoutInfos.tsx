@@ -7,7 +7,7 @@ export default function ProfileInfos() {
 
   return (
     <ThemedView style={styles.visibilityView}>
-        <ThemedText type='title'>Choose your visibility setting</ThemedText>
+        <ThemedText type='title'>When do you workout</ThemedText>
         <WorkoutSchedule />
     </ThemedView>
   );
