@@ -8,7 +8,7 @@ import { ThemedScrollView } from '../../ThemedScrollView';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { Colors } from '@/constants/Colors';
 import { useEffect, useState } from 'react';
-import { USER_URL } from '@/constants/url';
+import { USER_URL, POKE_URL } from '@/constants/url';
 
 export default function PokeList() {
     const colorScheme = useColorScheme();
@@ -16,18 +16,19 @@ export default function PokeList() {
     const themeColor = Colors[colorScheme ?? 'light'];
 
     const [showPokeModal, setShowPokeModal] = useState(false);
+    const [receiverId, setReceiverId] = useState('');
 
     let pokees = [
-        { name: 'Pikachu' },
-        { name: 'Charmander' },
-        { name: 'Bulbasaur' },
-        { name: 'Squirtle' },
-        { name: 'Jigglypuff' },
-        { name: 'Meowth' },
-        { name: 'Psyduck' },
-        { name: 'Snorlax' },
-        { name: 'Mewtwo' },
-        { name: 'Mew' },
+        { name: 'Pikachu', receiverId: '0' },
+        { name: 'Charmander', receiverId: '1' },
+        { name: 'Bulbasaur', receiverId: '2' },
+        { name: 'Squirtle', receiverId: '3' },
+        { name: 'Jigglypuff', receiverId: '4' },,
+        { name: 'Meowth', receiverId: '5' },
+        { name: 'Psyduck', receiverId: '6' },
+        { name: 'Snorlax', receiverId: '7' },
+        { name: 'Mewtwo', receiverId: '8' },
+        { name: 'Mew', receiverId: '9' },
     ];
 
     let shamePokees = [
@@ -38,10 +39,14 @@ export default function PokeList() {
         getPokeeList();
     }, []);
 
+    const getUserId = () => {
+        return '672b3de2613125bee0cdee3d';
+    }
+
     const getPokeeList = async () => {
-        const user_id = '672b3de2613125bee0cdee3d';
-        const get_pokee_list_url = USER_URL + '/' + user_id + '/poke-list';
-        fetch(get_pokee_list_url, { method: 'GET' })
+        const userId = getUserId();
+        const getPokeeListUrl = USER_URL + '/' + userId + '/poke-list';
+        fetch(getPokeeListUrl, { method: 'GET' })
         .then((response) => response.json())
         .then((data) => { 
             if (data.error === true) {
@@ -52,6 +57,19 @@ export default function PokeList() {
             shamePokees = body.shamePostUsers;
          });
     }
+
+    const sendPoke = async (pokeType: string) => {
+        const userId = getUserId();
+        fetch(POKE_URL, {
+            method: 'POST',
+            body: JSON.stringify({
+                senderId: userId,
+                receiverId: receiverId,
+                pokeType: pokeType,
+            })
+        });
+    }
+
 
     return (
         <ThemedView style={styles.pokeListView}>
@@ -70,22 +88,40 @@ export default function PokeList() {
                     style={styles.pokeModal}>
                     <ThemedButton
                         title="Just Poke"
+                        onPress={() => {
+                            sendPoke("Just Poke");
+                            setShowPokeModal(false);
+                        }}
                     />
                     <ThemedButton
                         title="Join Me!"
+                        onPress={() => {
+                            sendPoke("Join Me!");
+                            setShowPokeModal(false);
+                        }}
                     />
                     <ThemedButton
                         title="Trash Talk"
+                        onPress={() => {
+                            sendPoke("Trash Talk");
+                            setShowPokeModal(false);
+                        }}
                     />
                     <ThemedButton
                         title="Shame Post"
+                        onPress={() => {
+                            setShowPokeModal(false);
+                        }}
                     />
                 </ThemedView>
             </Modal>
             <Image source={poke} style={styles.image} />
             <ThemedScrollView style={styles.pokeesContainer} showsVerticalScrollIndicator={false}>
                 { pokees.map((pokee, index) => (
-                    <Pressable onPress={() => setShowPokeModal(true)}>
+                    <Pressable onPress={() => {
+                        setShowPokeModal(true);
+                        setReceiverId(pokee.receiverId);
+                    }}>
                     <ThemedView
                         key={index}
                         style={styles.pokeeContainer}
