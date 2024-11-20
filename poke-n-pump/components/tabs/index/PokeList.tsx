@@ -156,16 +156,30 @@ export default function PokeList() {
                             setEnableShamePost(shamePokees.includes(pokee.name));
                         }}
                     >
+                        { shamePokees.includes(pokee.name) ?
+                        <ThemedView
+                            key={index}
+                            style={styles.pokeeContainer}
+                            lightColor={themeColor.subLight}
+                            darkColor={themeColor.subLight}
+                            lightBorderColor={themeColor.subDark}
+                            darkBorderColor={themeColor.subDark}
+                        >
+                            <ThemedText type='default' lightColor={themeColor.reverse} darkColor={themeColor.reverse}>{pokee.name}</ThemedText>
+                        </ThemedView>
+                        :
                         <ThemedView
                             key={index}
                             style={styles.pokeeContainer}
                             lightColor={themeColor.mainLight}
                             darkColor={themeColor.mainLight}
-                            lightBorderColor={themeColor.mainLight}
-                            darkBorderColor={themeColor.mainLight}
+                            lightBorderColor={themeColor.mainDark}
+                            darkBorderColor={themeColor.mainDark}
                         >
                             <ThemedText type='default' lightColor={themeColor.reverse} darkColor={themeColor.reverse}>{pokee.name}</ThemedText>
                         </ThemedView>
+                        }
+                        
                     </Pressable>
                 )) }
             </ThemedScrollView>
