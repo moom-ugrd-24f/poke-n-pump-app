@@ -6,6 +6,7 @@ import ProfileContainer from '@/components/tabs/index/ProfileContainer';
 import StartWorkoutButton from '@/components/tabs/index/StartWorkoutButton';
 
 export default function HomeScreen() {
+
   return (
     <ThemedView style={styles.homeView}>
       <Image source={logo} style={styles.image} />
