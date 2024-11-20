@@ -9,6 +9,7 @@ import { Colors } from '@/constants/Colors';
 import { useEffect, useState } from 'react';
 import { Pressable } from 'react-native';
 import { USER_URL, POKE_URL } from '@/constants/url';
+import { router } from 'expo-router';
 
 export default function PokeList() {
     const colorScheme = useColorScheme();
@@ -110,6 +111,7 @@ export default function PokeList() {
                     <ThemedButton
                         title="Shame Post"
                         onPress={() => {
+                            router.navigate('/(shamePost)');
                             setShowPokeModal(false);
                         }}
                     />
@@ -118,12 +120,14 @@ export default function PokeList() {
             <Image source={poke} style={styles.image} />
             <ThemedScrollView style={styles.pokeesContainer} showsVerticalScrollIndicator={false}>
                 { pokees.map((pokee, index) => (
-                    <Pressable onPress={() => {
-                        setShowPokeModal(true);
-                        setReceiverId(pokee.receiverId);
-                    }}>
-                    <ThemedView
+                    <Pressable 
                         key={index}
+                        onPress={() => {
+                            setShowPokeModal(true);
+                            setReceiverId(pokee.receiverId);
+                        }}
+                    >
+                    <ThemedView
                         style={styles.pokeeContainer}
                         lightColor={themeColor.mainLight}
                         darkColor={themeColor.mainLight}
@@ -160,14 +164,19 @@ const styles = StyleSheet.create({
         resizeMode: 'contain',
     },
     pokeModal: {
-        backgroundColor: 'white',
         position: 'absolute',
-        height: 200,
-        width: 150,
-        marginTop: -100,
-        marginLeft: -75,
+        height: 300,
+        width: 200,
+        marginTop: -150,
+        marginLeft: -100,
         top: '50%',
         left: '50%',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: 20,
+        borderRadius: 20
     },
     modalOverlay: {
         position: 'absolute',
