@@ -1,7 +1,7 @@
 import { Image, StyleSheet } from 'react-native';
 import { ThemedView } from '@/components/ThemedView';
 import PokeList from '@/components/tabs/index/PokeList';
-import logo from '../../assets/images/logo.png';
+import logo from '@/assets/images/logo.png';
 import ProfileContainer from '@/components/tabs/index/ProfileContainer';
 import StartWorkoutButton from '@/components/tabs/index/StartWorkoutButton';
 
