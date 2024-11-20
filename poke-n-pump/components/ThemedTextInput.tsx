@@ -19,7 +19,7 @@ export function ThemedTextInput({ style, lightColor, darkColor, lightTextColor, 
         color, 
         borderRadius: 20, 
         textAlign: 'center',
-        height: 30,
+        height: 50,
         width: 250
     }, style]} {...otherProps} />;
 }
