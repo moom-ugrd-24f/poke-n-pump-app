@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { useNavigation } from 'expo-router';
+import { router } from 'expo-router';
 import { useState } from 'react';
 import ProfileInfos from '@/components/login/ProfileInfos';
 import VisibilityOption from '@/components/login/VisibilityOption';
@@ -16,7 +16,6 @@ enum LOGIN_STAGE {
 }
 
 export default function LoginScreen() {
-  const navigation = useNavigation();
   const [stage, setStage] = useState<LOGIN_STAGE>(LOGIN_STAGE.PROFILE);
 
   return (
@@ -35,7 +34,7 @@ export default function LoginScreen() {
           stage === LOGIN_STAGE.PROFILE ? setStage(LOGIN_STAGE.VISIBILITY) :
           stage === LOGIN_STAGE.VISIBILITY ? setStage(LOGIN_STAGE.WORKOUT) :
           stage === LOGIN_STAGE.WORKOUT ? setStage(LOGIN_STAGE.SHAME) :
-          navigation.navigate('(tabs)')
+          router.replace('/(tabs)')
         }} 
       />
     </ThemedView>

@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
-import { ThemedView } from '../ThemedView';
-import { ThemedText } from '../ThemedText';
-import WorkoutSchedule from '../WorkoutSchedule';
+import { ThemedView } from '@/components/ThemedView';
+import { ThemedText } from '@/components/ThemedText';
+import WorkoutSchedule from '@/components/WorkoutSchedule';
 
 export default function ProfileInfos() {
 
