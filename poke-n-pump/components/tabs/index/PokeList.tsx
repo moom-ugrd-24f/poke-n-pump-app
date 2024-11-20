@@ -89,6 +89,10 @@ export default function PokeList() {
                     style={styles.pokeModal}>
                     <ThemedButton
                         title="Just Poke"
+                        lightColor={themeColor.mainLight}
+                        darkColor={themeColor.mainLight}
+                        lightBorderColor={themeColor.mainLight}
+                        darkBorderColor={themeColor.mainLight}
                         onPress={() => {
                             sendPoke("Just Poke");
                             setShowPokeModal(false);
@@ -96,6 +100,10 @@ export default function PokeList() {
                     />
                     <ThemedButton
                         title="Join Me!"
+                        lightColor={themeColor.mainLight}
+                        darkColor={themeColor.mainLight}
+                        lightBorderColor={themeColor.mainLight}
+                        darkBorderColor={themeColor.mainLight}
                         onPress={() => {
                             sendPoke("Join Me!");
                             setShowPokeModal(false);
@@ -103,6 +111,10 @@ export default function PokeList() {
                     />
                     <ThemedButton
                         title="Trash Talk"
+                        lightColor={themeColor.mainLight}
+                        darkColor={themeColor.mainLight}
+                        lightBorderColor={themeColor.mainLight}
+                        darkBorderColor={themeColor.mainLight}
                         onPress={() => {
                             sendPoke("Trash Talk");
                             setShowPokeModal(false);
@@ -186,5 +198,5 @@ const styles = StyleSheet.create({
         left: 0,
         right: 0,
         backgroundColor: 'rgba(0,0,0,0.5)'
-    },
+    }
 });
