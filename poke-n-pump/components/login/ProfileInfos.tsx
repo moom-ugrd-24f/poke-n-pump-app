@@ -66,7 +66,7 @@ export default function ProfileInfos() {
             {"\n"}Let me know about you.</ThemedText>
             { image ? <Image source={{ uri: image }} style={styles.image} /> : <Ionicons name="person-circle" size={150} color="white" onPress={pickImage} /> }
             <ThemedView style={styles.username}>
-                <ThemedText type='subtitle' lightColor={themeColor.default} darkColor={themeColor.default}>username</ThemedText>
+                <ThemedText type='subtitle' lightColor={themeColor.default} darkColor={themeColor.default}>Nickname</ThemedText>
                 <ThemedView style={styles.usernameInput}>
                     <ThemedTextInput onChangeText={setUsername} />
                     <ThemedButton 
@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
     },
     usernameInput: {
         display: 'flex',
-        flexDirection: 'row',
+        flexDirection: 'column',
         gap: 10,
         alignItems: 'center',
     },

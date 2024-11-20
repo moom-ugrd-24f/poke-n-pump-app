@@ -10,7 +10,7 @@ export default function FriendRequest() {
         <ThemedText type='subtitle'>Friend Request</ThemedText>
         <ThemedView style={styles.friendInput}>
             <ThemedTextInput />
-            <ThemedButton title='ADD' type='tiny' />
+            <ThemedButton title='ADD' />
         </ThemedView>
     </ThemedView>
   );

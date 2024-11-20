@@ -9,7 +9,6 @@ export type ThemedButtonProps = ButtonProps & {
   darkBorderColor?: string;
   lightTextColor?: string;
   darkTextColor?: string;
-  type?: 'default' | 'tiny';
 };
 
 export function ThemedButton({
@@ -21,7 +20,6 @@ export function ThemedButton({
   darkTextColor,
   buttonStyle,
   titleStyle,
-  type = 'default',
   ...otherProps
 }: ThemedButtonProps) {
   const backgroundColor = useThemeColor({ light: lightColor, dark: darkColor }, 'subLight');
@@ -34,18 +32,18 @@ export function ThemedButton({
         buttonStyle={[
           {
             backgroundColor,
+            borderWidth: 5,
             borderColor,
             borderRadius: 20,
             width: '100%',
           },
-          type === 'default' ? { borderWidth: 5 } : undefined,
-          type === 'tiny' ? { borderWidth: 1 } : undefined,
           buttonStyle,
         ]}
         titleStyle={[
-          { color: textColor }, 
-          type === 'default' ? { fontSize: 20 } : undefined,
-          type === 'tiny' ? { fontSize: 10 } : undefined,
+          { 
+            color: textColor, 
+            fontSize: 20 
+          }, 
           titleStyle
         ]}
         {...otherProps}
