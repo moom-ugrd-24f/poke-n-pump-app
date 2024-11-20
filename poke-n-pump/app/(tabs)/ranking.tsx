@@ -6,13 +6,21 @@ import RankingList from '@/components/tabs/ranking/RankingList';
 export default function RankingScreen() {
   return (
     <ThemedView style={styles.rankingView}>
-      <ThemedText type='header'>Weekly Ranking</ThemedText>
+      <ThemedText 
+        type='header'
+        style={styles.titleText}
+      >
+        Weekly Ranking
+      </ThemedText>
       <RankingList />
     </ThemedView>
   );
 }
 
 const styles = StyleSheet.create({
+  titleText: {
+    top: 50,
+  },
   rankingView: {
     flex: 1,
     alignItems: 'center',

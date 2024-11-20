@@ -18,6 +18,8 @@ export default function PokeList() {
 
     const [showPokeModal, setShowPokeModal] = useState(false);
     const [receiverId, setReceiverId] = useState('');
+    const [receiverName, setReceiverName] = useState('');
+    const [enableShamePost, setEnableShamePost] = useState(false);
 
     let pokees = [
         { name: 'Pikachu', receiverId: '0' },
@@ -33,7 +35,7 @@ export default function PokeList() {
     ];
 
     let shamePokees = [
-        { name: 'Pikachu' },
+        'Pikachu',
     ];
 
     useEffect(() => {
@@ -55,7 +57,7 @@ export default function PokeList() {
             }
             const body = data.response.body;
             pokees = body.pokeList;
-            shamePokees = body.shamePostUsers;
+            shamePokees = body.shamePostUsers.map((user: any) => user.name);
          });
     }
 
@@ -70,7 +72,6 @@ export default function PokeList() {
             })
         });
     }
-
 
     return (
         <ThemedView style={styles.pokeListView}>
@@ -120,13 +121,27 @@ export default function PokeList() {
                             setShowPokeModal(false);
                         }}
                     />
-                    <ThemedButton
+                    { enableShamePost ?
+                        <ThemedButton
                         title="Shame Post"
                         onPress={() => {
                             router.navigate('/(shamePost)');
                             setShowPokeModal(false);
                         }}
-                    />
+                        /> :
+                        <ThemedButton
+                        title="Shame Post"
+                        lightTextColor={themeColor.gray}
+                        darkTextColor={themeColor.gray}
+                        lightColor={themeColor.grayLight}
+                        darkColor={themeColor.grayLight}
+                        onPress={() => {
+                            router.navigate('/(shamePost)');
+                            setShowPokeModal(false);
+                        }}
+                        /> 
+                    }
+                    
                 </ThemedView>
             </Modal>
             <Image source={poke} style={styles.image} />
@@ -137,18 +152,34 @@ export default function PokeList() {
                         onPress={() => {
                             setShowPokeModal(true);
                             setReceiverId(pokee.receiverId);
+                            setReceiverName(pokee.name);
+                            setEnableShamePost(shamePokees.includes(pokee.name));
                         }}
                     >
+                        { shamePokees.includes(pokee.name) ?
+                        <ThemedView
+                            key={index}
+                            style={styles.pokeeContainer}
+                            lightColor={themeColor.subLight}
+                            darkColor={themeColor.subLight}
+                            lightBorderColor={themeColor.subDark}
+                            darkBorderColor={themeColor.subDark}
+                        >
+                            <ThemedText type='default' lightColor={themeColor.reverse} darkColor={themeColor.reverse}>{pokee.name}</ThemedText>
+                        </ThemedView>
+                        :
                         <ThemedView
                             key={index}
                             style={styles.pokeeContainer}
                             lightColor={themeColor.mainLight}
                             darkColor={themeColor.mainLight}
-                            lightBorderColor={themeColor.mainLight}
-                            darkBorderColor={themeColor.mainLight}
+                            lightBorderColor={themeColor.mainDark}
+                            darkBorderColor={themeColor.mainDark}
                         >
                             <ThemedText type='default' lightColor={themeColor.reverse} darkColor={themeColor.reverse}>{pokee.name}</ThemedText>
                         </ThemedView>
+                        }
+                        
                     </Pressable>
                 )) }
             </ThemedScrollView>

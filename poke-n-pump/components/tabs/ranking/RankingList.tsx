@@ -12,15 +12,15 @@ export default function RankingList() {
 
     const rankings = [
         { name: 'Paul', xp: 1500 },
-        { name: 'David', xp: 1500 },
-        { name: 'Nina', xp: 1500 },
-        { name: 'Peter', xp: 1500 },
-        { name: 'Lynn', xp: 1500 },
-        { name: 'Chan', xp: 1500 },
-        { name: 'Sejun', xp: 1500 },
-        { name: 'Clara', xp: 1500 },
-        { name: 'Mewtwo', xp: 1500 },
-        { name: 'Mew', xp: 1500 },
+        { name: 'David', xp: 1480 },
+        { name: 'Nina', xp: 1320 },
+        { name: 'Peter', xp: 1200 },
+        { name: 'Lynn', xp: 1190 },
+        { name: 'Chan', xp: 1185 },
+        { name: 'Sejun', xp: 1150 },
+        { name: 'Clara', xp: 1080 },
+        { name: 'Moom', xp: 1000 },
+        { name: 'Mew', xp: 800 },
     ];
 
     return (
@@ -46,7 +46,8 @@ export default function RankingList() {
 
 const styles = StyleSheet.create({
     rankingListView: {
-        height: '70%',
+        top: 50,
+        height: '90%',
         width: '90%',
         alignItems: 'center',
         marginBottom: 5,
@@ -59,5 +60,8 @@ const styles = StyleSheet.create({
         padding: 10,
         borderWidth: 5,
         borderRadius: 10,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        paddingHorizontal: 30,
     },
 });
