@@ -12,15 +12,15 @@ export default function RankingList() {
 
     const rankings = [
         { name: 'Paul', xp: 1500 },
-        { name: 'David', xp: 1500 },
-        { name: 'Nina', xp: 1500 },
-        { name: 'Peter', xp: 1500 },
-        { name: 'Lynn', xp: 1500 },
-        { name: 'Chan', xp: 1500 },
-        { name: 'Sejun', xp: 1500 },
-        { name: 'Clara', xp: 1500 },
-        { name: 'Mewtwo', xp: 1500 },
-        { name: 'Mew', xp: 1500 },
+        { name: 'David', xp: 1480 },
+        { name: 'Nina', xp: 1320 },
+        { name: 'Peter', xp: 1200 },
+        { name: 'Lynn', xp: 1190 },
+        { name: 'Chan', xp: 1185 },
+        { name: 'Sejun', xp: 1150 },
+        { name: 'Clara', xp: 1080 },
+        { name: 'Moom', xp: 1000 },
+        { name: 'Mew', xp: 800 },
     ];
 
     return (
