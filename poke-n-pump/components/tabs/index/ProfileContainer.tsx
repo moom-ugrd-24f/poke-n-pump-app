@@ -1,10 +1,11 @@
-import { StyleSheet, Image } from 'react-native';
-import avatar from '../../../assets/images/avatar.jpeg';
+import { StyleSheet, Image, Pressable } from 'react-native';
+import avatar from '@/assets/images/avatar.jpeg';
 import { Ionicons } from '@expo/vector-icons';
 import { ThemedView } from '@/components/ThemedView';
 import { ThemedText } from '@/components/ThemedText';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
+import { router } from 'expo-router';
 
 export default function ProfileContainer() {
   const colorScheme = useColorScheme();
@@ -12,7 +13,7 @@ export default function ProfileContainer() {
   return (
     <ThemedView style={styles.profileView}>
         <ThemedView style={styles.userContainer}>
-            <Image source={avatar} style={styles.avatar} />
+            <Pressable onPress={() => router.navigate('/(profile)')}><Image source={avatar} style={styles.avatar} /></Pressable>
             <ThemedText type='default' lightColor={Colors[colorScheme ?? 'light'].default}>Jane Fonda</ThemedText>
         </ThemedView>
         <Ionicons name="notifications-outline" size={24} color={Colors[colorScheme ?? 'light'].icon} />
