@@ -127,15 +127,16 @@ export default function PokeList() {
                             setReceiverId(pokee.receiverId);
                         }}
                     >
-                    <ThemedView
-                        style={styles.pokeeContainer}
-                        lightColor={themeColor.mainLight}
-                        darkColor={themeColor.mainLight}
-                        lightBorderColor={themeColor.mainLight}
-                        darkBorderColor={themeColor.mainLight}
-                    >
-                        <ThemedText type='default' lightColor={themeColor.reverse} darkColor={themeColor.reverse}>{pokee.name}</ThemedText>
-                    </ThemedView>
+                        <ThemedView
+                            key={index}
+                            style={styles.pokeeContainer}
+                            lightColor={themeColor.mainLight}
+                            darkColor={themeColor.mainLight}
+                            lightBorderColor={themeColor.mainLight}
+                            darkBorderColor={themeColor.mainLight}
+                        >
+                            <ThemedText type='default' lightColor={themeColor.reverse} darkColor={themeColor.reverse}>{pokee.name}</ThemedText>
+                        </ThemedView>
                     </Pressable>
                 )) }
             </ThemedScrollView>
