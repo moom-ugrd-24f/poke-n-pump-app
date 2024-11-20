@@ -61,7 +61,7 @@ export default function RootLayout() {
             <Stack>
                 { isFirstTimeLoad ? (
                     <>
-                    <Stack.Screen 
+                    <Stack.Screen
                         name="(login)/index" 
                         options={{ 
                         headerShown: false, 
@@ -87,7 +87,8 @@ export default function RootLayout() {
                         contentStyle: { backgroundColor: Colors[colorScheme ?? 'light'].background } 
                         }}
                     />
-                )}
+                    )
+                }
             </Stack>
         </ThemeProvider>
     );
