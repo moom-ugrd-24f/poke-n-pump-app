@@ -54,43 +54,41 @@ export default function RootLayout() {
         return null;
     }
 
-    if (isFirstTimeLoad) {
-        return (
-            <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-                <Stack>
-                <Stack.Screen 
-                    name="(login)/index" 
-                    options={{ 
-                    headerShown: false, 
-                    gestureEnabled: false, 
-                    contentStyle: { backgroundColor: Colors[colorScheme ?? 'light'].background }
-                    }} 
-                />
-                <Stack.Screen 
-                    name="(tabs)" 
-                    options={{ 
-                    headerShown: false, 
-                    gestureEnabled: false, 
-                    contentStyle: { backgroundColor: Colors[colorScheme ?? 'light'].background } 
-                    }}
-                />
-                </Stack>
-            </ThemeProvider>
-        );
-    } else {
-        return (
-            <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-                <Stack>
-                <Stack.Screen 
-                    name="(tabs)" 
-                    options={{ 
-                    headerShown: false, 
-                    gestureEnabled: false, 
-                    contentStyle: { backgroundColor: Colors[colorScheme ?? 'light'].background } 
-                    }}
-                />
-                </Stack>
-            </ThemeProvider>
-        );
-    }
+    console.log("First time load: " + isFirstTimeLoad);
+
+    return (
+        <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+            <Stack>
+                { isFirstTimeLoad ? (
+                    <>
+                    <Stack.Screen 
+                        name="(login)/index" 
+                        options={{ 
+                        headerShown: false, 
+                        gestureEnabled: false, 
+                        contentStyle: { backgroundColor: Colors[colorScheme ?? 'light'].background }
+                        }} 
+                    />
+                    <Stack.Screen 
+                        name="(tabs)" 
+                        options={{ 
+                        headerShown: false, 
+                        gestureEnabled: false, 
+                        contentStyle: { backgroundColor: Colors[colorScheme ?? 'light'].background } 
+                        }}
+                    />
+                    </>
+                    ) : (
+                    <Stack.Screen 
+                        name="(tabs)" 
+                        options={{ 
+                        headerShown: false, 
+                        gestureEnabled: false, 
+                        contentStyle: { backgroundColor: Colors[colorScheme ?? 'light'].background } 
+                        }}
+                    />
+                )}
+            </Stack>
+        </ThemeProvider>
+    );
 }
