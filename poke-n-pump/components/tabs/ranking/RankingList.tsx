@@ -46,7 +46,8 @@ export default function RankingList() {
 
 const styles = StyleSheet.create({
     rankingListView: {
-        height: '70%',
+        top: 50,
+        height: '90%',
         width: '90%',
         alignItems: 'center',
         marginBottom: 5,
