@@ -7,7 +7,8 @@ import { ThemedText } from '../../ThemedText';
 import { ThemedScrollView } from '../../ThemedScrollView';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { Colors } from '@/constants/Colors';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { GET_POKEE_LIST_URL } from '@/constants/url';
 
 export default function PokeList() {
     const colorScheme = useColorScheme();
@@ -16,7 +17,7 @@ export default function PokeList() {
 
     const [showPokeModal, setShowPokeModal] = useState(false);
 
-    const pokees = [
+    let pokees = [
         { name: 'Pikachu' },
         { name: 'Charmander' },
         { name: 'Bulbasaur' },
@@ -28,6 +29,27 @@ export default function PokeList() {
         { name: 'Mewtwo' },
         { name: 'Mew' },
     ];
+
+    let shamePokees = [
+        { name: 'Pikachu' },
+    ];
+
+    useEffect(() => {
+        getPokeeList();
+    }, []);
+
+    const getPokeeList = async () => {
+        fetch(GET_POKEE_LIST_URL, { method: 'GET' })
+        .then((response) => response.json())
+        .then((data) => { 
+            if (data.error === true) {
+                console.log('Error fetching pokees');
+            }
+            const body = data.response.body;
+            pokees = body.pokeList;
+            shamePokees = body.shamePostUsers;
+         });
+    }
 
     return (
         <ThemedView style={styles.pokeListView}>
