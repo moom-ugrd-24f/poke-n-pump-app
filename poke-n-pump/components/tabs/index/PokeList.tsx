@@ -120,12 +120,14 @@ export default function PokeList() {
             <Image source={poke} style={styles.image} />
             <ThemedScrollView style={styles.pokeesContainer} showsVerticalScrollIndicator={false}>
                 { pokees.map((pokee, index) => (
-                    <Pressable onPress={() => {
-                        setShowPokeModal(true);
-                        setReceiverId(pokee.receiverId);
-                    }}>
-                    <ThemedView
+                    <Pressable 
                         key={index}
+                        onPress={() => {
+                            setShowPokeModal(true);
+                            setReceiverId(pokee.receiverId);
+                        }}
+                    >
+                    <ThemedView
                         style={styles.pokeeContainer}
                         lightColor={themeColor.mainLight}
                         darkColor={themeColor.mainLight}
