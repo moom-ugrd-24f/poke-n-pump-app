@@ -8,7 +8,7 @@ import { ThemedScrollView } from '../../ThemedScrollView';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { Colors } from '@/constants/Colors';
 import { useEffect, useState } from 'react';
-import { GET_POKEE_LIST_URL } from '@/constants/url';
+import { USER_URL } from '@/constants/url';
 
 export default function PokeList() {
     const colorScheme = useColorScheme();
@@ -39,7 +39,9 @@ export default function PokeList() {
     }, []);
 
     const getPokeeList = async () => {
-        fetch(GET_POKEE_LIST_URL, { method: 'GET' })
+        const user_id = '672b3de2613125bee0cdee3d';
+        const get_pokee_list_url = USER_URL + '/' + user_id + '/poke-list';
+        fetch(get_pokee_list_url, { method: 'GET' })
         .then((response) => response.json())
         .then((data) => { 
             if (data.error === true) {
