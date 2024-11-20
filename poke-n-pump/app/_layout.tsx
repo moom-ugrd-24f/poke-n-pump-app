@@ -38,8 +38,9 @@ export default function RootLayout() {
 
     const checkFirstTimeLoaded = async () => {
         try {
-            const firstTime = await AsyncStorage.getItem('nickname');
-            if (firstTime === null) {
+            const username = await AsyncStorage.getItem('username');
+            console.log("Stored username: " + username);
+            if (username === null) {
                 setIsFirstTimeLoad(true);
             } else {
                 setIsFirstTimeLoad(false);
