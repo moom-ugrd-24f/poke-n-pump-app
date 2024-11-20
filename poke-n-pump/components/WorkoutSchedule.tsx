@@ -81,7 +81,7 @@ export default function WorkoutSchedule() {
     };
 
     return (
-        <ThemedView>
+        <ThemedView style={styles.workoutView}>
             <ThemedText type='subtitle'>Workout Schedule</ThemedText>
             <ThemedView style={styles.workoutSchedule} lightBorderColor={themeColor.mainDark} darkBorderColor={themeColor.mainDark}>
                 {workoutSchedule.map((session, index) => (
@@ -99,6 +99,13 @@ export default function WorkoutSchedule() {
 }
 
 const styles = StyleSheet.create({
+    workoutView: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        gap: 20,
+    },
     workoutSchedule: {
         display: 'flex',
         flexDirection: 'row',

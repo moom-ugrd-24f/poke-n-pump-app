@@ -15,11 +15,11 @@ export default function VisibilityOption() {
 
 const styles = StyleSheet.create({
     visibilityView: {
-        height: '40%',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'space-between',
+        gap: 20,
     },
     optionView: {
         display: 'flex',
