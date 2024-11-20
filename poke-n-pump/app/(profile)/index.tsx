@@ -16,7 +16,7 @@ export default function ProfileScreen() {
 
     return (
         <ThemedView style={styles.profileView}>
-            <ThemedView style={styles.backNavigation} onPress={() => router.navigate('/(tabs)')}>
+            <ThemedView style={styles.backNavigation} onPress={() => router.back()}>
                 <Ionicons name="arrow-back" size={75} color={themeColor.main} />
                 <Image source={profile} style={styles.backImage} />
             </ThemedView>
