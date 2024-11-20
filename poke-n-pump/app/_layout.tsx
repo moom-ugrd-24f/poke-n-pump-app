@@ -3,57 +3,92 @@ import { Colors } from '@/constants/Colors';
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import 'react-native-reanimated';
 
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { setStatusBarStyle } from 'expo-status-bar';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
-  const [loaded] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
-  });
+    const colorScheme = useColorScheme();
+    const [loaded] = useFonts({
+        SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
+    });
+    const [isFirstTimeLoad, setIsFirstTimeLoad] = useState(false) 
 
-  useEffect(() => {
-    if (loaded) {
-      SplashScreen.hideAsync();
+    useEffect(() => {
+        if (loaded) {
+            SplashScreen.hideAsync();
+        }
+    }, [loaded]);
+
+    useEffect(() => {
+        setTimeout(() => {
+            setStatusBarStyle(colorScheme == "light" ? "light" : "dark");
+        }, 0);
+    }, []);
+
+    useEffect(() => {
+        checkFirstTimeLoaded();
+    }, []);
+
+    const checkFirstTimeLoaded = async () => {
+        try {
+            const username = await AsyncStorage.getItem('username');
+            console.log("Stored username: " + username);
+            if (username === null) {
+                setIsFirstTimeLoad(true);
+            } else {
+                setIsFirstTimeLoad(false);
+            }
+        } catch (e) {
+            console.error(e);
+        }
     }
-  }, [loaded]);
 
-  useEffect(() => {
-    setTimeout(() => {
-      setStatusBarStyle(colorScheme == "light" ? "light" : "dark");
-    }, 0);
-  }, []);
+    if (!loaded) {
+        return null;
+    }
 
-  if (!loaded) {
-    return null;
-  }
+    console.log("First time load: " + isFirstTimeLoad);
 
-  return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen 
-          name="(login)/index" 
-          options={{ 
-            headerShown: false, 
-            gestureEnabled: false, 
-            contentStyle: { backgroundColor: Colors[colorScheme ?? 'light'].background }
-          }} 
-        />
-        <Stack.Screen 
-          name="(tabs)" 
-          options={{ 
-            headerShown: false, 
-            gestureEnabled: false, 
-            contentStyle: { backgroundColor: Colors[colorScheme ?? 'light'].background } 
-          }}
-        />
-      </Stack>
-    </ThemeProvider>
-  );
+    return (
+        <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+            <Stack>
+                { isFirstTimeLoad ? (
+                    <>
+                    <Stack.Screen 
+                        name="(login)/index" 
+                        options={{ 
+                        headerShown: false, 
+                        gestureEnabled: false, 
+                        contentStyle: { backgroundColor: Colors[colorScheme ?? 'light'].background }
+                        }} 
+                    />
+                    <Stack.Screen 
+                        name="(tabs)" 
+                        options={{ 
+                        headerShown: false, 
+                        gestureEnabled: false, 
+                        contentStyle: { backgroundColor: Colors[colorScheme ?? 'light'].background } 
+                        }}
+                    />
+                    </>
+                    ) : (
+                    <Stack.Screen 
+                        name="(tabs)" 
+                        options={{ 
+                        headerShown: false, 
+                        gestureEnabled: false, 
+                        contentStyle: { backgroundColor: Colors[colorScheme ?? 'light'].background } 
+                        }}
+                    />
+                )}
+            </Stack>
+        </ThemeProvider>
+    );
 }
