@@ -1,11 +1,11 @@
 import { Platform, StyleSheet } from "react-native";
-import { ThemedText } from "../ThemedText";
-import { ThemedView } from "../ThemedView";
+import { ThemedText } from "@/components/ThemedText";
+import { ThemedView } from "@/components/ThemedView";
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { Colors } from "@/constants/Colors";
 import { useState } from "react";
-import { ThemedSwitch } from "../ThemedSwitch";
-import { ThemedPicker } from "../ThemedPicker";
+import { ThemedSwitch } from "@/components/ThemedSwitch";
+import { ThemedPicker } from "@/components/ThemedPicker";
 import { Picker } from "@react-native-picker/picker";
 
 export default function ShameOption() {

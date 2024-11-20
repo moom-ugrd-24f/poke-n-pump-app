@@ -1,7 +1,7 @@
 import { StyleSheet, Image } from 'react-native';
-import { ThemedView } from '../../ThemedView';
-import { ThemedText } from '../../ThemedText';
-import { ThemedScrollView } from '../../ThemedScrollView';
+import { ThemedView } from '@/components/ThemedView';
+import { ThemedText } from '@/components/ThemedText';
+import { ThemedScrollView } from '@/components/ThemedScrollView';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { Colors } from '@/constants/Colors';
 

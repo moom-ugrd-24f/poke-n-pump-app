@@ -15,7 +15,7 @@ SplashScreen.preventAutoHideAsync();
 export default function RootLayout() {
   const colorScheme = useColorScheme();
   const [loaded] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
+    SpaceMono: require('@/assets/fonts/SpaceMono-Regular.ttf'),
   });
 
   useEffect(() => {
@@ -47,6 +47,14 @@ export default function RootLayout() {
         />
         <Stack.Screen 
           name="(tabs)" 
+          options={{ 
+            headerShown: false, 
+            gestureEnabled: false, 
+            contentStyle: { backgroundColor: Colors[colorScheme ?? 'light'].background } 
+          }}
+        />
+        <Stack.Screen 
+          name="(profile)/index" 
           options={{ 
             headerShown: false, 
             gestureEnabled: false, 

@@ -1,6 +1,6 @@
 import { Button, type ButtonProps } from 'react-native-elements';
 import { useThemeColor } from '@/hooks/useThemeColor';
-import { ThemedView } from './ThemedView';
+import { ThemedView } from '@/components/ThemedView';
 
 export type ThemedButtonProps = ButtonProps & {
   lightColor?: string;
@@ -9,6 +9,7 @@ export type ThemedButtonProps = ButtonProps & {
   darkBorderColor?: string;
   lightTextColor?: string;
   darkTextColor?: string;
+  type?: 'default' | 'tiny';
 };
 
 export function ThemedButton({
@@ -20,6 +21,7 @@ export function ThemedButton({
   darkTextColor,
   buttonStyle,
   titleStyle,
+  type = 'default',
   ...otherProps
 }: ThemedButtonProps) {
   const backgroundColor = useThemeColor({ light: lightColor, dark: darkColor }, 'subLight');
@@ -33,13 +35,19 @@ export function ThemedButton({
           {
             backgroundColor,
             borderColor,
-            borderWidth: 5,
             borderRadius: 20,
             width: '100%',
           },
+          type === 'default' ? { borderWidth: 5 } : undefined,
+          type === 'tiny' ? { borderWidth: 1 } : undefined,
           buttonStyle,
         ]}
-        titleStyle={[{ color: textColor, fontSize: 20 }, titleStyle]}
+        titleStyle={[
+          { color: textColor }, 
+          type === 'default' ? { fontSize: 20 } : undefined,
+          type === 'tiny' ? { fontSize: 10 } : undefined,
+          titleStyle
+        ]}
         {...otherProps}
       />
     </ThemedView>
