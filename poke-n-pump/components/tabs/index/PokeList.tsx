@@ -9,6 +9,7 @@ import { Colors } from '@/constants/Colors';
 import { useEffect, useState } from 'react';
 import { Pressable } from 'react-native';
 import { USER_URL, POKE_URL } from '@/constants/url';
+import { router } from 'expo-router';
 
 export default function PokeList() {
     const colorScheme = useColorScheme();
@@ -110,6 +111,7 @@ export default function PokeList() {
                     <ThemedButton
                         title="Shame Post"
                         onPress={() => {
+                            router.navigate('/(shamePost)');
                             setShowPokeModal(false);
                         }}
                     />
