@@ -59,5 +59,8 @@ const styles = StyleSheet.create({
         padding: 10,
         borderWidth: 5,
         borderRadius: 10,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        paddingHorizontal: 30,
     },
 });
