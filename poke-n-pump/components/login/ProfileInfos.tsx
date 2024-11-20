@@ -2,12 +2,12 @@ import { Ionicons } from '@expo/vector-icons';
 import { StyleSheet, Image } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { useState } from 'react';
-import { ThemedView } from '../ThemedView';
-import { ThemedText } from '../ThemedText';
-import { ThemedButton } from '../ThemedButton';
+import { ThemedView } from '@/components/ThemedView';
+import { ThemedText } from '@/components/ThemedText';
+import { ThemedButton } from '@/components/ThemedButton';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
-import { ThemedTextInput } from '../ThemedTextInput';
+import { ThemedTextInput } from '@/components/ThemedTextInput';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function ProfileInfos() {
@@ -66,7 +66,7 @@ export default function ProfileInfos() {
             {"\n"}Let me know about you.</ThemedText>
             { image ? <Image source={{ uri: image }} style={styles.image} /> : <Ionicons name="person-circle" size={150} color="white" onPress={pickImage} /> }
             <ThemedView style={styles.username}>
-                <ThemedText type='subtitle' lightColor={themeColor.default} darkColor={themeColor.default}>username</ThemedText>
+                <ThemedText type='subtitle' lightColor={themeColor.default} darkColor={themeColor.default}>Nickname</ThemedText>
                 <ThemedView style={styles.usernameInput}>
                     <ThemedTextInput onChangeText={setUsername} />
                     <ThemedButton 
@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
     },
     usernameInput: {
         display: 'flex',
-        flexDirection: 'row',
+        flexDirection: 'column',
         gap: 10,
         alignItems: 'center',
     },

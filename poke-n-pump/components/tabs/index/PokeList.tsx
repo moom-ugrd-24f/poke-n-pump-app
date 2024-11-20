@@ -1,13 +1,13 @@
 import { View, StyleSheet, Image, Modal, TouchableWithoutFeedback } from 'react-native';
-import poke from '../../../assets/images/poke.png';
-import { ThemedView } from '../../ThemedView';
-import { ThemedButton } from '../../ThemedButton';
-import { Pressable } from 'react-native';
-import { ThemedText } from '../../ThemedText';
-import { ThemedScrollView } from '../../ThemedScrollView';
+import poke from '@/assets/images/poke.png';
+import { ThemedView } from '@/components/ThemedView';
+import { ThemedText } from '@/components/ThemedText';
+import { ThemedScrollView } from '@/components/ThemedScrollView';
+import { ThemedButton } from '@/components/ThemedButton';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { Colors } from '@/constants/Colors';
 import { useEffect, useState } from 'react';
+import { Pressable } from 'react-native';
 import { USER_URL, POKE_URL } from '@/constants/url';
 
 export default function PokeList() {

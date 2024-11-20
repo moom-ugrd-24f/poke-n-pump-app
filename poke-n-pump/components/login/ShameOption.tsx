@@ -1,10 +1,10 @@
 import { StyleSheet } from "react-native";
-import { ThemedText } from "../ThemedText";
-import { ThemedView } from "../ThemedView";
+import { ThemedText } from "@/components/ThemedText";
+import { ThemedView } from "@/components/ThemedView";
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { Colors } from "@/constants/Colors";
-import ShameToggle from "../ShameToggle";
-import ShameStreakPicker from "../ShameStreakPicker";
+import ShameToggle from "@/components/ShameToggle";
+import ShameStreakPicker from "@/components/ShameStreakPicker";
 
 export default function ShameOption() {
     const colorScheme = useColorScheme();

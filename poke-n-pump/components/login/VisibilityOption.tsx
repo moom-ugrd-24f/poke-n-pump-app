@@ -1,9 +1,9 @@
 import { StyleSheet } from 'react-native';
-import { ThemedView } from '../ThemedView';
-import { ThemedText } from '../ThemedText';
+import { ThemedView } from '@/components/ThemedView';
+import { ThemedText } from '@/components/ThemedText';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
-import VisibilityToggle from '../VisibilityToggle';
+import VisibilityToggle from '@/components/VisibilityToggle';
 
 export default function ProfileInfos() {
   const colorScheme = useColorScheme();

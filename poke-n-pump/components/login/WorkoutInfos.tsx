@@ -1,13 +1,13 @@
 import { StyleSheet } from 'react-native';
-import { ThemedView } from '../ThemedView';
-import { ThemedText } from '../ThemedText';
-import WorkoutSchedule from '../WorkoutSchedule';
+import { ThemedView } from '@/components/ThemedView';
+import { ThemedText } from '@/components/ThemedText';
+import WorkoutSchedule from '@/components/WorkoutSchedule';
 
 export default function ProfileInfos() {
 
   return (
     <ThemedView style={styles.visibilityView}>
-        <ThemedText type='title'>Choose your visibility setting</ThemedText>
+        <ThemedText type='title'>When do you workout</ThemedText>
         <WorkoutSchedule />
     </ThemedView>
   );
