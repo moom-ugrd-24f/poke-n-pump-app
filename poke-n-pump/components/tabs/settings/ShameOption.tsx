@@ -1,10 +1,10 @@
 import { StyleSheet } from "react-native";
-import { ThemedText } from "@/components/ThemedText";
-import { ThemedView } from "@/components/ThemedView";
+import { ThemedText } from "../../ThemedText";
+import { ThemedView } from "../../ThemedView";
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { Colors } from "@/constants/Colors";
-import ShameToggle from "@/components/ShameToggle";
-import ShameStreakPicker from "@/components/ShameStreakPicker";
+import ShameToggle from "../../ShameToggle";
+import ShameStreakPicker from "../../ShameStreakPicker";
 
 export default function ShameOption() {
     const colorScheme = useColorScheme();
@@ -13,18 +13,18 @@ export default function ShameOption() {
 
     return (
         <ThemedView style={styles.shameView}>
-            <ThemedText type='title'>Will you allow others to{" "}
+            <ThemedText type='subtitle'>Enable / Disable{" "}
                 <ThemedText 
-                type='title' 
+                type='subtitle' 
                 lightColor={themeColor.sub} 
                 darkColor={themeColor.sub}> 
                     shame post 
                 </ThemedText>
-            {" "}on you?</ThemedText>
+            {" "}</ThemedText>
             <ShameToggle />
-            <ThemedText type='title'>Set{" "}
+            <ThemedText type='subtitle'>Set{" "}
                 <ThemedText 
-                type='title' 
+                type='subtitle' 
                 lightColor={themeColor.sub} 
                 darkColor={themeColor.sub}> 
                     no-gym streak
@@ -37,7 +37,6 @@ export default function ShameOption() {
 
 const styles = StyleSheet.create({
     shameView: {
-        height: '40%',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',

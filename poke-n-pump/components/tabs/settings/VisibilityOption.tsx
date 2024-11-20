@@ -1,19 +1,13 @@
 import { StyleSheet } from 'react-native';
-import { ThemedView } from '@/components/ThemedView';
-import { ThemedText } from '@/components/ThemedText';
-import { Colors } from '@/constants/Colors';
-import { useColorScheme } from '@/hooks/useColorScheme';
+import { ThemedView } from '../../ThemedView';
+import { ThemedText } from '../../ThemedText';
 import VisibilityToggle from '@/components/VisibilityToggle';
 
-export default function ProfileInfos() {
-  const colorScheme = useColorScheme();
-  
-  const themeColor = Colors[colorScheme ?? 'light'];
+export default function VisibilityOption() {
 
   return (
     <ThemedView style={styles.visibilityView}>
-        <ThemedText type='title'>Choose your visibility setting</ThemedText>
-        <ThemedText type='subtitle' lightColor={themeColor.default} darkColor={themeColor.default}>You can change your setting anytime</ThemedText>
+        <ThemedText type='subtitle'>Visibility setting</ThemedText>
         <VisibilityToggle />
     </ThemedView>
   );
