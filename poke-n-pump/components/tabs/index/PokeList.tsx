@@ -106,7 +106,7 @@ export default function PokeList() {
             </Modal>
             <Image source={poke} style={styles.image} />
             <ThemedScrollView style={styles.pokeesContainer} showsVerticalScrollIndicator={false}>
-                { pokees.map((pokee, index) => (
+                { !pokees ? null : pokees.map((pokee, index) => (
                     <Pressable 
                         key={index}
                         onPress={() => {
