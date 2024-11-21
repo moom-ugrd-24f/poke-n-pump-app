@@ -34,7 +34,7 @@ export default function ProfileContainer() {
             <Pressable onPress={() => router.navigate('/(profile)')}><Image source={avatar} style={styles.avatar} /></Pressable>
             <ThemedText type='default' lightColor={Colors[colorScheme ?? 'light'].default}>{username}</ThemedText>
         </ThemedView>
-        <Ionicons name="notifications-outline" size={24} color={Colors[colorScheme ?? 'light'].icon} />
+        <Ionicons name="notifications-outline" size={24} color={Colors[colorScheme ?? 'light'].icon} onPress={() => router.navigate('/(notifications)')} />
     </ThemedView>
   );
 }
