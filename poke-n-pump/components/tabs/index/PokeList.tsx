@@ -8,8 +8,9 @@ import { useColorScheme } from '@/hooks/useColorScheme';
 import { Colors } from '@/constants/Colors';
 import { useEffect, useState } from 'react';
 import { Pressable } from 'react-native';
-import { USER_URL, POKE_URL } from '@/constants/url';
 import { router } from 'expo-router';
+import { getPokeeList } from '@/hooks/useAPI';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function PokeList() {
     const colorScheme = useColorScheme();
@@ -21,58 +22,19 @@ export default function PokeList() {
     const [receiverName, setReceiverName] = useState('');
     const [enableShamePost, setEnableShamePost] = useState(false);
 
-    let pokees = [
-        { name: 'Pikachu', receiverId: '0' },
-        { name: 'Charmander', receiverId: '1' },
-        { name: 'Bulbasaur', receiverId: '2' },
-        { name: 'Squirtle', receiverId: '3' },
-        { name: 'Jigglypuff', receiverId: '4' },,
-        { name: 'Meowth', receiverId: '5' },
-        { name: 'Psyduck', receiverId: '6' },
-        { name: 'Snorlax', receiverId: '7' },
-        { name: 'Mewtwo', receiverId: '8' },
-        { name: 'Mew', receiverId: '9' },
-    ];
-
-    let shamePokees = [
-        'Pikachu',
-    ];
+    const [ pokees, setPokees ] = useState([]);  
+    const [ shamePokees, setShamePokees ] = useState([]);  
 
     useEffect(() => {
-        getPokeeList();
-    }, []);
-
-    const getUserId = () => {
-        return '672b41a8573243327135d0bf';
-    }
-
-    const getPokeeList = async () => {
-        const userId = getUserId();
-        const getPokeeListUrl = USER_URL + '/' + userId + '/poke-list';
-        fetch(getPokeeListUrl, { method: 'GET' })
-        .then((response) => response.json())
-        .then((data) => { 
-            if (data.error === true) {
-                console.log('Error fetching pokees');
-                return;
+        AsyncStorage.getItem("nickname").then((userId) => {
+            if (userId) {
+                getPokeeList(userId).then((res) => {
+                    setPokees(res.data.pokeList);
+                    setShamePokees(res.data.shamePostUsers);
+                });
             }
-            const body = data.response.body;
-            pokees = body.pokeList;
-            shamePokees = body.shamePostUsers.map((user: any) => user.name);
-         });
-    }
-
-    const sendPoke = async (pokeType: string) => {
-        const userId = getUserId();
-        fetch(POKE_URL, {
-            method: 'POST',
-            body: JSON.stringify({
-                senderId: userId,
-                receiverId: receiverId,
-                pokeType: pokeType,
-            })
         });
-    }
+    }, []);
 
     return (
         <ThemedView style={styles.pokeListView}>
@@ -96,7 +58,6 @@ export default function PokeList() {
                         lightBorderColor={themeColor.mainLight}
                         darkBorderColor={themeColor.mainLight}
                         onPress={() => {
-                            sendPoke("Just Poke");
                             setShowPokeModal(false);
                         }}
                     />
@@ -107,7 +68,6 @@ export default function PokeList() {
                         lightBorderColor={themeColor.mainLight}
                         darkBorderColor={themeColor.mainLight}
                         onPress={() => {
-                            sendPoke("Join Me!");
                             setShowPokeModal(false);
                         }}
                     />
@@ -118,7 +78,6 @@ export default function PokeList() {
                         lightBorderColor={themeColor.mainLight}
                         darkBorderColor={themeColor.mainLight}
                         onPress={() => {
-                            sendPoke("Trash Talk");
                             setShowPokeModal(false);
                         }}
                     />

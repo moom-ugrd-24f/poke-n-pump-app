@@ -16,66 +16,61 @@ SplashScreen.preventAutoHideAsync();
 export default function RootLayout() {
     const colorScheme = useColorScheme();
     const [loaded] = useFonts({
-      SpaceMono: require('@/assets/fonts/SpaceMono-Regular.ttf'),
+        SpaceMono: require('@/assets/fonts/SpaceMono-Regular.ttf'),
     });
 
-    const [isFirstTimeLoad, setIsFirstTimeLoad] = useState(false) 
+    const [isLoading, setIsLoading] = useState(true);
+    const [isFirstTimeLoad, setIsFirstTimeLoad] = useState(false);
 
+    // Hide splash screen once fonts are loaded
     useEffect(() => {
         if (loaded) {
             SplashScreen.hideAsync();
         }
     }, [loaded]);
 
+    // Set status bar style based on the theme
     useEffect(() => {
-        setTimeout(() => {
-            setStatusBarStyle(colorScheme == "light" ? "light" : "dark");
-        }, 0);
-    }, []);
+        setStatusBarStyle(colorScheme === 'light' ? 'dark' : 'light');
+    }, [colorScheme]);
 
+    // Check AsyncStorage for the username
     useEffect(() => {
+        const checkFirstTimeLoaded = async () => {
+            try {
+                const username = await AsyncStorage.getItem('username');
+                setIsFirstTimeLoad(username === null);
+            } catch (e) {
+                console.error('Error reading AsyncStorage:', e);
+                setIsFirstTimeLoad(false); // Assume not first time on error
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
         checkFirstTimeLoaded();
     }, []);
 
-    const checkFirstTimeLoaded = async () => {
-        try {
-            const username = await AsyncStorage.getItem('username');
-            console.log("Stored username: " + username);
-            if (username === null) {
-                setIsFirstTimeLoad(true);
-            } else {
-                setIsFirstTimeLoad(false);
-            }
-        } catch (e) {
-            console.error(e);
-        }
+    // Show nothing or a loading spinner while determining the load state
+    if (isLoading) {
+        return null; // Replace with a spinner if desired
     }
 
-    if (!loaded) {
-        return null;
-    }
-
-    console.log("First time load: " + isFirstTimeLoad);
-
+    // Render appropriate stack based on `isFirstTimeLoad`
     return (
         <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-            <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: Colors[colorScheme ?? 'light'].background }}}>
-                { isFirstTimeLoad ? (
-                    <>
-                    <Stack.Screen name="(login)/index" />
-                    <Stack.Screen name="(tabs)" />
-                    <Stack.Screen name="(profile)/index" />
-                    <Stack.Screen name="(shamePost)/index" />
-                    <Stack.Screen name="(notifications)/index" />
-                    </>
-                ) : (
-                    <>
-                    <Stack.Screen name="(tabs)" />
-                    <Stack.Screen name="(profile)/index" />
-                    <Stack.Screen name="(shamePost)/index" />
-                    <Stack.Screen name="(notifications)/index" />
-                    </>
-                )}
+            <Stack
+                initialRouteName={isFirstTimeLoad ? '(login)/index' : '(tabs)'}
+                screenOptions={{
+                    headerShown: false,
+                    contentStyle: { backgroundColor: Colors[colorScheme ?? 'light'].background },
+                }}
+            >
+                <Stack.Screen name="(login)/index" />
+                <Stack.Screen name="(tabs)" options={{ animation: 'none' }}/>
+                <Stack.Screen name="(profile)/index" />
+                <Stack.Screen name="(shamePost)/index" />
+                <Stack.Screen name="(notifications)/index" />
             </Stack>
         </ThemeProvider>
     );
