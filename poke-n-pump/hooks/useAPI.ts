@@ -5,6 +5,7 @@ interface UserData {
     nickname: string;
     shamePostSettings: Object;
     workoutPlan: Object;
+    expoPushToken: string;
 }
 
 export const addUser = (data: UserData) => {
@@ -12,6 +13,7 @@ export const addUser = (data: UserData) => {
     formData.append('nickname', data.nickname);
     formData.append('shamePostSettings', JSON.stringify(data.shamePostSettings));
     formData.append('workoutPlan', JSON.stringify(data.workoutPlan));
+    formData.append('expoPushToken', data.expoPushToken);
 
     return axios.post(USER_URL, formData, {headers: { 'Content-Type': 'multipart/form-data' },}).then((res) => {
         return res;

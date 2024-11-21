@@ -9,6 +9,7 @@ import { ThemedView } from '@/components/ThemedView';
 import ShameOption from '@/components/login/ShameOption';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { addUser } from '@/hooks/useAPI';
+import usePushNotifications from '@/hooks/usePushNotifications';
 
 enum LOGIN_STAGE {
   PROFILE = 'PROFILE',
@@ -21,6 +22,7 @@ export default function LoginScreen() {
   const [stage, setStage] = useState<LOGIN_STAGE>(LOGIN_STAGE.PROFILE);
 
   const [ isLoading, setIsLoading ] = useState(true);
+  const notificationToken = usePushNotifications().expoPushToken;
 
   function finishOnboarding() {
     router.replace('/(tabs)')
@@ -38,6 +40,7 @@ export default function LoginScreen() {
           noGymStreakLimit: shameStreak
         },
         workoutPlan,
+        expoPushToken: notificationToken
       };
 
       addUser(data).then((res) => {
