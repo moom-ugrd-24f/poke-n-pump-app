@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { FREIEND_REQUEST_URL, USER_URL } from '@/constants/url';
+import { FRIEND_REQUEST_URL, USER_URL } from '@/constants/url';
 
 interface UserData {
     nickname: string;
@@ -32,10 +32,19 @@ export const getPokeeList = (userId: string) => {
 }
 
 export const sendFriendRequest = (userId: string, friendCode: string) => {
-    const sendFriendRequestUrl = FREIEND_REQUEST_URL + '/send';
-    return axios.post(sendFriendRequestUrl, { senderId: userId, receiverInviteCode: friendCode}).then((res) => {
+    const sendFriendRequestUrl = FRIEND_REQUEST_URL + '/send';
+    return axios.post(sendFriendRequestUrl, { senderId: userId, receiverInviteCode: friendCode }).then((res) => {
         return res;
     }).catch((error) => {
         return { data: 'Error while sending friend request', status: 400 };
+    });
+}
+
+export const getReceivedRequests = (userId: string) => {
+    const getReceivedRequestsUrl = FRIEND_REQUEST_URL + userId + '/received-requests';
+    return axios.get(getReceivedRequestsUrl).then((res) => {
+        return res;
+    }).catch((error) => {
+        return { data: 'Error while fetching received requests', status: 400 };
     });
 }
