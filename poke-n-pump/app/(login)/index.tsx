@@ -8,6 +8,7 @@ import ThemedButton from '@/components/ThemedButton';
 import { ThemedView } from '@/components/ThemedView';
 import ShameOption from '@/components/login/ShameOption';
 import { USER_URL } from '@/constants/url';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 enum LOGIN_STAGE {
   PROFILE = 'PROFILE',
@@ -34,6 +35,13 @@ export default function LoginScreen() {
         },
         profilePicture: null
       })
+    }).then((response) => response.json())
+    .then((data) => {
+      if (data.error == true) {
+        console.log('Error creating user');
+        return;
+      }
+      AsyncStorage.setItem('user_info', JSON.stringify(data.response.body));
     });
   }
 

@@ -43,7 +43,7 @@ export default function PokeList() {
     }, []);
 
     const getUserId = () => {
-        return '672b3de2613125bee0cdee3d';
+        return '672b41a8573243327135d0bf';
     }
 
     const getPokeeList = async () => {
@@ -54,6 +54,7 @@ export default function PokeList() {
         .then((data) => { 
             if (data.error === true) {
                 console.log('Error fetching pokees');
+                return;
             }
             const body = data.response.body;
             pokees = body.pokeList;
