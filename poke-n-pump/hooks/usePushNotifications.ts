@@ -11,9 +11,9 @@ Notifications.setNotificationHandler({
   }),
 });
 
-async function sendPushNotification(expoPushToken: string) {
+async function sendPushNotification(pokeeExpoPushToken: string) {
   const message = {
-    to: expoPushToken,
+    to: pokeeExpoPushToken,
     sound: 'default',
     title: 'Original Title',
     body: 'And here is the body!',
@@ -99,14 +99,14 @@ export default function usePushNotifications() {
   }, []);
 
   // Function to send notifications
-  const sendNotification = async () => {
-    if (!expoPushToken) {
+  const sendNotification = async (pokeeExpoPushToken: string) => {
+    if (!pokeeExpoPushToken) {
       alert('Push token not available. Make sure you are connected to the server.');
       return;
     }
 
     try {
-      await sendPushNotification(expoPushToken);
+      await sendPushNotification(pokeeExpoPushToken);
       console.log('Notification sent successfully');
     } catch (error) {
       console.error('Error sending notification:', error);
