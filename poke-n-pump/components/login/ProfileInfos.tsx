@@ -18,6 +18,7 @@ export default function ProfileInfos() {
     const themeColor = Colors[colorScheme ?? 'light'];
 
     const pickImage = async () => {
+        AsyncStorage.clear();
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.All,
             allowsEditing: true,
@@ -64,7 +65,18 @@ export default function ProfileInfos() {
                 </ThemedText>
                 !
             {"\n"}Let me know about you.</ThemedText>
-            { image ? <Image source={{ uri: image }} style={styles.image} /> : <Ionicons name="person-circle" size={150} color="white" onPress={pickImage} /> }
+            { image ? 
+            <Image 
+                source={{ uri: image }} 
+                style={styles.image} 
+            /> : 
+            <Ionicons 
+                name="person-circle" 
+                size={150} 
+                color="white" 
+                onPress={pickImage} 
+            /> 
+            }
             <ThemedView style={styles.username}>
                 <ThemedText type='subtitle' lightColor={themeColor.default} darkColor={themeColor.default}>Nickname</ThemedText>
                 <ThemedView style={styles.usernameInput}>

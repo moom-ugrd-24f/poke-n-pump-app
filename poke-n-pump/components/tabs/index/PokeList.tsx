@@ -9,6 +9,7 @@ import { Colors } from '@/constants/Colors';
 import { useEffect, useState } from 'react';
 import { Pressable } from 'react-native';
 import { USER_URL, POKE_URL } from '@/constants/url';
+import { router } from 'expo-router';
 
 export default function PokeList() {
     const colorScheme = useColorScheme();
@@ -17,6 +18,8 @@ export default function PokeList() {
 
     const [showPokeModal, setShowPokeModal] = useState(false);
     const [receiverId, setReceiverId] = useState('');
+    const [receiverName, setReceiverName] = useState('');
+    const [enableShamePost, setEnableShamePost] = useState(false);
 
     let pokees = [
         { name: 'Pikachu', receiverId: '0' },
@@ -32,7 +35,7 @@ export default function PokeList() {
     ];
 
     let shamePokees = [
-        { name: 'Pikachu' },
+        'Pikachu',
     ];
 
     useEffect(() => {
@@ -40,7 +43,7 @@ export default function PokeList() {
     }, []);
 
     const getUserId = () => {
-        return '672b3de2613125bee0cdee3d';
+        return '672b41a8573243327135d0bf';
     }
 
     const getPokeeList = async () => {
@@ -51,10 +54,11 @@ export default function PokeList() {
         .then((data) => { 
             if (data.error === true) {
                 console.log('Error fetching pokees');
+                return;
             }
             const body = data.response.body;
             pokees = body.pokeList;
-            shamePokees = body.shamePostUsers;
+            shamePokees = body.shamePostUsers.map((user: any) => user.name);
          });
     }
 
@@ -69,7 +73,6 @@ export default function PokeList() {
             })
         });
     }
-
 
     return (
         <ThemedView style={styles.pokeListView}>
@@ -88,6 +91,10 @@ export default function PokeList() {
                     style={styles.pokeModal}>
                     <ThemedButton
                         title="Just Poke"
+                        lightColor={themeColor.mainLight}
+                        darkColor={themeColor.mainLight}
+                        lightBorderColor={themeColor.mainLight}
+                        darkBorderColor={themeColor.mainLight}
                         onPress={() => {
                             sendPoke("Just Poke");
                             setShowPokeModal(false);
@@ -95,6 +102,10 @@ export default function PokeList() {
                     />
                     <ThemedButton
                         title="Join Me!"
+                        lightColor={themeColor.mainLight}
+                        darkColor={themeColor.mainLight}
+                        lightBorderColor={themeColor.mainLight}
+                        darkBorderColor={themeColor.mainLight}
                         onPress={() => {
                             sendPoke("Join Me!");
                             setShowPokeModal(false);
@@ -102,36 +113,74 @@ export default function PokeList() {
                     />
                     <ThemedButton
                         title="Trash Talk"
+                        lightColor={themeColor.mainLight}
+                        darkColor={themeColor.mainLight}
+                        lightBorderColor={themeColor.mainLight}
+                        darkBorderColor={themeColor.mainLight}
                         onPress={() => {
                             sendPoke("Trash Talk");
                             setShowPokeModal(false);
                         }}
                     />
-                    <ThemedButton
+                    { enableShamePost ?
+                        <ThemedButton
                         title="Shame Post"
                         onPress={() => {
+                            router.navigate('/(shamePost)');
                             setShowPokeModal(false);
                         }}
-                    />
+                        /> :
+                        <ThemedButton
+                        title="Shame Post"
+                        lightTextColor={themeColor.gray}
+                        darkTextColor={themeColor.gray}
+                        lightColor={themeColor.grayLight}
+                        darkColor={themeColor.grayLight}
+                        onPress={() => {
+                            router.navigate('/(shamePost)');
+                            setShowPokeModal(false);
+                        }}
+                        /> 
+                    }
+                    
                 </ThemedView>
             </Modal>
             <Image source={poke} style={styles.image} />
             <ThemedScrollView style={styles.pokeesContainer} showsVerticalScrollIndicator={false}>
                 { pokees.map((pokee, index) => (
-                    <Pressable onPress={() => {
-                        setShowPokeModal(true);
-                        setReceiverId(pokee.receiverId);
-                    }}>
-                    <ThemedView
+                    <Pressable 
                         key={index}
-                        style={styles.pokeeContainer}
-                        lightColor={themeColor.mainLight}
-                        darkColor={themeColor.mainLight}
-                        lightBorderColor={themeColor.mainLight}
-                        darkBorderColor={themeColor.mainLight}
+                        onPress={() => {
+                            setShowPokeModal(true);
+                            setReceiverId(pokee.receiverId);
+                            setReceiverName(pokee.name);
+                            setEnableShamePost(shamePokees.includes(pokee.name));
+                        }}
                     >
-                        <ThemedText type='default' lightColor={themeColor.reverse} darkColor={themeColor.reverse}>{pokee.name}</ThemedText>
-                    </ThemedView>
+                        { shamePokees.includes(pokee.name) ?
+                        <ThemedView
+                            key={index}
+                            style={styles.pokeeContainer}
+                            lightColor={themeColor.subLight}
+                            darkColor={themeColor.subLight}
+                            lightBorderColor={themeColor.subDark}
+                            darkBorderColor={themeColor.subDark}
+                        >
+                            <ThemedText type='default' lightColor={themeColor.reverse} darkColor={themeColor.reverse}>{pokee.name}</ThemedText>
+                        </ThemedView>
+                        :
+                        <ThemedView
+                            key={index}
+                            style={styles.pokeeContainer}
+                            lightColor={themeColor.mainLight}
+                            darkColor={themeColor.mainLight}
+                            lightBorderColor={themeColor.mainDark}
+                            darkBorderColor={themeColor.mainDark}
+                        >
+                            <ThemedText type='default' lightColor={themeColor.reverse} darkColor={themeColor.reverse}>{pokee.name}</ThemedText>
+                        </ThemedView>
+                        }
+                        
                     </Pressable>
                 )) }
             </ThemedScrollView>
@@ -160,14 +209,19 @@ const styles = StyleSheet.create({
         resizeMode: 'contain',
     },
     pokeModal: {
-        backgroundColor: 'white',
         position: 'absolute',
-        height: 200,
-        width: 150,
-        marginTop: -100,
-        marginLeft: -75,
+        height: 300,
+        width: 200,
+        marginTop: -150,
+        marginLeft: -100,
         top: '50%',
         left: '50%',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: 20,
+        borderRadius: 20
     },
     modalOverlay: {
         position: 'absolute',
@@ -176,5 +230,5 @@ const styles = StyleSheet.create({
         left: 0,
         right: 0,
         backgroundColor: 'rgba(0,0,0,0.5)'
-    },
+    }
 });
