@@ -41,10 +41,19 @@ export const sendFriendRequest = (userId: string, friendCode: string) => {
 }
 
 export const getReceivedRequests = (userId: string) => {
-    const getReceivedRequestsUrl = FRIEND_REQUEST_URL + userId + '/received-requests';
+    const getReceivedRequestsUrl = FRIEND_REQUEST_URL + '/' + userId + '/received-requests';
     return axios.get(getReceivedRequestsUrl).then((res) => {
         return res;
     }).catch((error) => {
         return { data: 'Error while fetching received requests', status: 400 };
+    });
+}
+
+export const acceptFriendRequest = (requestId: string) => {
+    const acceptFriendRequestUrl = FRIEND_REQUEST_URL + '/accept';
+    return axios.post(acceptFriendRequestUrl, { requestId }).then((res) => {
+        return res;
+    }).catch((error) => {
+        return { data: 'Error while accepting friend request', status: 400 };
     });
 }

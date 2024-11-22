@@ -6,6 +6,10 @@ import { Ionicons } from "@expo/vector-icons";
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { Colors } from "@/constants/Colors";
 import { router } from "expo-router";
+import { useEffect, useState } from "react";
+import { acceptFriendRequest, getReceivedRequests } from "@/hooks/useAPI";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import usePushNotifications from "@/hooks/usePushNotifications";
 
 export default function NotificationsScreen() {
     const colorScheme = useColorScheme();
@@ -58,6 +62,32 @@ export default function NotificationsScreen() {
         }
     }
 
+    const [receivedRequests, setReceivedRequests] = useState<any[]>([]);
+    const { expoPushToken, sendNotification } = usePushNotifications();
+
+    useEffect(() => {
+        AsyncStorage.getItem('id').then((userId) => {
+            if (userId) {
+                getReceivedRequests(userId).then((res) => {
+                    if (Array.isArray(res.data)) {
+                        setReceivedRequests(res.data.filter((request) => request.status === 'pending'));
+                    } else {
+                        console.error("Unexpected data format:", res.data);
+                    }
+                });
+            }
+        });
+    }, []);
+
+    const handleAccept = (requestId: string, nickname: string) => {
+        acceptFriendRequest(requestId).then((res) => {
+            if (res.status === 200) {
+                setReceivedRequests(receivedRequests.filter((request) => request.id !== requestId));
+                sendNotification(expoPushToken, { title: 'Friend Request Accepted', body: `${nickname} is now your friend!` });
+            }
+        });
+    }
+
     return (
         <ThemedView style={styles.notificationsView}>
             <ThemedView style={styles.backNavigation} onPress={() => router.back()}>
@@ -65,6 +95,30 @@ export default function NotificationsScreen() {
                 <Image source={notification} style={styles.backImage} />
             </ThemedView>
             <ThemedView style={styles.notificationsContainer}>
+                {receivedRequests.map((request, index) => (
+                    <ThemedView 
+                    key={index} 
+                    lightColor={determineColor(notification.type)}
+                    darkColor={determineColor(notification.type)}
+                    style={styles.notification}>
+                        <ThemedText style={{textAlign: 'left'}} lightColor={themeColor.reverse} darkColor={themeColor.reverse}>
+                            {request.senderNickname} sent you a friend requesttt
+                        </ThemedText>
+                        <ThemedView 
+                        lightColor={determineColor(notification.type)}
+                        darkColor={determineColor(notification.type)}
+                        style={styles.friendRequestButtons}>
+                            <ThemedText 
+                            type='default' 
+                            lightColor={themeColor.reverse} 
+                            darkColor={themeColor.reverse}
+                            onPress={() => { handleAccept(request.id, request.senderNickname)}}>
+                                Accept
+                            </ThemedText>
+                            <ThemedText type='default' lightColor={themeColor.reverse} onPress={() => {}}>Reject</ThemedText>
+                        </ThemedView>
+                    </ThemedView>
+                ))}
                 {notifications.map((notification, index) => (
                     <ThemedView 
                     key={index} 
@@ -112,5 +166,10 @@ const styles = StyleSheet.create({
         width: 300,
         padding: 10,
         borderRadius: 10,
-    }
+    },
+    friendRequestButtons: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-evenly',
+    },
 });

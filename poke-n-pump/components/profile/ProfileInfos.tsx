@@ -10,26 +10,28 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 export default function ProfileInfos() {
     const colorScheme = useColorScheme();
     const themeColor = Colors[colorScheme ?? 'light'];
-    const [username, setUsername] = useState('Jane Fonda');
+    const [username, setUsername] = useState('');
     const [numStreak, setNumStreak] = useState(0);
     const [xp, setXp] = useState(0);
     const [numFriend, setNumFriend] = useState(0);
-    const [invitationCode, setInvitationCode] = useState('AG3Hj7');
+    const [invitationCode, setInvitationCode] = useState('');
 
     useEffect(() => {
-        loadUsername();
-    }, []);
+        AsyncStorage.multiGet(['nickname', 'xp', 'friends', 'inviteCode']).then((res) => {
+            const nickname = res[0][1] || '';
+            const xp = parseInt(res[1][1] || '0');
+            const friends = JSON.parse(res[2][1] || "[]");
+            const inviteCode = res[3][1] || '';
+            // const shameStreak = parseInt(res[4][1] || '0');
 
-    const loadUsername = async () => {
-        try {
-            const storedUsername = await AsyncStorage.getItem('username');
-            if (storedUsername !== null) {
-                setUsername(storedUsername);
-            }
-        } catch (e) {
-            console.error(e);
-        }
-    }
+            setUsername(nickname);
+            setNumStreak(parseInt(res[1][1] ?? '0'));
+            setXp(xp);
+            setNumFriend(friends.length);
+            setInvitationCode(inviteCode);
+            // setNumStreak(shameStreak);
+        });
+    }, []);
 
     return (
         <ThemedView style={styles.profileView}>
