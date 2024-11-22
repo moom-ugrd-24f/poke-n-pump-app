@@ -11,6 +11,7 @@ import { Pressable } from 'react-native';
 import { router } from 'expo-router';
 import { getPokeeList } from '@/hooks/useAPI';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import usePushNotifications from '@/hooks/usePushNotifications';
 
 export default function PokeList() {
     const colorScheme = useColorScheme();
@@ -22,11 +23,19 @@ export default function PokeList() {
     const [receiverName, setReceiverName] = useState('');
     const [enableShamePost, setEnableShamePost] = useState(false);
 
-    const [ pokees, setPokees ] = useState([]);  
-    const [ shamePokees, setShamePokees ] = useState([]);  
+    interface Pokee {
+        id: string;
+        nickname: string;
+        expoPushToken: string;
+    }
+
+    const [ pokees, setPokees ] = useState<Pokee[]>([]);  
+    const [ shamePokees, setShamePokees ] = useState<string[]>([]);  
+
+    const { sendNotification } = usePushNotifications();
 
     useEffect(() => {
-        AsyncStorage.getItem("nickname").then((userId) => {
+        AsyncStorage.getItem("id").then((userId) => {
             if (userId) {
                 getPokeeList(userId).then((res) => {
                     setPokees(res.data.pokeList);
@@ -59,6 +68,7 @@ export default function PokeList() {
                         darkBorderColor={themeColor.mainLight}
                         onPress={() => {
                             setShowPokeModal(false);
+                            sendNotification(receiverId, { title: 'PokeNPump', body: `You've been poked by ${receiverName}!` });
                         }}
                     />
                     <ThemedButton
@@ -69,6 +79,7 @@ export default function PokeList() {
                         darkBorderColor={themeColor.mainLight}
                         onPress={() => {
                             setShowPokeModal(false);
+                            sendNotification(receiverId, { title: 'PokeNPump', body: `Join ${receiverName} in a workout!` });
                         }}
                     />
                     <ThemedButton
@@ -79,6 +90,7 @@ export default function PokeList() {
                         darkBorderColor={themeColor.mainLight}
                         onPress={() => {
                             setShowPokeModal(false);
+                            sendNotification(receiverId, { title: 'PokeNPump', body: `${receiverName} : go hit the gym you fat looser!` });
                         }}
                     />
                     { enableShamePost ?
@@ -88,18 +100,7 @@ export default function PokeList() {
                             router.navigate('/(shamePost)');
                             setShowPokeModal(false);
                         }}
-                        /> :
-                        <ThemedButton
-                        title="Shame Post"
-                        lightTextColor={themeColor.gray}
-                        darkTextColor={themeColor.gray}
-                        lightColor={themeColor.grayLight}
-                        darkColor={themeColor.grayLight}
-                        onPress={() => {
-                            router.navigate('/(shamePost)');
-                            setShowPokeModal(false);
-                        }}
-                        /> 
+                        /> : null
                     }
                     
                 </ThemedView>
@@ -111,35 +112,21 @@ export default function PokeList() {
                         key={index}
                         onPress={() => {
                             setShowPokeModal(true);
-                            setReceiverId(pokee.receiverId);
-                            setReceiverName(pokee.name);
-                            setEnableShamePost(shamePokees.includes(pokee.name));
+                            setReceiverId(pokee.expoPushToken);
+                            setReceiverName(pokee.nickname);
+                            setEnableShamePost(shamePokees.includes(pokee.nickname));
                         }}
                     >
-                        { shamePokees.includes(pokee.name) ?
                         <ThemedView
                             key={index}
                             style={styles.pokeeContainer}
-                            lightColor={themeColor.subLight}
-                            darkColor={themeColor.subLight}
-                            lightBorderColor={themeColor.subDark}
-                            darkBorderColor={themeColor.subDark}
+                            lightColor={shamePokees.includes(pokee.nickname) ? themeColor.subLight : themeColor.mainLight}
+                            darkColor={shamePokees.includes(pokee.nickname) ? themeColor.subLight : themeColor.mainLight}
+                            lightBorderColor={shamePokees.includes(pokee.nickname) ? themeColor.subDark : themeColor.mainDark}
+                            darkBorderColor={shamePokees.includes(pokee.nickname) ? themeColor.subDark : themeColor.mainDark}
                         >
-                            <ThemedText type='default' lightColor={themeColor.reverse} darkColor={themeColor.reverse}>{pokee.name}</ThemedText>
+                            <ThemedText type='default' lightColor={themeColor.reverse} darkColor={themeColor.reverse}>{pokee.nickname}</ThemedText>
                         </ThemedView>
-                        :
-                        <ThemedView
-                            key={index}
-                            style={styles.pokeeContainer}
-                            lightColor={themeColor.mainLight}
-                            darkColor={themeColor.mainLight}
-                            lightBorderColor={themeColor.mainDark}
-                            darkBorderColor={themeColor.mainDark}
-                        >
-                            <ThemedText type='default' lightColor={themeColor.reverse} darkColor={themeColor.reverse}>{pokee.name}</ThemedText>
-                        </ThemedView>
-                        }
-                        
                     </Pressable>
                 )) }
             </ThemedScrollView>
