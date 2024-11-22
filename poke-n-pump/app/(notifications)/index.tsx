@@ -1,6 +1,6 @@
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
-import { Image, StyleSheet } from "react-native";
+import { Image, RefreshControl, StyleSheet } from "react-native";
 import notification from '@/assets/images/notification.png';
 import { Ionicons } from "@expo/vector-icons";
 import { useColorScheme } from '@/hooks/useColorScheme';
@@ -10,62 +10,20 @@ import { useEffect, useState } from "react";
 import { acceptFriendRequest, getReceivedRequests } from "@/hooks/useAPI";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import usePushNotifications from "@/hooks/usePushNotifications";
+import { ThemedScrollView } from "@/components/ThemedScrollView";
 
 export default function NotificationsScreen() {
     const colorScheme = useColorScheme();
 
     const themeColor = Colors[colorScheme ?? 'light'];
 
-    const notifications = [
-        {
-            user: 'Paul',
-            message: 'poked you ;)',
-            type: 'poke'
-        },
-        {
-            user: 'Paul',
-            message: 'poked you to Join',
-            type: 'join'
-        },
-        {
-            user: 'Paul',
-            message: 'shame posted you',
-            type: 'shame'
-        },
-        {
-            user: 'Paul',
-            message: 'looks down on ya',
-            type: 'poke'
-        },
-        {
-            user: 'Paul',
-            message: 'poked you ;)',
-            type: 'poke'
-        },
-        {
-            user: 'Paul',
-            message: 'shame posted you',
-            type: 'shame'
-        },
-    ]
-
-    const determineColor = (type: String) => {
-        switch (type) {
-            case 'poke':
-                return themeColor.default;
-            case 'join':
-                return themeColor.subLight;
-            case 'shame':
-                return themeColor.mainLight;
-            default:
-                return themeColor.default;
-        }
-    }
+    const [refreshing, setRefreshing] = useState(false);
 
     const [receivedRequests, setReceivedRequests] = useState<any[]>([]);
     const { expoPushToken, sendNotification } = usePushNotifications();
+    const [ notifications, setNotifications ] = useState<any[]>([]);
 
-    useEffect(() => {
+    const fetchNotifications = async () => {
         AsyncStorage.getItem('id').then((userId) => {
             if (userId) {
                 getReceivedRequests(userId).then((res) => {
@@ -77,6 +35,15 @@ export default function NotificationsScreen() {
                 });
             }
         });
+        AsyncStorage.getItem('notifications').then((notifications) => {
+            if (notifications) {
+                setNotifications(JSON.parse(notifications));
+            }
+        });
+    };
+
+    useEffect(() => {
+        fetchNotifications();
     }, []);
 
     const handleAccept = (requestId: string, nickname: string) => {
@@ -88,25 +55,37 @@ export default function NotificationsScreen() {
         });
     }
 
+    const onRefresh = async () => {
+        setRefreshing(true);
+        await fetchNotifications();
+        setRefreshing(false);
+    };
+
     return (
         <ThemedView style={styles.notificationsView}>
             <ThemedView style={styles.backNavigation} onPress={() => router.back()}>
                 <Ionicons name="arrow-back" size={75} color={themeColor.main} />
                 <Image source={notification} style={styles.backImage} />
             </ThemedView>
-            <ThemedView style={styles.notificationsContainer}>
+            <ThemedScrollView 
+            showsVerticalScrollIndicator={false} 
+            refreshControl={ <RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={themeColor.default}/> }
+            >
+                {receivedRequests.length === 0 && notifications.length === 0 && (
+                    <ThemedText lightColor={themeColor.default} darkColor={themeColor.default}>No notifications</ThemedText>
+                )}
                 {receivedRequests.map((request, index) => (
                     <ThemedView 
                     key={index} 
-                    lightColor={determineColor(notification.type)}
-                    darkColor={determineColor(notification.type)}
+                    lightColor={themeColor.default}
+                    darkColor={themeColor.default}
                     style={styles.notification}>
                         <ThemedText style={{textAlign: 'left'}} lightColor={themeColor.reverse} darkColor={themeColor.reverse}>
-                            {request.senderNickname} sent you a friend requesttt
+                            {request.senderNickname} sent you a friend request
                         </ThemedText>
                         <ThemedView 
-                        lightColor={determineColor(notification.type)}
-                        darkColor={determineColor(notification.type)}
+                        lightColor={themeColor.default}
+                        darkColor={themeColor.default}
                         style={styles.friendRequestButtons}>
                             <ThemedText 
                             type='default' 
@@ -122,16 +101,16 @@ export default function NotificationsScreen() {
                 {notifications.map((notification, index) => (
                     <ThemedView 
                     key={index} 
-                    lightColor={determineColor(notification.type)}
-                    darkColor={determineColor(notification.type)}
+                    lightColor={themeColor.default}
+                    darkColor={themeColor.default}
                     style={styles.notification}
                     >
                         <ThemedText style={{textAlign: 'left'}} lightColor={themeColor.reverse} darkColor={themeColor.reverse}>
-                            {notification.user} {notification.message}
+                            {notification}
                         </ThemedText>
                     </ThemedView>
                 ))}
-            </ThemedView>
+            </ThemedScrollView>
         </ThemedView>
     );
 }
@@ -155,17 +134,11 @@ const styles = StyleSheet.create({
         aspectRatio: 272 / 130,
         resizeMode: 'contain',
     },
-    notificationsContainer: {
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 20,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
     notification: {
         width: 300,
         padding: 10,
         borderRadius: 10,
+        margin: 5,
     },
     friendRequestButtons: {
         display: 'flex',
