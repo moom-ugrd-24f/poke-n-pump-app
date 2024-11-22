@@ -47,6 +47,7 @@ export default function PokeList() {
     }
 
     const getPokeeList = async () => {
+        console.log("Updating pokee list");
         const userId = getUserId();
         const getPokeeListUrl = USER_URL + '/' + userId + '/poke-list';
         fetch(getPokeeListUrl, { method: 'GET' })
@@ -74,6 +75,11 @@ export default function PokeList() {
         });
     }
 
+    const onPokeButtonPress = async (pokeType: string) => {
+        sendPoke(pokeType).then(() => getPokeeList());
+        setShowPokeModal(false);
+    }
+
     return (
         <ThemedView style={styles.pokeListView}>
             <Modal
@@ -96,8 +102,7 @@ export default function PokeList() {
                         lightBorderColor={themeColor.mainLight}
                         darkBorderColor={themeColor.mainLight}
                         onPress={() => {
-                            sendPoke("Just Poke");
-                            setShowPokeModal(false);
+                            onPokeButtonPress("Just Poke");
                         }}
                     />
                     <ThemedButton
@@ -107,8 +112,7 @@ export default function PokeList() {
                         lightBorderColor={themeColor.mainLight}
                         darkBorderColor={themeColor.mainLight}
                         onPress={() => {
-                            sendPoke("Join Me!");
-                            setShowPokeModal(false);
+                            onPokeButtonPress("Join Me!");
                         }}
                     />
                     <ThemedButton
@@ -118,8 +122,7 @@ export default function PokeList() {
                         lightBorderColor={themeColor.mainLight}
                         darkBorderColor={themeColor.mainLight}
                         onPress={() => {
-                            sendPoke("Trash Talk");
-                            setShowPokeModal(false);
+                            onPokeButtonPress("Trash Talk");
                         }}
                     />
                     { enableShamePost ?
