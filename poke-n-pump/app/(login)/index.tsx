@@ -32,12 +32,12 @@ export default function LoginScreen() {
       const shameToggle = res[2][1];
       const shameStreak = res[3][1];
       const workoutPlan = { "daysOfWeek": [ 1, 3, 5 ]}
-      
+
       const data = {
         nickname,
         shamePostSettings: {
           isEnabled: shameToggle === 'true',
-          noGymStreakLimit: shameStreak
+          noGymStreak: shameStreak
         },
         workoutPlan,
         expoPushToken: notificationToken

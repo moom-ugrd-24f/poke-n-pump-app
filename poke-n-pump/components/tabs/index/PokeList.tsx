@@ -7,14 +7,22 @@ import { ThemedButton } from '@/components/ThemedButton';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { Colors } from '@/constants/Colors';
 import { useEffect, useState } from 'react';
-import { Pressable } from 'react-native';
+import { Pressable, RefreshControl } from 'react-native';
 import { router } from 'expo-router';
 import { getPokeeList } from '@/hooks/useAPI';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import usePushNotifications from '@/hooks/usePushNotifications';
 
+interface Pokee {
+    id: string;
+    nickname: string;
+    expoPushToken: string;
+}
+
 export default function PokeList() {
     const colorScheme = useColorScheme();
+
+    const { sendNotification } = usePushNotifications();
 
     const themeColor = Colors[colorScheme ?? 'light'];
 
@@ -23,26 +31,28 @@ export default function PokeList() {
     const [receiverName, setReceiverName] = useState('');
     const [enableShamePost, setEnableShamePost] = useState(false);
 
-    interface Pokee {
-        id: string;
-        nickname: string;
-        expoPushToken: string;
-    }
-
     const [ pokees, setPokees ] = useState<Pokee[]>([]);  
     const [ shamePokees, setShamePokees ] = useState<string[]>([]);  
 
-    const { sendNotification } = usePushNotifications();
+    const [refreshing, setRefreshing] = useState(false);
+
+    const fetchPokees = async () => {
+        const userId = await AsyncStorage.getItem("id");
+        if (userId) {
+            const res = await getPokeeList(userId);
+            setPokees(res.data.pokeList);
+            setShamePokees(res.data.shamePostUsers);
+        }
+    };
+
+    const onRefresh = async () => {
+        setRefreshing(true);
+        await fetchPokees();
+        setRefreshing(false);
+    };
 
     useEffect(() => {
-        AsyncStorage.getItem("id").then((userId) => {
-            if (userId) {
-                getPokeeList(userId).then((res) => {
-                    setPokees(res.data.pokeList);
-                    setShamePokees(res.data.shamePostUsers);
-                });
-            }
-        });
+        fetchPokees();
     }, []);
 
     return (
@@ -106,7 +116,11 @@ export default function PokeList() {
                 </ThemedView>
             </Modal>
             <Image source={poke} style={styles.image} />
-            <ThemedScrollView style={styles.pokeesContainer} showsVerticalScrollIndicator={false}>
+            <ThemedScrollView 
+            style={styles.pokeesContainer} 
+            showsVerticalScrollIndicator={false} 
+            refreshControl={ <RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={themeColor.default}/> }
+            >
                 { !pokees ? null : pokees.map((pokee, index) => (
                     <Pressable 
                         key={index}
