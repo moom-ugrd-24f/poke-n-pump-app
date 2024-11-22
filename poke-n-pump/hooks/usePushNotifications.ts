@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import * as Device from 'expo-device';
 import * as Notifications from 'expo-notifications';
 import { Platform } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -89,6 +90,10 @@ export default function usePushNotifications() {
     // Add notification listeners
     const notificationListener = Notifications.addNotificationReceivedListener(notification => {
       setNotification(notification);
+
+      AsyncStorage.getItem('notifications').then((notifications) => {
+        AsyncStorage.setItem('notifications', JSON.stringify([...JSON.parse(notifications || '[]'), notification.request.content.body]));
+      });
     });
 
     const responseListener = Notifications.addNotificationResponseReceivedListener(response => {
