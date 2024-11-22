@@ -26,7 +26,7 @@ export default function PokeList() {
         { name: 'Charmander', receiverId: '1' },
         { name: 'Bulbasaur', receiverId: '2' },
         { name: 'Squirtle', receiverId: '3' },
-        { name: 'Jigglypuff', receiverId: '4' },,
+        { name: 'Jigglypuff', receiverId: '4' },
         { name: 'Meowth', receiverId: '5' },
         { name: 'Psyduck', receiverId: '6' },
         { name: 'Snorlax', receiverId: '7' },
