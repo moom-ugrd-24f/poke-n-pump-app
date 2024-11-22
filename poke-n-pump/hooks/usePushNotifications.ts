@@ -123,8 +123,6 @@ export default function usePushNotifications() {
 
     try {
       await sendPushNotification(pokeeExpoPushToken, data);
-      // const notifications = await AsyncStorage.getItem('notifications');
-      // await AsyncStorage.setItem('notifications', JSON.stringify([...JSON.parse(notifications || '[]'), data.body]));
       console.log('Notification sent successfully');
     } catch (error) {
       console.error('Error sending notification:', error);
