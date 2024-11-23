@@ -18,6 +18,9 @@ export const Colors = {
     subDark: '#FF5BD7',
     gray: '#42403F',
     grayLight: '#9E9C9A',
+    alert: '#FF0000',
+    alertLight: '#FF5050',
+    white: '#FFFFFF',
   },
   dark: {
     default: '#000',
@@ -33,5 +36,8 @@ export const Colors = {
     subDark: '#FF5BD7',
     gray: '#42403F',
     grayLight: '#9E9C9A',
+    alert: '#FF0000',
+    alertLight: '#FF5050',
+    white: '#FFFFFF',
   }
 };
