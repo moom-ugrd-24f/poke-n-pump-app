@@ -9,13 +9,15 @@ import { Colors } from "@/constants/Colors";
 import * as Sharing from 'expo-sharing';
 import { Asset } from 'expo-asset';
 import Toast from 'react-native-root-toast';
+import { updateXp } from "@/hooks/useAsyncStorage";
 
 export default function ShamePostScreen() {
     const colorScheme = useColorScheme();
 
     const themeColor = Colors[colorScheme ?? 'light'];
 
-    const postToast = () => {
+    const shamePostXpUpdate = () => {
+        updateXp(50);
         let toast = Toast.show('You earned 50XP by shaming your friend :)', {
             duration: Toast.durations.SHORT,
             position: Toast.positions.CENTER,
@@ -26,7 +28,7 @@ export default function ShamePostScreen() {
     }
 
     const openInstagramStoryWithImage = async () => {
-        postToast();
+        shamePostXpUpdate();
         try {
             const asset = Asset.fromModule(require('@/assets/images/shamePostInsta.png'));
             await asset.downloadAsync();

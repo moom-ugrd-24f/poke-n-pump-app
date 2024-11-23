@@ -13,6 +13,7 @@ import { getPokeeList } from '@/hooks/useAPI';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import usePushNotifications from '@/hooks/usePushNotifications';
 import Toast from 'react-native-root-toast';
+import { updateXp } from '@/hooks/useAsyncStorage';
 
 interface Pokee {
     id: string;
@@ -80,7 +81,8 @@ export default function PokeList() {
         setRefreshing(false);
     };
 
-    const pokeToast = () => {
+    const pokeXpUpdate = () => {
+        updateXp(10);
         Toast.show('Earned 10XP by poking a lazy gym buddy!', {
             duration: Toast.durations.SHORT,
             position: Toast.positions.CENTER,
@@ -114,7 +116,7 @@ export default function PokeList() {
                         onPress={() => {
                             setShowPokeModal(false);
                             sendNotification(receiverId, { title: 'PokeNPump', body: `You've been poked by ${receiverName}!` });
-                            pokeToast();
+                            pokeXpUpdate();
                         }}
                     />
                     <ThemedButton
@@ -126,7 +128,7 @@ export default function PokeList() {
                         onPress={() => {
                             setShowPokeModal(false);
                             sendNotification(receiverId, { title: 'PokeNPump', body: `Join ${receiverName} in a workout!` });
-                            pokeToast();
+                            pokeXpUpdate();
                         }}
                     />
                     <ThemedButton
@@ -138,7 +140,7 @@ export default function PokeList() {
                         onPress={() => {
                             setShowPokeModal(false);
                             sendNotification(receiverId, { title: 'PokeNPump', body: `${receiverName} : go hit the gym you fat looser!` });
-                            pokeToast();
+                            pokeXpUpdate();
                         }}
                     />
                     { enableShamePost ?

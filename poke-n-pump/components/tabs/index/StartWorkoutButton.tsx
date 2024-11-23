@@ -6,6 +6,7 @@ import { useState, useEffect } from 'react';
 import { completeWorkout } from '@/hooks/useAPI';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast from 'react-native-root-toast';
+import { updateXp } from '@/hooks/useAsyncStorage';
 
 export default function StartWorkoutButton() {
     const colorScheme = useColorScheme();
@@ -30,6 +31,7 @@ export default function StartWorkoutButton() {
             shadow: true,
             animation: true,
         });
+        updateXp(10);
     }
 
     return (
