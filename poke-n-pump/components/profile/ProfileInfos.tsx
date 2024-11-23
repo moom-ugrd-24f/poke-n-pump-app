@@ -25,7 +25,7 @@ export default function ProfileInfos() {
             // const shameStreak = parseInt(res[4][1] || '0');
 
             setUsername(nickname);
-            setNumStreak(parseInt(res[1][1] ?? '0'));
+            // setNumStreak(parseInt(res[1][1] ?? '0'));
             setXp(xp);
             setNumFriend(friends.length);
             setInvitationCode(inviteCode);
