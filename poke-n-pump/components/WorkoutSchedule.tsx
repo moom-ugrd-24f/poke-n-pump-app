@@ -119,7 +119,6 @@ const styles = StyleSheet.create({
 });
 
 const storeWorkoutSchedule = async (workoutSchedule: Array<IWorkoutSession>) => {
-
     const schedule = {
         "mon": workoutSchedule[0].workoutSession,
         "tue": workoutSchedule[1].workoutSession,
