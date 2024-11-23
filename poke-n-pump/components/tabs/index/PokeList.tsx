@@ -12,6 +12,7 @@ import { router } from 'expo-router';
 import { getPokeeList } from '@/hooks/useAPI';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import usePushNotifications from '@/hooks/usePushNotifications';
+import Toast from 'react-native-root-toast';
 
 interface Pokee {
     id: string;
@@ -79,6 +80,16 @@ export default function PokeList() {
         setRefreshing(false);
     };
 
+    const pokeToast = () => {
+        Toast.show('Earned 10XP by poking a lazy gym buddy!', {
+            duration: Toast.durations.SHORT,
+            position: Toast.positions.CENTER,
+            shadow: true,
+            animation: true,
+            hideOnPress: true,
+        });
+    };
+
     return (
         <ThemedView style={styles.pokeListView}>
             <Modal
@@ -103,6 +114,7 @@ export default function PokeList() {
                         onPress={() => {
                             setShowPokeModal(false);
                             sendNotification(receiverId, { title: 'PokeNPump', body: `You've been poked by ${receiverName}!` });
+                            pokeToast();
                         }}
                     />
                     <ThemedButton
@@ -114,6 +126,7 @@ export default function PokeList() {
                         onPress={() => {
                             setShowPokeModal(false);
                             sendNotification(receiverId, { title: 'PokeNPump', body: `Join ${receiverName} in a workout!` });
+                            pokeToast();
                         }}
                     />
                     <ThemedButton
@@ -125,6 +138,7 @@ export default function PokeList() {
                         onPress={() => {
                             setShowPokeModal(false);
                             sendNotification(receiverId, { title: 'PokeNPump', body: `${receiverName} : go hit the gym you fat looser!` });
+                            pokeToast();
                         }}
                     />
                     { enableShamePost ?
