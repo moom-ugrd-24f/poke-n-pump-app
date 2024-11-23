@@ -32,15 +32,32 @@ export default function PokeList() {
     const [receiverId, setReceiverId] = useState('');
     const [receiverName, setReceiverName] = useState('');
     const [enableShamePost, setEnableShamePost] = useState(false);
-
-    const [ pokees, setPokees ] = useState<Pokee[]>([]);
-
+    const [pokees, setPokees] = useState<Pokee[]>([]);
     const [refreshing, setRefreshing] = useState(false);
+    const [myself, setMyself] = useState<Pokee>();
+
+    useEffect(() => {
+        AsyncStorage.multiGet(['id', 'nickname', 'expoPushToken']).then((res) => {
+            const id = res[0][1] || '';
+            const nickname = res[1][1] || '';
+            const expoPushToken = res[2][1] || '';
+      
+            const myself = {
+                id: id,
+                nickname: nickname,
+                expoPushToken: expoPushToken,
+                isFriend: true,
+                isShamePostCandidate: false
+            };
+            setMyself(myself);
+        });
+    });
 
     const fetchPokees = async () => {
         const userId = await AsyncStorage.getItem("id");
         if (userId) {
             const res = await getPokeeList(userId);
+            console.log(res.data.unshift(myself));
             setPokees(res.data);
         }
     };
