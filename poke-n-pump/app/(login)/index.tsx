@@ -60,6 +60,7 @@ export default function LoginScreen() {
           ["friends", JSON.stringify(res.data.friends)],
           ["id", res.data._id],
           ["visibility", res.data.visibility],
+          ["expoPushToken", notificationToken],
         ]);
       });
     });
