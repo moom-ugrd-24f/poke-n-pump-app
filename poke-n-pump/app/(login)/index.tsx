@@ -30,19 +30,20 @@ export default function LoginScreen() {
     router.replace('/(tabs)')
 
     AsyncStorage.multiGet(['username', 'workout-schedule', 'shame-toggle', 'shame-streak', 'visibility']).then((res) => {
-      const nickname = res[0][1] || '';
-      const shameToggle = res[2][1];
-      const shameStreak = res[3][1];
+      const nickname = res[0][1] || 'John Doe';
+      const shameToggle = res[2][1] || 'false';
+      const shameStreak = res[3][1] || '1';
       const workoutPlan = { "daysOfWeek": [ 1, 3, 5 ]};
-      const visibility = res[4][1];
+      const visibility = res[4][1] || 'friend';
+      console.log(nickname, shameToggle, shameStreak, workoutPlan, visibility);
 
       const data = {
-        nickname,
+        nickname: nickname,
         shamePostSettings: {
           isEnabled: shameToggle === 'true',
           noGymStreak: shameStreak
         },
-        workoutPlan,
+        workoutPlan: workoutPlan,
         expoPushToken: notificationToken,
         visibility: visibility
       };
