@@ -50,14 +50,17 @@ export default function PokeList() {
                 isShamePostCandidate: false
             };
             setMyself(myself);
+            fetchPokees();
         });
-    });
+    }, []);
 
     const fetchPokees = async () => {
         const userId = await AsyncStorage.getItem("id");
         if (userId) {
             const res = await getPokeeList(userId);
-            console.log(res.data.unshift(myself));
+            if (myself !== undefined) {
+                console.log(res.data.unshift(myself));
+            }
             setPokees(res.data);
         }
     };
@@ -67,10 +70,6 @@ export default function PokeList() {
         await fetchPokees();
         setRefreshing(false);
     };
-
-    useEffect(() => {
-        fetchPokees();
-    }, []);
 
     return (
         <ThemedView style={styles.pokeListView}>
