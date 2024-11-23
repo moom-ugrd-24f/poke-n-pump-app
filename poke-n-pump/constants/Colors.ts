@@ -23,8 +23,8 @@ export const Colors = {
     white: '#FFFFFF',
   },
   dark: {
-    default: '#000',
-    reverse: '#fff',
+    default: '#fff',
+    reverse: '#000',
     background: '#003030',
     backgroundLight: '#004D4D',
     icon: '#FFE33D',
