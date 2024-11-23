@@ -6,11 +6,13 @@ interface UserData {
     shamePostSettings: Object;
     workoutPlan: Object;
     expoPushToken: string;
+    visibility: string;
 }
 
 export const addUser = (data: UserData) => {
     const formData = new FormData();
     formData.append('nickname', data.nickname);
+    formData.append('visibility', data.visibility);
     formData.append('shamePostSettings', JSON.stringify(data.shamePostSettings));
     formData.append('workoutPlan', JSON.stringify(data.workoutPlan));
     formData.append('expoPushToken', data.expoPushToken);
@@ -34,7 +36,9 @@ export const checkUsername = (username: string) => {
 
 export const getPokeeList = (userId: string) => {
     const getPokeeListUrl = USER_URL + '/' + userId + '/poke-list';
+    console.log(getPokeeListUrl);
     return axios.get(getPokeeListUrl).then((res) => {
+        console.log(res);
         return res;
     }).catch((error) => {
         return { data: 'Error while fetching pokees', status: 400 };
