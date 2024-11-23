@@ -41,6 +41,10 @@ export default function PokeList() {
             const id = res[0][1] || '';
             const nickname = res[1][1] || '';
             const expoPushToken = res[2][1] || '';
+
+            if (!id || !nickname || !expoPushToken) {
+                return;
+            }
       
             const myself = {
                 id: id,
@@ -54,11 +58,15 @@ export default function PokeList() {
         });
     }, []);
 
+    useEffect(() => {
+        fetchPokees();
+    }, []);
+
     const fetchPokees = async () => {
         const userId = await AsyncStorage.getItem("id");
         if (userId) {
             const res = await getPokeeList(userId);
-            if (myself !== undefined) {
+            if (myself !== undefined && myself.id !== '') {
                 console.log(res.data.unshift(myself));
             }
             setPokees(res.data);
