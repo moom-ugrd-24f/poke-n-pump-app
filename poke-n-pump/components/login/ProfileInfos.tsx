@@ -10,6 +10,7 @@ import { useColorScheme } from '@/hooks/useColorScheme';
 import { checkUsername } from '@/hooks/useAPI';
 import { ThemedTextInput } from '@/components/ThemedTextInput';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Toast from 'react-native-root-toast';
 
 export default function ProfileInfos({ enableCompleteButton }) {
 
@@ -41,6 +42,13 @@ export default function ProfileInfos({ enableCompleteButton }) {
     const onCheckButtonPressed = async () => {
         enableCompleteButton(true);
         saveUsername();
+        let toast = Toast.show('Username is available', {
+            duration: Toast.durations.SHORT,
+            position: Toast.positions.CENTER,
+            hideOnPress: true,
+            shadow: true,
+            animation: true,
+        });
         return;
 
         // API call to check if username is already taken
