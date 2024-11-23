@@ -17,10 +17,11 @@ export const addUser = (data: UserData) => {
     formData.append('workoutPlan', JSON.stringify(data.workoutPlan));
     formData.append('expoPushToken', data.expoPushToken);
 
-    console.log('Adding user: ' + formData);
+    console.log('Adding user: ' + JSON.stringify(formData));
+
 
     return axios.post(USER_URL, formData, {headers: { 'Content-Type': 'multipart/form-data' },}).then((res) => {
-        console.log('User created: ' + res.data);
+        console.log('User created: ' + JSON.stringify(res.data));
         return res;
     }).catch((error) => {
         return { data: 'Error while adding user', status: 400 };

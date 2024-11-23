@@ -35,7 +35,7 @@ export default function LoginScreen() {
       const shameStreak = res[3][1] || '1';
       const workoutPlan = { "daysOfWeek": [ 1, 3, 5 ]};
       const visibility = res[4][1] || 'friend';
-      console.log(nickname, shameToggle, shameStreak, workoutPlan, visibility);
+      // console.log(nickname, shameToggle, shameStreak, workoutPlan, visibility);
 
       const data = {
         nickname: nickname,
