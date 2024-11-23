@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { FRIEND_REQUEST_URL, USER_URL } from '@/constants/url';
+import { FRIEND_REQUEST_URL, USER_URL, CHECK_USERNAME_URL } from '@/constants/url';
 
 interface UserData {
     nickname: string;
@@ -19,6 +19,16 @@ export const addUser = (data: UserData) => {
         return res;
     }).catch((error) => {
         return { data: 'Error while adding user', status: 400 };
+    });
+}
+
+export const checkUsername = (username: string) => {
+    const checkUsernameUrl = CHECK_USERNAME_URL + '/' + username;
+    console.log(checkUsernameUrl);
+    return axios.get(checkUsernameUrl).then((res) => {
+        return res;
+    }).catch((error) => {
+        return { data: 'Error while checking username: ' + error, status: 400 };
     });
 }
 
