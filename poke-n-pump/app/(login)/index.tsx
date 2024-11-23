@@ -29,11 +29,12 @@ export default function LoginScreen() {
   function finishOnboarding() {
     router.replace('/(tabs)')
 
-    AsyncStorage.multiGet(['username', 'workout-schedule', 'shame-toggle', 'shame-streak']).then((res) => {
+    AsyncStorage.multiGet(['username', 'workout-schedule', 'shame-toggle', 'shame-streak', 'visibility']).then((res) => {
       const nickname = res[0][1] || '';
       const shameToggle = res[2][1];
       const shameStreak = res[3][1];
-      const workoutPlan = { "daysOfWeek": [ 1, 3, 5 ]}
+      const workoutPlan = { "daysOfWeek": [ 1, 3, 5 ]};
+      const visibility = res[4][1];
 
       const data = {
         nickname,
@@ -42,7 +43,8 @@ export default function LoginScreen() {
           noGymStreak: shameStreak
         },
         workoutPlan,
-        expoPushToken: notificationToken
+        expoPushToken: notificationToken,
+        visibility: visibility
       };
 
       addUser(data).then((res) => {
@@ -57,6 +59,7 @@ export default function LoginScreen() {
           ["noGymStreak", JSON.stringify(res.data.noGymStreak)],
           ["friends", JSON.stringify(res.data.friends)],
           ["id", res.data._id],
+          ["visibility", res.data.visibility],
         ]);
       });
     });
