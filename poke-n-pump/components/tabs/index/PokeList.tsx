@@ -161,7 +161,7 @@ export default function PokeList() {
             showsVerticalScrollIndicator={false} 
             refreshControl={ <RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={themeColor.default}/> }
             >
-                { !pokees ? null : pokees.map((pokee, index) => (
+                { (pokees === undefined || pokees === null) ? null : pokees.map((pokee, index) => (
                     <Pressable 
                         key={index}
                         onPress={() => {
