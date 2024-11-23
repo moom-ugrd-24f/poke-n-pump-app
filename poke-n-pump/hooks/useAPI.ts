@@ -17,7 +17,10 @@ export const addUser = (data: UserData) => {
     formData.append('workoutPlan', JSON.stringify(data.workoutPlan));
     formData.append('expoPushToken', data.expoPushToken);
 
+    console.log('Adding user: ' + formData);
+
     return axios.post(USER_URL, formData, {headers: { 'Content-Type': 'multipart/form-data' },}).then((res) => {
+        console.log('User created: ' + res.data);
         return res;
     }).catch((error) => {
         return { data: 'Error while adding user', status: 400 };
@@ -36,7 +39,7 @@ export const checkUsername = (username: string) => {
 
 export const getPokeeList = (userId: string) => {
     const getPokeeListUrl = USER_URL + '/' + userId + '/poke-list';
-    console.log(getPokeeListUrl);
+    // console.log(getPokeeListUrl);
     return axios.get(getPokeeListUrl).then((res) => {
         console.log(res);
         return res;
@@ -69,5 +72,14 @@ export const acceptFriendRequest = (requestId: string) => {
         return res;
     }).catch((error) => {
         return { data: 'Error while accepting friend request', status: 400 };
+    });
+}
+
+export const completeWorkout = (userId: string) => {
+    const completeWorkoutUrl = USER_URL + '/' + userId + '/complete-workout';
+    return axios.post(completeWorkoutUrl).then((res) => {
+        return res;
+    }).catch((error) => {
+        return { data: 'Error while completing workout', status: 400 };
     });
 }
