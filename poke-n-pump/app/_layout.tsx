@@ -5,10 +5,12 @@ import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect, useState } from 'react';
 import 'react-native-reanimated';
+import { RootSiblingParent } from 'react-native-root-siblings';
 
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { setStatusBarStyle } from 'expo-status-bar';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Root from './+html';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -58,6 +60,7 @@ export default function RootLayout() {
 
     // Render appropriate stack based on `isFirstTimeLoad`
     return (
+        <RootSiblingParent>
         <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
             <Stack
                 initialRouteName={isFirstTimeLoad ? '(login)/index' : '(tabs)'}
@@ -73,5 +76,6 @@ export default function RootLayout() {
                 <Stack.Screen name="(notifications)/index" />
             </Stack>
         </ThemeProvider>
+        </RootSiblingParent>
     );
 }
