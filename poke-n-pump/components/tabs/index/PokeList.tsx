@@ -12,6 +12,7 @@ import { router } from 'expo-router';
 import { getPokeeList } from '@/hooks/useAPI';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import usePushNotifications from '@/hooks/usePushNotifications';
+import Toast from 'react-native-root-toast';
 
 interface Pokee {
     id: string;
@@ -41,6 +42,10 @@ export default function PokeList() {
             const id = res[0][1] || '';
             const nickname = res[1][1] || '';
             const expoPushToken = res[2][1] || '';
+
+            if (!id || !nickname || !expoPushToken) {
+                return;
+            }
       
             const myself = {
                 id: id,
@@ -54,11 +59,15 @@ export default function PokeList() {
         });
     }, []);
 
+    useEffect(() => {
+        fetchPokees();
+    }, []);
+
     const fetchPokees = async () => {
         const userId = await AsyncStorage.getItem("id");
         if (userId) {
             const res = await getPokeeList(userId);
-            if (myself !== undefined) {
+            if (myself !== undefined && myself.id !== '') {
                 console.log(res.data.unshift(myself));
             }
             setPokees(res.data);
@@ -69,6 +78,16 @@ export default function PokeList() {
         setRefreshing(true);
         await fetchPokees();
         setRefreshing(false);
+    };
+
+    const pokeToast = () => {
+        Toast.show('Earned 10XP by poking a lazy gym buddy!', {
+            duration: Toast.durations.SHORT,
+            position: Toast.positions.CENTER,
+            shadow: true,
+            animation: true,
+            hideOnPress: true,
+        });
     };
 
     return (
@@ -95,6 +114,7 @@ export default function PokeList() {
                         onPress={() => {
                             setShowPokeModal(false);
                             sendNotification(receiverId, { title: 'PokeNPump', body: `You've been poked by ${receiverName}!` });
+                            pokeToast();
                         }}
                     />
                     <ThemedButton
@@ -106,6 +126,7 @@ export default function PokeList() {
                         onPress={() => {
                             setShowPokeModal(false);
                             sendNotification(receiverId, { title: 'PokeNPump', body: `Join ${receiverName} in a workout!` });
+                            pokeToast();
                         }}
                     />
                     <ThemedButton
@@ -117,6 +138,7 @@ export default function PokeList() {
                         onPress={() => {
                             setShowPokeModal(false);
                             sendNotification(receiverId, { title: 'PokeNPump', body: `${receiverName} : go hit the gym you fat looser!` });
+                            pokeToast();
                         }}
                     />
                     { enableShamePost ?
