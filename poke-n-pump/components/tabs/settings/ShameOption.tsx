@@ -42,5 +42,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-between',
         gap: 20,
+        marginBottom: 150,
     },
 });

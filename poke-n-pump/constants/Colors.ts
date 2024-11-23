@@ -18,10 +18,13 @@ export const Colors = {
     subDark: '#FF5BD7',
     gray: '#42403F',
     grayLight: '#9E9C9A',
+    alert: '#FF0000',
+    alertLight: '#FF5050',
+    white: '#FFFFFF',
   },
   dark: {
-    default: '#000',
-    reverse: '#fff',
+    default: '#fff',
+    reverse: '#000',
     background: '#003030',
     backgroundLight: '#004D4D',
     icon: '#FFE33D',
@@ -33,5 +36,8 @@ export const Colors = {
     subDark: '#FF5BD7',
     gray: '#42403F',
     grayLight: '#9E9C9A',
+    alert: '#FF0000',
+    alertLight: '#FF5050',
+    white: '#FFFFFF',
   }
 };

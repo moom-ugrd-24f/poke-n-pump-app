@@ -21,26 +21,31 @@ enum LOGIN_STAGE {
 export default function LoginScreen() {
   const [stage, setStage] = useState<LOGIN_STAGE>(LOGIN_STAGE.PROFILE);
 
-  const [ isLoading, setIsLoading ] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const [enableCompleteButton, setEnableCompleteButton] = useState(true);
   const notificationToken = usePushNotifications().expoPushToken;
 
   function finishOnboarding() {
     router.replace('/(tabs)')
 
-    AsyncStorage.multiGet(['username', 'workout-schedule', 'shame-toggle', 'shame-streak']).then((res) => {
-      const nickname = res[0][1] || '';
-      const shameToggle = res[2][1];
-      const shameStreak = res[3][1];
-      const workoutPlan = { "daysOfWeek": [ 1, 3, 5 ]}
+    AsyncStorage.multiGet(['username', 'workout-schedule', 'shame-toggle', 'shame-streak', 'visibility']).then((res) => {
+      const nickname = res[0][1] || 'John Doe';
+      const shameToggle = res[2][1] || 'false';
+      const shameStreak = res[3][1] || '1';
+      const workoutPlan = { "daysOfWeek": [ 1, 3, 5 ]};
+      const visibility = res[4][1] || 'friend';
+      console.log(nickname, shameToggle, shameStreak, workoutPlan, visibility);
 
       const data = {
-        nickname,
+        nickname: nickname,
         shamePostSettings: {
           isEnabled: shameToggle === 'true',
           noGymStreak: shameStreak
         },
-        workoutPlan,
-        expoPushToken: notificationToken
+        workoutPlan: workoutPlan,
+        expoPushToken: notificationToken,
+        visibility: visibility
       };
 
       addUser(data).then((res) => {
@@ -55,6 +60,8 @@ export default function LoginScreen() {
           ["noGymStreak", JSON.stringify(res.data.noGymStreak)],
           ["friends", JSON.stringify(res.data.friends)],
           ["id", res.data._id],
+          ["visibility", res.data.visibility],
+          ["expoPushToken", notificationToken],
         ]);
       });
     });
@@ -78,14 +85,15 @@ export default function LoginScreen() {
     <ThemedView style={styles.container}  >
       {
         stage === LOGIN_STAGE.PROFILE ? 
-        <ProfileInfos /> : 
+        <ProfileInfos enableCompleteButton={setEnableCompleteButton}/> : 
         stage === LOGIN_STAGE.VISIBILITY ? 
         <VisibilityOption /> : 
         stage === LOGIN_STAGE.WORKOUT ? 
         <WorkoutInfos /> : <ShameOption />
       }
       <ThemedButton 
-        title="Complete" 
+        title="Complete"
+        disabled={!enableCompleteButton}
         onPress={() => {
           stage === LOGIN_STAGE.PROFILE ? setStage(LOGIN_STAGE.VISIBILITY) :
           stage === LOGIN_STAGE.VISIBILITY ? setStage(LOGIN_STAGE.WORKOUT) :

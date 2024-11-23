@@ -17,6 +17,8 @@ interface Pokee {
     id: string;
     nickname: string;
     expoPushToken: string;
+    isFriend: boolean;
+    isShamePostCandidate: boolean;
 }
 
 export default function PokeList() {
@@ -30,18 +32,36 @@ export default function PokeList() {
     const [receiverId, setReceiverId] = useState('');
     const [receiverName, setReceiverName] = useState('');
     const [enableShamePost, setEnableShamePost] = useState(false);
-
-    const [ pokees, setPokees ] = useState<Pokee[]>([]);  
-    const [ shamePokees, setShamePokees ] = useState<string[]>([]);  
-
+    const [pokees, setPokees] = useState<Pokee[]>([]);
     const [refreshing, setRefreshing] = useState(false);
+    const [myself, setMyself] = useState<Pokee>();
+
+    useEffect(() => {
+        AsyncStorage.multiGet(['id', 'nickname', 'expoPushToken']).then((res) => {
+            const id = res[0][1] || '';
+            const nickname = res[1][1] || '';
+            const expoPushToken = res[2][1] || '';
+      
+            const myself = {
+                id: id,
+                nickname: nickname,
+                expoPushToken: expoPushToken,
+                isFriend: true,
+                isShamePostCandidate: false
+            };
+            setMyself(myself);
+            fetchPokees();
+        });
+    }, []);
 
     const fetchPokees = async () => {
         const userId = await AsyncStorage.getItem("id");
         if (userId) {
             const res = await getPokeeList(userId);
-            setPokees(res.data.pokeList);
-            setShamePokees(res.data.shamePostUsers);
+            if (myself !== undefined) {
+                console.log(res.data.unshift(myself));
+            }
+            setPokees(res.data);
         }
     };
 
@@ -50,10 +70,6 @@ export default function PokeList() {
         await fetchPokees();
         setRefreshing(false);
     };
-
-    useEffect(() => {
-        fetchPokees();
-    }, []);
 
     return (
         <ThemedView style={styles.pokeListView}>
@@ -128,16 +144,16 @@ export default function PokeList() {
                             setShowPokeModal(true);
                             setReceiverId(pokee.expoPushToken);
                             setReceiverName(pokee.nickname);
-                            setEnableShamePost(shamePokees.includes(pokee.nickname));
+                            setEnableShamePost(pokee.isShamePostCandidate);
                         }}
                     >
                         <ThemedView
                             key={index}
                             style={styles.pokeeContainer}
-                            lightColor={shamePokees.includes(pokee.nickname) ? themeColor.subLight : themeColor.mainLight}
-                            darkColor={shamePokees.includes(pokee.nickname) ? themeColor.subLight : themeColor.mainLight}
-                            lightBorderColor={shamePokees.includes(pokee.nickname) ? themeColor.subDark : themeColor.mainDark}
-                            darkBorderColor={shamePokees.includes(pokee.nickname) ? themeColor.subDark : themeColor.mainDark}
+                            lightColor={pokee.isShamePostCandidate ? themeColor.subLight : themeColor.mainLight}
+                            darkColor={pokee.isShamePostCandidate ? themeColor.subLight : themeColor.mainLight}
+                            lightBorderColor={pokee.isShamePostCandidate ? themeColor.subDark : themeColor.mainDark}
+                            darkBorderColor={pokee.isShamePostCandidate ? themeColor.subDark : themeColor.mainDark}
                         >
                             <ThemedText type='default' lightColor={themeColor.reverse} darkColor={themeColor.reverse}>{pokee.nickname}</ThemedText>
                         </ThemedView>

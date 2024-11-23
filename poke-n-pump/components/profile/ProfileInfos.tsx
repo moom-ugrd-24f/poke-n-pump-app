@@ -58,7 +58,7 @@ export default function ProfileInfos() {
             </ThemedView>
         </ThemedView>
     );
-} 
+}
 
 const styles = StyleSheet.create({
     profileView: {

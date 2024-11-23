@@ -21,16 +21,16 @@ export default function VisibilityToggle() {
     const loadVisibility = async () => {
         try {
             const visibilityString = await AsyncStorage.getItem('visibility');
-            const visibility = visibilityString !== null ? JSON.parse(visibilityString) : false;
-            setIsPrivate(visibility);
+            const visibility = visibilityString !== null ? visibilityString : 'friend';
+            setIsPrivate(visibility === 'friend');
         } catch (e) {
             console.error(e);
         }
     }
 
-    const storeVisibility = async (value: boolean) => {
+    const storeVisibility = async (visibility: string) => {
         try {
-            await AsyncStorage.setItem('visibility', JSON.stringify(value));
+            await AsyncStorage.setItem('visibility', visibility);
         } catch (e) {
             console.error(e);
         }
@@ -46,7 +46,7 @@ export default function VisibilityToggle() {
             darkBorderColor={isPrivate ? themeColor.main : themeColor.default}
             onPress={() => {
                 setIsPrivate(true);
-                storeVisibility(true);
+                storeVisibility('friend');
             }}>
                 <Ionicons name="person" size={24} color={themeColor.reverse} />
                 <ThemedText lightColor={themeColor.reverse} darkColor={themeColor.reverse}>Friends</ThemedText>
@@ -59,7 +59,7 @@ export default function VisibilityToggle() {
             darkBorderColor={!isPrivate ? themeColor.main : themeColor.default}
             onPress={() => {
                 setIsPrivate(false);
-                storeVisibility(false);
+                storeVisibility('global');
             }}>
                 <Ionicons name="earth" size={24} color={themeColor.reverse} />
                 <ThemedText lightColor={themeColor.reverse} darkColor={themeColor.reverse}>Anyone</ThemedText>
