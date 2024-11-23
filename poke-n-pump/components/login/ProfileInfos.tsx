@@ -1,24 +1,29 @@
 import { Ionicons } from '@expo/vector-icons';
 import { StyleSheet, Image } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ThemedView } from '@/components/ThemedView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedButton } from '@/components/ThemedButton';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
+import { checkUsername } from '@/hooks/useAPI';
 import { ThemedTextInput } from '@/components/ThemedTextInput';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default function ProfileInfos() {
+export default function ProfileInfos({ enableCompleteButton }) {
+
     const colorScheme = useColorScheme();
     const [image, setImage] = useState<string | null>(null);
     const [username, setUsername] = useState('');	
 
     const themeColor = Colors[colorScheme ?? 'light'];
 
+    useEffect(() => {
+        enableCompleteButton(false)
+    }, []);
+
     const pickImage = async () => {
-        AsyncStorage.clear();
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.All,
             allowsEditing: true,
@@ -32,6 +37,24 @@ export default function ProfileInfos() {
             setImage(result.assets[0].uri);
         }
     };
+
+    const onCheckButtonPressed = async () => {
+        // API call to check if username is already taken
+        const res = await checkUsername(username);
+        if (res.status === 400) {
+            console.log(res.data);
+            // Show server error toast
+            return;
+        }
+        if (res.data.exists === false) {
+            console.log('Username is available');
+            enableCompleteButton(true);
+            saveUsername();
+        } else {
+            console.log('Username is taken');
+            // Show duplicate alert toast
+        }
+    }
 
     const saveUsername = async () => {
         console.log("Username : " + username);
@@ -84,9 +107,7 @@ export default function ProfileInfos() {
                     <ThemedButton 
                         title="Check"
                         style={styles.checkButton}
-                        onPress={() => {
-                            saveUsername();
-                        }} 
+                        onPress={onCheckButtonPressed} 
                     />
                 </ThemedView>
             </ThemedView> 

@@ -21,7 +21,9 @@ enum LOGIN_STAGE {
 export default function LoginScreen() {
   const [stage, setStage] = useState<LOGIN_STAGE>(LOGIN_STAGE.PROFILE);
 
-  const [ isLoading, setIsLoading ] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const [enableCompleteButton, setEnableCompleteButton] = useState(true);
   const notificationToken = usePushNotifications().expoPushToken;
 
   function finishOnboarding() {
@@ -78,14 +80,15 @@ export default function LoginScreen() {
     <ThemedView style={styles.container}  >
       {
         stage === LOGIN_STAGE.PROFILE ? 
-        <ProfileInfos /> : 
+        <ProfileInfos enableCompleteButton={setEnableCompleteButton}/> : 
         stage === LOGIN_STAGE.VISIBILITY ? 
         <VisibilityOption /> : 
         stage === LOGIN_STAGE.WORKOUT ? 
         <WorkoutInfos /> : <ShameOption />
       }
       <ThemedButton 
-        title="Complete" 
+        title="Complete"
+        disabled={!enableCompleteButton}
         onPress={() => {
           stage === LOGIN_STAGE.PROFILE ? setStage(LOGIN_STAGE.VISIBILITY) :
           stage === LOGIN_STAGE.VISIBILITY ? setStage(LOGIN_STAGE.WORKOUT) :
