@@ -1,6 +1,6 @@
-// export const BASE_URL = 'http://43.203.52.26:3000';
+export const BASE_URL = 'http://43.203.52.26:2999';
 // export const BASE_URL = 'http://localhost:3000';
-export const BASE_URL = 'http://172.30.1.98:3000';
+// export const BASE_URL = 'http://172.30.1.98:3000';
 
 export const API_BASE_URL = BASE_URL + '/api';
 
