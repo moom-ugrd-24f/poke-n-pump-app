@@ -12,6 +12,9 @@ import { setStatusBarStyle } from 'expo-status-bar';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Root from './+html';
 
+import React from "react";
+import firebaseApp from "../constants/firebaseConfig"; // Firebase 초기화 가져오기
+
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
@@ -23,6 +26,9 @@ export default function RootLayout() {
 
     const [isLoading, setIsLoading] = useState(true);
     const [isFirstTimeLoad, setIsFirstTimeLoad] = useState(false);
+    useEffect(() => {
+        console.log("Firebase Initialized:", firebaseApp.name);
+    }, []);
 
     // Hide splash screen once fonts are loaded
     useEffect(() => {
