@@ -1,6 +1,6 @@
-import { ThemedText } from "@/components/ThemedText";
-import { ThemedView } from "@/components/ThemedView";
-import { Image, RefreshControl, StyleSheet } from "react-native";
+import { ThemedText } from "@/components/themedComponents/ThemedText";
+import { ThemedView } from "@/components/themedComponents/ThemedView";
+import { ActivityIndicator, Image, RefreshControl, StyleSheet } from "react-native";
 import notification from '@/assets/images/notification.png';
 import { Ionicons } from "@expo/vector-icons";
 import { useColorScheme } from '@/hooks/useColorScheme';
@@ -10,7 +10,7 @@ import { useEffect, useState } from "react";
 import { acceptFriendRequest, getReceivedRequests } from "@/hooks/useAPI";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import usePushNotifications from "@/hooks/usePushNotifications";
-import { ThemedScrollView } from "@/components/ThemedScrollView";
+import { ThemedScrollView } from "@/components/themedComponents/ThemedScrollView";
 
 export default function NotificationsScreen() {
     const colorScheme = useColorScheme();
@@ -22,6 +22,7 @@ export default function NotificationsScreen() {
     const [receivedRequests, setReceivedRequests] = useState<any[]>([]);
     const { expoPushToken, sendNotification } = usePushNotifications();
     const [ notifications, setNotifications ] = useState<any[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
 
     const fetchNotifications = async () => {
         AsyncStorage.getItem('id').then((userId) => {
@@ -29,6 +30,7 @@ export default function NotificationsScreen() {
                 getReceivedRequests(userId).then((res) => {
                     if (Array.isArray(res.data)) {
                         setReceivedRequests(res.data.filter((request) => request.status === 'pending'));
+                        setIsLoading(false);
                     } else {
                         console.error("Unexpected data format:", res.data);
                     }
@@ -67,7 +69,7 @@ export default function NotificationsScreen() {
                 <Ionicons name="arrow-back" size={75} color={themeColor.main} />
                 <Image source={notification} style={styles.backImage} />
             </ThemedView>
-            <ThemedScrollView 
+            { isLoading ? <ActivityIndicator color={themeColor.default} style={{ height: "70%" }} /> : <ThemedScrollView 
             showsVerticalScrollIndicator={false} 
             refreshControl={ <RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={themeColor.default}/> }
             >
@@ -110,7 +112,7 @@ export default function NotificationsScreen() {
                         </ThemedText>
                     </ThemedView>
                 ))}
-            </ThemedScrollView>
+            </ThemedScrollView> }
         </ThemedView>
     );
 }

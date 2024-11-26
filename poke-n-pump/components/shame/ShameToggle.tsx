@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ThemedSwitch } from "./ThemedSwitch";
+import { ThemedSwitch } from "../themedComponents/ThemedSwitch";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function ShameToggle() {

@@ -1,4 +1,4 @@
-import { ThemedView } from "@/components/ThemedView";
+import { ThemedView } from "@/components/themedComponents/ThemedView";
 import { Colors } from "@/constants/Colors";
 import { Ionicons } from "@expo/vector-icons";
 import { Image, StyleSheet } from "react-native";

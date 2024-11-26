@@ -2,13 +2,13 @@ import { Ionicons } from '@expo/vector-icons';
 import { StyleSheet, Image } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { useEffect, useState } from 'react';
-import { ThemedView } from '@/components/ThemedView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedButton } from '@/components/ThemedButton';
+import { ThemedView } from '@/components/themedComponents/ThemedView';
+import { ThemedText } from '@/components/themedComponents/ThemedText';
+import { ThemedButton } from '@/components/themedComponents/ThemedButton';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { checkUsername } from '@/hooks/useAPI';
-import { ThemedTextInput } from '@/components/ThemedTextInput';
+import { ThemedTextInput } from '@/components/themedComponents/ThemedTextInput';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast from 'react-native-root-toast';
 

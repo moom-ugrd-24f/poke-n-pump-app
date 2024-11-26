@@ -1,13 +1,13 @@
-import { ThemedButton } from '@/components/ThemedButton';
+import { ThemedButton } from '@/components/themedComponents/ThemedButton';
 import { StyleSheet } from 'react-native';
 import VisibilityOption from '@/components/tabs/settings/VisibilityOption';
-import WorkoutSchedule from '@/components/WorkoutSchedule';
+import WorkoutSchedule from '@/components/tabs/settings/WorkoutSchedule';
 import ShameOption from '@/components/tabs/settings/ShameOption';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { router } from 'expo-router';
-import { ThemedView } from '@/components/ThemedView';
+import { ThemedView } from '@/components/themedComponents/ThemedView';
 
 export default function SettingsScreen() {
   const colorScheme = useColorScheme();

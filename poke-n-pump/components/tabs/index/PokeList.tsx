@@ -1,9 +1,9 @@
 import { View, StyleSheet, Image, Modal, TouchableWithoutFeedback, ActivityIndicator } from 'react-native';
 import poke from '@/assets/images/poke.png';
-import { ThemedView } from '@/components/ThemedView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedScrollView } from '@/components/ThemedScrollView';
-import { ThemedButton } from '@/components/ThemedButton';
+import { ThemedView } from '@/components/themedComponents/ThemedView';
+import { ThemedText } from '@/components/themedComponents/ThemedText';
+import { ThemedScrollView } from '@/components/themedComponents/ThemedScrollView';
+import { ThemedButton } from '@/components/themedComponents/ThemedButton';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { Colors } from '@/constants/Colors';
 import { useEffect, useState } from 'react';
