@@ -1,5 +1,4 @@
 import { View, StyleSheet, Image, Modal, TouchableWithoutFeedback, ActivityIndicator } from 'react-native';
-import poke from '@/assets/images/poke.png';
 import { ThemedView } from '@/components/themedComponents/ThemedView';
 import { ThemedText } from '@/components/themedComponents/ThemedText';
 import { ThemedScrollView } from '@/components/themedComponents/ThemedScrollView';
@@ -34,6 +33,7 @@ export default function PokeList() {
     const [receiverName, setReceiverName] = useState('');
     const [enableShamePost, setEnableShamePost] = useState(false);
     const [pokees, setPokees] = useState<Pokee[]>([]);
+    const [friends, setFriends] = useState<Pokee[]>([]);
     const [refreshing, setRefreshing] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
     const [myself, setMyself] = useState<Pokee>();
@@ -66,6 +66,8 @@ export default function PokeList() {
     const fetchPokees = async () => {
         if (myself !== undefined && myself.id !== '') {
             const res = await getPokeeList(myself.id);
+            setPokees(res.data.filter((pokee: Pokee) => !pokee.isFriend));
+            setFriends(res.data.filter((pokee: Pokee) => pokee.isFriend));
             // res.data.sort((a: Pokee, b: Pokee) => {
             //     if (a.id === myself.id) {
             //         return -1;
@@ -75,7 +77,7 @@ export default function PokeList() {
             //         return 0;
             //     }
             // });
-            setPokees(res.data);
+            // setPokees(res.data);
             setIsLoading(false);
         }
     };
@@ -160,13 +162,37 @@ export default function PokeList() {
                     
                 </ThemedView>
             </Modal>
-            <Image source={poke} style={styles.image} />
             { isLoading ? <ActivityIndicator color={themeColor.default} style={{ height: "70%" }} /> : <ThemedScrollView 
             style={styles.pokeesContainer} 
             showsVerticalScrollIndicator={false} 
             refreshControl={ <RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={themeColor.default}/> }
             >
-                { (pokees === undefined || pokees === null) ? null : pokees.map((pokee, index) => (
+                <ThemedText type="subtitle">Friends</ThemedText>
+                { (!friends.length) ? <ThemedText type='default'>No friends to poke :/</ThemedText> : friends.map((friend, index) => (
+                    <Pressable 
+                        key={index}
+                        onPress={() => {
+                            if (!myself) return;
+                            setShowPokeModal(true);
+                            setReceiverId(friend.expoPushToken);
+                            setReceiverName(myself.nickname);
+                            setEnableShamePost(friend.isShamePostCandidate);
+                        }}
+                    >
+                        <ThemedView
+                            key={index}
+                            style={styles.pokeeContainer}
+                            lightColor={friend.isShamePostCandidate ? themeColor.subLight : themeColor.mainLight}
+                            darkColor={friend.isShamePostCandidate ? themeColor.subLight : themeColor.mainLight}
+                            lightBorderColor={friend.isShamePostCandidate ? themeColor.subDark : themeColor.mainDark}
+                            darkBorderColor={friend.isShamePostCandidate ? themeColor.subDark : themeColor.mainDark}
+                        >
+                            <ThemedText type='default' lightColor={themeColor.reverse} darkColor={themeColor.reverse}>{friend.nickname}</ThemedText>
+                        </ThemedView>
+                    </Pressable>
+                )) }
+                <ThemedText type='subtitle'>Pokees</ThemedText>
+                { (!pokees) ? <ThemedText type='default'>No pokees available :/</ThemedText> : pokees.map((pokee, index) => (
                     <Pressable 
                         key={index}
                         onPress={() => {
@@ -209,10 +235,6 @@ const styles = StyleSheet.create({
         padding: 10,
         borderWidth: 5,
         borderRadius: 10,
-    },
-    image: {
-        height: 50,
-        resizeMode: 'contain',
     },
     pokeModal: {
         position: 'absolute',
