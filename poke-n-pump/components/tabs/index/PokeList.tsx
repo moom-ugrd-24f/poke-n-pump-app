@@ -56,21 +56,25 @@ export default function PokeList() {
                 isShamePostCandidate: false
             };
             setMyself(myself);
-            fetchPokees();
         });
     }, []);
 
     useEffect(() => {
         fetchPokees();
-    }, []);
+    }, [myself]);
 
     const fetchPokees = async () => {
-        const userId = await AsyncStorage.getItem("id");
-        if (userId) {
-            const res = await getPokeeList(userId);
-            if (myself !== undefined && myself.id !== '') {
-                console.log(res.data.unshift(myself));
-            }
+        if (myself !== undefined && myself.id !== '') {
+            const res = await getPokeeList(myself.id);
+            // res.data.sort((a: Pokee, b: Pokee) => {
+            //     if (a.id === myself.id) {
+            //         return -1;
+            //     } else if (b.id === myself.id) {
+            //         return 1;
+            //     } else {
+            //         return 0;
+            //     }
+            // });
             setPokees(res.data);
         }
     };
