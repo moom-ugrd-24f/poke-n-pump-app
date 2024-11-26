@@ -66,15 +66,15 @@ export default function PokeList() {
     const fetchPokees = async () => {
         if (myself !== undefined && myself.id !== '') {
             const res = await getPokeeList(myself.id);
-            // res.data.sort((a: Pokee, b: Pokee) => {
-            //     if (a.id === myself.id) {
-            //         return -1;
-            //     } else if (b.id === myself.id) {
-            //         return 1;
-            //     } else {
-            //         return 0;
-            //     }
-            // });
+            res.data.sort((a: Pokee, b: Pokee) => {
+                if (a.id === myself.id) {
+                    return -1;
+                } else if (b.id === myself.id) {
+                    return 1;
+                } else {
+                    return 0;
+                }
+            });
             setPokees(res.data);
         }
     };

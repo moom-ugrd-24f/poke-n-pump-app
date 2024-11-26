@@ -9,13 +9,13 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { store } from 'expo-router/build/global-state/router-store';
 
 interface IWorkoutSchedule {
+    sun: boolean;
     mon: boolean;
     tue: boolean;
     wed: boolean;
     thu: boolean;
     fri: boolean;
     sat: boolean;
-    sun: boolean;
 }
 
 interface IWorkoutSession {
@@ -28,13 +28,13 @@ export default function WorkoutSchedule() {
     const colorScheme = useColorScheme();
     const themeColor = Colors[colorScheme ?? 'light'];
     const emptySchedule = {
+        "sun": false,
         "mon": false,
         "tue": false,
         "wed": false,
         "thu": false,
         "fri": false,
         "sat": false,
-        "sun": false
     };
 
     const [workoutSchedule, setWorkoutSchedule] = useState([
@@ -57,7 +57,7 @@ export default function WorkoutSchedule() {
             const schedule = scheduleString !== null ? JSON.parse(scheduleString) : emptySchedule;
             setWorkoutSchedule(
                 [
-                    { day: 'S', workoutSession: schedule.mon, color: 'red' },
+                    { day: 'S', workoutSession: emptySchedule.mon, color: 'red' },
                     { day: 'M', workoutSession: schedule.tue },
                     { day: 'T', workoutSession: schedule.wed },
                     { day: 'W', workoutSession: schedule.thu },
@@ -71,13 +71,13 @@ export default function WorkoutSchedule() {
         }
     }
 
-    const toggleWorkoutSession = (index: number) => {
+    const toggleWorkoutSession = async (index: number) => {
         setWorkoutSchedule((prevSchedule) =>
             prevSchedule.map((session, i) =>
                 i === index ? { ...session, workoutSession: !session.workoutSession } : session
             )
         );
-        storeWorkoutSchedule(workoutSchedule);
+        await storeWorkoutSchedule(workoutSchedule);
     };
 
     return (
@@ -120,13 +120,13 @@ const styles = StyleSheet.create({
 
 const storeWorkoutSchedule = async (workoutSchedule: Array<IWorkoutSession>) => {
     const schedule = {
-        "mon": workoutSchedule[0].workoutSession,
-        "tue": workoutSchedule[1].workoutSession,
-        "wed": workoutSchedule[2].workoutSession,
-        "thu": workoutSchedule[3].workoutSession,
-        "fri": workoutSchedule[4].workoutSession,
-        "sat": workoutSchedule[5].workoutSession,
-        "sun": workoutSchedule[6].workoutSession
+        "sun": workoutSchedule[0].workoutSession,
+        "mon": workoutSchedule[1].workoutSession,
+        "tue": workoutSchedule[2].workoutSession,
+        "wed": workoutSchedule[3].workoutSession,
+        "thu": workoutSchedule[4].workoutSession,
+        "fri": workoutSchedule[5].workoutSession,
+        "sat": workoutSchedule[6].workoutSession,
     }
     try {
         const value = JSON.stringify(schedule);
