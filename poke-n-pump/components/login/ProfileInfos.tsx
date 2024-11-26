@@ -12,8 +12,11 @@ import { ThemedTextInput } from '@/components/ThemedTextInput';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast from 'react-native-root-toast';
 
-export default function ProfileInfos({ enableCompleteButton }) {
+interface ProfileInfosProps {
+    enableCompleteButton: (enabled: boolean) => void;
+}
 
+export default function ProfileInfos({ enableCompleteButton }: ProfileInfosProps) {
     const colorScheme = useColorScheme();
     const [image, setImage] = useState<string | null>(null);
     const [username, setUsername] = useState('');	
@@ -31,8 +34,6 @@ export default function ProfileInfos({ enableCompleteButton }) {
             aspect: [4, 3],
             quality: 1,
         });
-
-        console.log(result);
 
         if (!result.canceled) {
             setImage(result.assets[0].uri);
