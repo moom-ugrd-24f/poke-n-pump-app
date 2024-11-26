@@ -37,11 +37,12 @@ export default function ShameOption() {
 
 const styles = StyleSheet.create({
     shameView: {
+        height: 20,
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'space-between',
-        gap: 20,
-        marginBottom: 150,
+        gap: 10,
+        marginBottom: 200,
     },
 });

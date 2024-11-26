@@ -110,7 +110,6 @@ export default function usePushNotifications() {
 
   // Function to send notifications
   const sendNotification = async (pokeeExpoPushToken: string, data: NotificationData) => {
-    console.log('Sending notification to:', pokeeExpoPushToken);
     if (!pokeeExpoPushToken) {
       alert('Push token not available. Make sure you are connected to the server.');
       return;
@@ -123,7 +122,6 @@ export default function usePushNotifications() {
 
     try {
       await sendPushNotification(pokeeExpoPushToken, data);
-      console.log('Notification sent successfully');
     } catch (error) {
       console.error('Error sending notification:', error);
       alert('Failed to send notification');
