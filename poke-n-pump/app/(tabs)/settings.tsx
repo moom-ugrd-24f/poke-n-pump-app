@@ -1,13 +1,13 @@
-import { ThemedScrollView } from '@/components/ThemedScrollView';
-import { ThemedButton } from '@/components/ThemedButton';
+import { ThemedButton } from '@/components/themedComponents/ThemedButton';
 import { StyleSheet } from 'react-native';
 import VisibilityOption from '@/components/tabs/settings/VisibilityOption';
-import WorkoutSchedule from '@/components/WorkoutSchedule';
+import WorkoutSchedule from '@/components/tabs/settings/WorkoutSchedule';
 import ShameOption from '@/components/tabs/settings/ShameOption';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { router } from 'expo-router';
+import { ThemedView } from '@/components/themedComponents/ThemedView';
 
 export default function SettingsScreen() {
   const colorScheme = useColorScheme();
@@ -19,37 +19,29 @@ export default function SettingsScreen() {
   }
 
   return (
-    <ThemedScrollView 
-      style={styles.settingsView}
-      showsVerticalScrollIndicator={false}
-    >
+    <ThemedView style={styles.settingsView} >
       <VisibilityOption />
       <WorkoutSchedule />
       <ShameOption />
       <ThemedButton 
-        title="Reset"
-        style={styles.resetButton}
-        lightColor={themeColor.alert}
-        darkColor={themeColor.alert}
-        lightBorderColor={themeColor.alert}
-        darkBorderColor={themeColor.alert}
-        lightTextColor={themeColor.white}
-        darkTextColor={themeColor.white}
-        onPress={reset} />
-    </ThemedScrollView>
+      title="Reset"
+      lightColor={themeColor.alert}
+      darkColor={themeColor.alert}
+      lightBorderColor={themeColor.alert}
+      darkBorderColor={themeColor.alert}
+      lightTextColor={themeColor.white}
+      darkTextColor={themeColor.white}
+      onPress={reset} />
+    </ThemedView>
   );
 }
 
 const styles = StyleSheet.create({
   settingsView: {
     flex: 1,
-    // alignItems: 'center',
-    // justifyContent: 'center',
-    gap: 50,
-    paddingBottom: 50,
-  },
-  resetButton: {
-    width: '80%',
-    alignSelf: 'center',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingTop: '15%',
+    paddingBottom: '5%',
   }
 });

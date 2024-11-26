@@ -1,7 +1,7 @@
 import { Image, StyleSheet } from "react-native";
 import avatar from '@/assets/images/avatar.jpeg';
-import { ThemedView } from "@/components/ThemedView"
-import { ThemedText } from "@/components/ThemedText";
+import { ThemedView } from "@/components/themedComponents/ThemedView"
+import { ThemedText } from "@/components/themedComponents/ThemedText";
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { Colors } from "@/constants/Colors";
 import { useEffect, useState } from "react";

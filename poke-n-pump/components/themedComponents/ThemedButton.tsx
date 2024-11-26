@@ -1,6 +1,6 @@
 import { Button, type ButtonProps } from 'react-native-elements';
 import { useThemeColor } from '@/hooks/useThemeColor';
-import { ThemedView } from '@/components/ThemedView';
+import { ThemedView } from '@/components/themedComponents/ThemedView';
 
 export type ThemedButtonProps = ButtonProps & {
   lightColor?: string;

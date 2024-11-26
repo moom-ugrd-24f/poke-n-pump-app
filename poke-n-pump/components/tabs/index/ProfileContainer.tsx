@@ -1,8 +1,8 @@
 import { StyleSheet, Image, Pressable } from 'react-native';
 import avatar from '@/assets/images/avatar.jpeg';
 import { Ionicons } from '@expo/vector-icons';
-import { ThemedView } from '@/components/ThemedView';
-import { ThemedText } from '@/components/ThemedText';
+import { ThemedView } from '@/components/themedComponents/ThemedView';
+import { ThemedText } from '@/components/themedComponents/ThemedText';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { router } from 'expo-router';

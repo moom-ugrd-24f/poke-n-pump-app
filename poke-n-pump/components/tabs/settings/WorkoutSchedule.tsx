@@ -1,8 +1,8 @@
 import { StyleSheet } from 'react-native';
-import { ThemedView } from './ThemedView';
+import { ThemedView } from '../../themedComponents/ThemedView';
 import { useEffect, useState } from 'react';
 import { Ionicons } from '@expo/vector-icons';
-import { ThemedText } from './ThemedText';
+import { ThemedText } from '../../themedComponents/ThemedText';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import AsyncStorage from '@react-native-async-storage/async-storage';

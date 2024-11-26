@@ -33,8 +33,10 @@ export default function RootLayout() {
 
     // Set status bar style based on the theme
     useEffect(() => {
-        setStatusBarStyle(colorScheme === 'light' ? 'dark' : 'light');
-    }, [colorScheme]);
+        setTimeout(() => {
+          setStatusBarStyle(colorScheme === 'light' ? 'light' : 'dark');
+        }, 0);
+    }, []);
 
     // Check AsyncStorage for the username
     useEffect(() => {
