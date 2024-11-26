@@ -1,4 +1,4 @@
-import { View, StyleSheet, Image, Modal, TouchableWithoutFeedback } from 'react-native';
+import { View, StyleSheet, Image, Modal, TouchableWithoutFeedback, ActivityIndicator } from 'react-native';
 import poke from '@/assets/images/poke.png';
 import { ThemedView } from '@/components/ThemedView';
 import { ThemedText } from '@/components/ThemedText';
@@ -25,10 +25,9 @@ interface Pokee {
 
 export default function PokeList() {
     const colorScheme = useColorScheme();
+    const themeColor = Colors[colorScheme ?? 'light'];
 
     const { sendNotification } = usePushNotifications();
-
-    const themeColor = Colors[colorScheme ?? 'light'];
 
     const [showPokeModal, setShowPokeModal] = useState(false);
     const [receiverId, setReceiverId] = useState('');
@@ -36,6 +35,7 @@ export default function PokeList() {
     const [enableShamePost, setEnableShamePost] = useState(false);
     const [pokees, setPokees] = useState<Pokee[]>([]);
     const [refreshing, setRefreshing] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     const [myself, setMyself] = useState<Pokee>();
 
     useEffect(() => {
@@ -76,6 +76,7 @@ export default function PokeList() {
             //     }
             // });
             setPokees(res.data);
+            setIsLoading(false);
         }
     };
 
@@ -160,7 +161,7 @@ export default function PokeList() {
                 </ThemedView>
             </Modal>
             <Image source={poke} style={styles.image} />
-            <ThemedScrollView 
+            { isLoading ? <ActivityIndicator color={themeColor.default} style={{ height: "70%" }} /> : <ThemedScrollView 
             style={styles.pokeesContainer} 
             showsVerticalScrollIndicator={false} 
             refreshControl={ <RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={themeColor.default}/> }
@@ -169,9 +170,10 @@ export default function PokeList() {
                     <Pressable 
                         key={index}
                         onPress={() => {
+                            if (!myself) return;
                             setShowPokeModal(true);
                             setReceiverId(pokee.expoPushToken);
-                            setReceiverName(pokee.nickname);
+                            setReceiverName(myself.nickname);
                             setEnableShamePost(pokee.isShamePostCandidate);
                         }}
                     >
@@ -187,7 +189,7 @@ export default function PokeList() {
                         </ThemedView>
                     </Pressable>
                 )) }
-            </ThemedScrollView>
+            </ThemedScrollView> }
         </ThemedView>
     );
 }
