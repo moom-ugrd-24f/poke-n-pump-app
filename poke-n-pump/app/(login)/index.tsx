@@ -27,15 +27,12 @@ export default function LoginScreen() {
   const notificationToken = usePushNotifications().expoPushToken;
 
   function finishOnboarding() {
-    router.replace('/(tabs)')
-
     AsyncStorage.multiGet(['username', 'workout-schedule', 'shame-toggle', 'shame-streak', 'visibility']).then((res) => {
       const nickname = res[0][1] || 'John Doe';
       const shameToggle = res[2][1] || 'false';
       const shameStreak = res[3][1] || '1';
       const workoutPlan = { "daysOfWeek": [ 1, 3, 5 ]};
       const visibility = res[4][1] || 'friend';
-      // console.log(nickname, shameToggle, shameStreak, workoutPlan, visibility);
 
       const data = {
         nickname: nickname,
@@ -63,6 +60,7 @@ export default function LoginScreen() {
           ["visibility", res.data.visibility],
           ["expoPushToken", notificationToken],
         ]);
+        router.replace('/(tabs)')
       });
     });
   }
