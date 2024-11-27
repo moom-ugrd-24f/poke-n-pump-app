@@ -8,7 +8,7 @@ import { Colors } from '@/constants/Colors';
 import { useEffect, useState } from 'react';
 import { Pressable, RefreshControl } from 'react-native';
 import { router } from 'expo-router';
-import { getPokeeList } from '@/hooks/useAPI';
+import { getPokeeList, sendPoke } from '@/hooks/useAPI';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import usePushNotifications from '@/hooks/usePushNotifications';
 import Toast from 'react-native-root-toast';
@@ -22,7 +22,7 @@ interface Pokee {
     isShamePostCandidate: boolean;
 }
 
-export default function PokeList() {
+export default function PokeList({didWorkout}) {
     const colorScheme = useColorScheme();
     const themeColor = Colors[colorScheme ?? 'light'];
 
@@ -30,14 +30,16 @@ export default function PokeList() {
 
     const [showPokeModal, setShowPokeModal] = useState(false);
     const [receiverId, setReceiverId] = useState('');
+    const [receiverToken, setReceiverToken] = useState('');
     const [receiverName, setReceiverName] = useState('');
     const [enableShamePost, setEnableShamePost] = useState(false);
     const [pokees, setPokees] = useState<Pokee[]>([]);
     const [friends, setFriends] = useState<Pokee[]>([]);
+    const [myselfPokee, setMyselfPokee] = useState(false);
     const [refreshing, setRefreshing] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
-    const [myself, setMyself] = useState<Pokee>();
-
+    const [myself, setMyself] = useState<Pokee>({id: '', nickname: '', expoPushToken: '', isFriend: true, isShamePostCandidate: false});
+    
     useEffect(() => {
         AsyncStorage.multiGet(['id', 'nickname', 'expoPushToken']).then((res) => {
             const id = res[0][1] || '';
@@ -63,27 +65,26 @@ export default function PokeList() {
         fetchPokees();
     }, [myself]);
 
+    useEffect(() => {
+        if (didWorkout) {
+            fetchPokees();
+        }
+    }, [didWorkout]);
+
     const fetchPokees = async () => {
         if (myself !== undefined && myself.id !== '') {
             const res = await getPokeeList(myself.id);
-            setPokees(res.data.filter((pokee: Pokee) => !pokee.isFriend));
-            setFriends(res.data.filter((pokee: Pokee) => pokee.isFriend));
-            // res.data.sort((a: Pokee, b: Pokee) => {
-            //     if (a.id === myself.id) {
-            //         return -1;
-            //     } else if (b.id === myself.id) {
-            //         return 1;
-            //     } else {
-            //         return 0;
-            //     }
-            // });
-            // setPokees(res.data);
+            console.log('Pokees:', res.data.map((pokee: Pokee) => pokee.nickname));
+            setMyselfPokee(res.data.some((pokee: Pokee) => pokee.id === myself.id));
+            setPokees(res.data.filter((pokee: Pokee) => !pokee.isFriend && pokee.id !== myself.id));
+            setFriends(res.data.filter((pokee: Pokee) => pokee.isFriend && pokee.id !== myself.id));
             setIsLoading(false);
         }
     };
 
     const onRefresh = async () => {
         setRefreshing(true);
+        console.log('Refreshing pokees');
         await fetchPokees();
         setRefreshing(false);
     };
@@ -121,9 +122,11 @@ export default function PokeList() {
                         lightBorderColor={themeColor.mainLight}
                         darkBorderColor={themeColor.mainLight}
                         onPress={() => {
+                            sendPoke(myself.id, receiverId, 'Just Poke');
                             setShowPokeModal(false);
-                            sendNotification(receiverId, { title: 'PokeNPump', body: `You've been poked by ${receiverName}!` });
+                            sendNotification(receiverToken, { title: 'PokeNPump', body: `You've been poked by ${myself.nickname}!` });
                             pokeXpUpdate();
+                            fetchPokees();
                         }}
                     />
                     <ThemedButton
@@ -133,9 +136,11 @@ export default function PokeList() {
                         lightBorderColor={themeColor.mainLight}
                         darkBorderColor={themeColor.mainLight}
                         onPress={() => {
+                            sendPoke(myself.id, receiverId, 'Join Me');
                             setShowPokeModal(false);
-                            sendNotification(receiverId, { title: 'PokeNPump', body: `Join ${receiverName} in a workout!` });
+                            sendNotification(receiverToken, { title: 'PokeNPump', body: `Join ${myself.nickname} in a workout!` });
                             pokeXpUpdate();
+                            fetchPokees();
                         }}
                     />
                     <ThemedButton
@@ -145,9 +150,11 @@ export default function PokeList() {
                         lightBorderColor={themeColor.mainLight}
                         darkBorderColor={themeColor.mainLight}
                         onPress={() => {
+                            sendPoke(myself.id, receiverId, 'Trash Talk');
                             setShowPokeModal(false);
-                            sendNotification(receiverId, { title: 'PokeNPump', body: `${receiverName} : go hit the gym you fat looser!` });
+                            sendNotification(receiverToken, { title: 'PokeNPump', body: `${receiverName} : go hit the gym you fat looser!` });
                             pokeXpUpdate();
+                            fetchPokees();
                         }}
                     />
                     { enableShamePost ?
@@ -162,11 +169,41 @@ export default function PokeList() {
                     
                 </ThemedView>
             </Modal>
-            { isLoading ? <ActivityIndicator color={themeColor.default} style={{ height: "70%" }} /> : <ThemedScrollView 
-            style={styles.pokeesContainer} 
-            showsVerticalScrollIndicator={false} 
-            refreshControl={ <RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={themeColor.default}/> }
+            { isLoading ? 
+            <ActivityIndicator color={themeColor.default} style={{ height: "70%" }} /> : 
+            <ThemedScrollView 
+                style={styles.pokeesContainer} 
+                showsVerticalScrollIndicator={false} 
+                refreshControl={ <RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={themeColor.default}/> }
             >
+                { didWorkout
+                ? <ThemedText style={styles.myselfPlaceholder} type="subtitle">You've worked out today!</ThemedText>
+                : !myselfPokee
+                    ? <ThemedText style={styles.myselfPlaceholder} type="subtitle">You've poked yourself today!</ThemedText>
+                    : <>
+                        <ThemedText type="subtitle">You!</ThemedText>
+                        <Pressable 
+                            onPress={() => {
+                                if (!myself) return;
+                                setShowPokeModal(true);
+                                setReceiverToken(myself.expoPushToken);
+                                setReceiverId(myself.id);
+                                setReceiverName(myself.nickname);
+                                setEnableShamePost(myself.isShamePostCandidate);
+                            }}
+                        >
+                            <ThemedView
+                                style={styles.pokeeContainer}
+                                lightColor={myself.isShamePostCandidate ? themeColor.subLight : themeColor.mainLight}
+                                darkColor={myself.isShamePostCandidate ? themeColor.subLight : themeColor.mainLight}
+                                lightBorderColor={myself.isShamePostCandidate ? themeColor.subDark : themeColor.mainDark}
+                                darkBorderColor={myself.isShamePostCandidate ? themeColor.subDark : themeColor.mainDark}
+                            >
+                                <ThemedText type='default' lightColor={themeColor.reverse} darkColor={themeColor.reverse}>{myself.nickname}</ThemedText>
+                            </ThemedView>
+                        </Pressable>
+                    </>
+                }
                 <ThemedText type="subtitle">Friends</ThemedText>
                 { (!friends.length) ? <ThemedText type='default'>No friends to poke :/</ThemedText> : friends.map((friend, index) => (
                     <Pressable 
@@ -174,8 +211,9 @@ export default function PokeList() {
                         onPress={() => {
                             if (!myself) return;
                             setShowPokeModal(true);
-                            setReceiverId(friend.expoPushToken);
-                            setReceiverName(myself.nickname);
+                            setReceiverToken(friend.expoPushToken);
+                            setReceiverId(friend.id);
+                            setReceiverName(friend.nickname);
                             setEnableShamePost(friend.isShamePostCandidate);
                         }}
                     >
@@ -198,13 +236,13 @@ export default function PokeList() {
                         onPress={() => {
                             if (!myself) return;
                             setShowPokeModal(true);
-                            setReceiverId(pokee.expoPushToken);
-                            setReceiverName(myself.nickname);
+                            setReceiverToken(pokee.expoPushToken);
+                            setReceiverId(pokee.id);
+                            setReceiverName(pokee.nickname);
                             setEnableShamePost(pokee.isShamePostCandidate);
                         }}
                     >
                         <ThemedView
-                            key={index}
                             style={styles.pokeeContainer}
                             lightColor={pokee.isShamePostCandidate ? themeColor.subLight : themeColor.mainLight}
                             darkColor={pokee.isShamePostCandidate ? themeColor.subLight : themeColor.mainLight}
@@ -258,5 +296,8 @@ const styles = StyleSheet.create({
         left: 0,
         right: 0,
         backgroundColor: 'rgba(0,0,0,0.5)'
+    },
+    myselfPlaceholder: {
+        marginBottom: 30,
     }
 });

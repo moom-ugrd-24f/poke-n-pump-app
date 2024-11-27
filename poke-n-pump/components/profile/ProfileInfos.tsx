@@ -14,7 +14,7 @@ export default function ProfileInfos() {
     const [username, setUsername] = useState('');
     const [numStreak, setNumStreak] = useState(0);
     const [xp, setXp] = useState(0);
-    const [numFriend, setNumFriend] = useState(0);
+    const [numFriend, setNumFriend] = useState(1);
     const [invitationCode, setInvitationCode] = useState('');
     const [profilePicture, setProfilePicture] = useState('');
 
@@ -53,7 +53,7 @@ export default function ProfileInfos() {
                 </ThemedView>
                 <ThemedView style={styles.separator} lightColor={themeColor.default} darkColor={themeColor.default} />
                 <ThemedView lightColor={themeColor.mainDark} darkColor={themeColor.mainDark} onPress={() => router.navigate('/(profile)/(friends)')}>
-                    <ThemedText type="defaultSemiBold" lightColor={themeColor.default}>{numFriend}</ThemedText>
+                    <ThemedText type="defaultSemiBold" lightColor={themeColor.default}>{numFriend - 1}</ThemedText>
                     <ThemedText type="default" lightColor={themeColor.default}>Friends</ThemedText>
                 </ThemedView>
             </ThemedView>
