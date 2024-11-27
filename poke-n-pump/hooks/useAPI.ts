@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { FRIEND_REQUEST_URL, USER_URL, CHECK_USERNAME_URL } from '@/constants/url';
+import { FRIEND_REQUEST_URL, USER_URL, CHECK_USERNAME_URL, POKE_URL } from '@/constants/url';
 
 interface UserData {
     nickname: string;
@@ -52,6 +52,15 @@ export const getPokeeList = (userId: string) => {
         return res;
     }).catch((error) => {
         return { data: 'Error while fetching pokees', status: 400 };
+    });
+}
+
+export const sendPoke = (senderId: string, receiverId: string, pokeType: string) => {
+    return axios.post(POKE_URL, { senderId: senderId, receiverId: receiverId, pokeType: pokeType }).then((res) => {
+        console.log(res);
+        return res;
+    }).catch((error) => {
+        return { data: 'Error while sending poke', status: 400 };
     });
 }
 
