@@ -82,6 +82,15 @@ export const acceptFriendRequest = (requestId: string) => {
     });
 }
 
+export const removeFriend = (userId: string, id: string) => {
+    const removeFriendUrl = USER_URL + '/' + userId + '/remove-friend';
+    return axios.post(removeFriendUrl, { friendId: id }).then((res) => {
+        return res;
+    }).catch((error) => {
+        return { data: 'Error while removing friend request', status: 400 };
+    });
+}
+
 export const completeWorkout = (userId: string) => {
     const completeWorkoutUrl = USER_URL + '/' + userId + '/complete-workout';
     return axios.post(completeWorkoutUrl).then((res) => {

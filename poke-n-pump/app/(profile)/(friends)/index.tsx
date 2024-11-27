@@ -7,7 +7,7 @@ import { Colors } from "@/constants/Colors";
 import { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ThemedText } from "@/components/themedComponents/ThemedText";
-import { getUserInfo } from "@/hooks/useAPI";
+import { getUserInfo, removeFriend } from "@/hooks/useAPI";
 import { ThemedScrollView } from "@/components/themedComponents/ThemedScrollView";
 
 export default function FriendsScreen() {
@@ -32,6 +32,13 @@ export default function FriendsScreen() {
         });
     };
 
+    const handleRemoveFriend = (id: string) => {
+        AsyncStorage.getItem('id').then((userId) => {
+            if (!userId) return;
+            removeFriend(userId, id).then((res) => setFriends(friends.filter((friend) => friend._id !== id)) );
+        });
+    }
+
     useEffect(() => {
         fetchFriends();
     }, []);
@@ -52,7 +59,7 @@ export default function FriendsScreen() {
                 <ThemedScrollView
                 showsVerticalScrollIndicator={false} 
                 refreshControl={ <RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={themeColor.default}/> }>
-                { friends.map((friend, index) => (
+                { friends.length ? friends.map((friend, index) => (
                     <ThemedView 
                     lightColor={themeColor.default}
                     darkColor={themeColor.default} 
@@ -65,7 +72,8 @@ export default function FriendsScreen() {
                         darkColor={themeColor.reverse}>
                             {friend.nickname}
                         </ThemedText>
-                    </ThemedView> ))}
+                        <Ionicons name="remove-circle" size={25} color="#FF0000" onPress={() => handleRemoveFriend(friend._id)} />
+                    </ThemedView> )) : <ThemedText type="default" lightColor={themeColor.default} darkColor={themeColor.default}>You have no friends yet</ThemedText> }
                 </ThemedScrollView>
             )}
         </ThemedView>
@@ -92,6 +100,10 @@ const styles = StyleSheet.create({
         resizeMode: 'contain',
     },
     friend: {
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
         width: 300,
         padding: 10,
         borderRadius: 10,
