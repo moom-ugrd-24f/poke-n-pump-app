@@ -1,4 +1,4 @@
-import { StyleSheet, Image } from 'react-native';
+import { StyleSheet, Image, ActivityIndicator } from 'react-native';
 import { ThemedView } from '@/components/themedComponents/ThemedView';
 import { ThemedText } from '@/components/themedComponents/ThemedText';
 import { ThemedScrollView } from '@/components/themedComponents/ThemedScrollView';
@@ -28,30 +28,38 @@ export default function RankingList() {
 
     const [rankings, setRankings] = useState(dummyRankings);
     const [userId, setUserId] = useState('');
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        getRankings();
-    }, []);
-
-    const getRankings = async () => {
         AsyncStorage.getItem('id').then((storedId) => {
             if (!storedId) return;
             setUserId(storedId);
-            getWeeklyRanking(userId).then((res) => {
-                if (res.status !== 400) {
-                    if (!res.data.weeklyRanking.some((user) => user._id === userId)) {
-                        res.data.weeklyRanking.push(res.data.currentUser);
-                    }
-                    setRankings(res.data.weeklyRanking);
+        });
+    }, []);
+
+    useEffect(() => {
+        getRankings();
+    }, [userId]);
+
+    const getRankings = async () => {
+        getWeeklyRanking(userId).then((res) => {
+            if (res.status !== 400) {
+                if (!res.data.weeklyRanking.some((user) => user._id === userId)) {
+                    res.data.weeklyRanking.push(res.data.currentUser);
                 }
-            });
+                console.log(res.data.weeklyRanking);
+                setRankings(res.data.weeklyRanking);
+            }
+            setIsLoading(false);
         });
     }
 
 
     return (
         <ThemedView style={styles.rankingListView}>
-            <ThemedScrollView style={styles.rankingsContainer} showsVerticalScrollIndicator={false}>
+            { isLoading 
+            ? <ActivityIndicator color={themeColor.default} style={{ height: '70%' }} /> 
+            : <ThemedScrollView style={styles.rankingsContainer} showsVerticalScrollIndicator={false}>
                 { rankings.map((ranking, index) => (
                     <ThemedView
                         key={index}
@@ -76,6 +84,7 @@ export default function RankingList() {
                     </ThemedView>
                 )) }
             </ThemedScrollView>
+            }
         </ThemedView>
     );
 }
@@ -83,13 +92,14 @@ export default function RankingList() {
 const styles = StyleSheet.create({
     rankingListView: {
         top: 50,
-        height: '90%',
+        height: '80%',
         width: '90%',
         alignItems: 'center',
         marginBottom: 5,
     },
     rankingsContainer: {
         width: '100%',
+        height: '100%',
     },
     rankingContainer: {
         margin: 5,
