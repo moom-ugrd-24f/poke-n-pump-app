@@ -61,8 +61,18 @@ export default function RankingList() {
                         lightBorderColor={themeColor.mainLight}
                         darkBorderColor={themeColor.mainLight}
                     >
-                        <ThemedText type='default' lightColor={themeColor.reverse} darkColor={themeColor.reverse}>{ranking.name}</ThemedText>
-                        <ThemedText type='default' lightColor={themeColor.reverse} darkColor={themeColor.reverse}>{ranking.xp}XP</ThemedText>
+                        { ranking._id === userId
+                        ? <>
+                            <ThemedText type='default' lightColor={themeColor.subDark} darkColor={themeColor.subDark}>{ranking.rank}</ThemedText>
+                            <ThemedText type='default' lightColor={themeColor.subDark} darkColor={themeColor.subDark}>{ranking.nickname}</ThemedText>
+                            <ThemedText type='default' lightColor={themeColor.subDark} darkColor={themeColor.subDark}>{ranking.xp}XP</ThemedText>
+                        </>
+                        : <>
+                            <ThemedText type='default' lightColor={themeColor.reverse} darkColor={themeColor.reverse}>{ranking.rank}</ThemedText>
+                            <ThemedText type='default' lightColor={themeColor.reverse} darkColor={themeColor.reverse}>{ranking.nickname}</ThemedText>
+                            <ThemedText type='default' lightColor={themeColor.reverse} darkColor={themeColor.reverse}>{ranking.xp}XP</ThemedText>
+                        </>
+                        }
                     </ThemedView>
                 )) }
             </ThemedScrollView>
