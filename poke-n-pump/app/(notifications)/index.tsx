@@ -14,13 +14,12 @@ import { ThemedScrollView } from "@/components/themedComponents/ThemedScrollView
 
 export default function NotificationsScreen() {
     const colorScheme = useColorScheme();
-
     const themeColor = Colors[colorScheme ?? 'light'];
 
-    const [refreshing, setRefreshing] = useState(false);
-
-    const [receivedRequests, setReceivedRequests] = useState<any[]>([]);
     const { expoPushToken, sendNotification } = usePushNotifications();
+
+    const [refreshing, setRefreshing] = useState(false);
+    const [receivedRequests, setReceivedRequests] = useState<any[]>([]);
     const [ notifications, setNotifications ] = useState<any[]>([]);
     const [isLoading, setIsLoading] = useState(true);
 

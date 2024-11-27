@@ -33,6 +33,15 @@ export const checkUsername = (username: string) => {
     });
 }
 
+export const getUserInfo = (userId: string) => {
+    const getUserInfoUrl = USER_URL + '/' + userId;
+    return axios.get(getUserInfoUrl).then((res) => {
+        return res;
+    }).catch((error) => {
+        return { data: 'Error while fetching user info', status: 400 };
+    });
+}
+
 export const getPokeeList = (userId: string) => {
     const getPokeeListUrl = USER_URL + '/' + userId + '/poke-list';
     return axios.get(getPokeeListUrl).then((res) => {
