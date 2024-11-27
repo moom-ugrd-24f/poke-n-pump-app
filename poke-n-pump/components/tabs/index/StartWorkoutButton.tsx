@@ -25,7 +25,7 @@ export default function StartWorkoutButton({setDidWorkout}) {
         
         completeWorkout(user_id);
         let toast = Toast.show('Congratulations! Earned 10XP by working out.', {
-            duration: Toast.durations.LONG,
+            duration: Toast.durations.SHORT,
             position: Toast.positions.CENTER,
             hideOnPress: true,
             shadow: true,

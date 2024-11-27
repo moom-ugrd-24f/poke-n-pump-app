@@ -19,7 +19,7 @@ export default function ShamePostScreen() {
     const shamePostXpUpdate = () => {
         updateXp(50);
         let toast = Toast.show('You earned 50XP by shaming your friend :)', {
-            duration: Toast.durations.LONG,
+            duration: Toast.durations.SHORT,
             position: Toast.positions.CENTER,
             hideOnPress: true,
             shadow: true,
