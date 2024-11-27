@@ -92,7 +92,7 @@ export default function PokeList({didWorkout}) {
     const pokeXpUpdate = () => {
         updateXp(10);
         Toast.show('Earned 10XP by poking a lazy gym buddy!', {
-            duration: Toast.durations.SHORT,
+            duration: Toast.durations.LONG,
             position: Toast.positions.CENTER,
             shadow: true,
             animation: true,

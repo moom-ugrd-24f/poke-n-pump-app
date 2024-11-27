@@ -45,7 +45,7 @@ export default function ProfileInfos({ enableCompleteButton }: ProfileInfosProps
         enableCompleteButton(true);
         saveUsername();
         let toast = Toast.show('Username is available', {
-            duration: Toast.durations.SHORT,
+            duration: Toast.durations.LONG,
             position: Toast.positions.CENTER,
             hideOnPress: true,
             shadow: true,
