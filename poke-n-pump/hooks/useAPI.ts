@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { FRIEND_REQUEST_URL, USER_URL, CHECK_USERNAME_URL, POKE_URL } from '@/constants/url';
+import { FRIEND_REQUEST_URL, USER_URL, CHECK_USERNAME_URL, POKE_URL, WEEKLY_RANKING_URL } from '@/constants/url';
 
 interface UserData {
     nickname: string;
@@ -105,5 +105,14 @@ export const completeWorkout = (userId: string) => {
         return res;
     }).catch((error) => {
         return { data: 'Error while completing workout', status: 400 };
+    });
+}
+
+export const getWeeklyRanking = (userId: string) => {
+    const getWeeklyRankingUrl = WEEKLY_RANKING_URL + '/' + userId;
+    return axios.get(getWeeklyRankingUrl).then((res) => {
+        return res;
+    }).catch((error) => {
+        return { data: 'Error while fetching weekly ranking', status: 400 };
     });
 }
