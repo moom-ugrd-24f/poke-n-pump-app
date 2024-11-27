@@ -1,5 +1,5 @@
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
+import { ThemedText } from '@/components/themedComponents/ThemedText';
+import { ThemedView } from '@/components/themedComponents/ThemedView';
 import { StyleSheet } from 'react-native';
 import RankingList from '@/components/tabs/ranking/RankingList';
 

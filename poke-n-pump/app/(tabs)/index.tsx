@@ -1,12 +1,11 @@
 import { Image, StyleSheet } from 'react-native';
-import { ThemedView } from '@/components/ThemedView';
+import { ThemedView } from '@/components/themedComponents/ThemedView';
 import PokeList from '@/components/tabs/index/PokeList';
 import logo from '@/assets/images/logo.png';
 import ProfileContainer from '@/components/tabs/index/ProfileContainer';
 import StartWorkoutButton from '@/components/tabs/index/StartWorkoutButton';
 
 export default function HomeScreen() {
-
   return (
     <ThemedView style={styles.homeView}>
       <Image source={logo} style={styles.image} />

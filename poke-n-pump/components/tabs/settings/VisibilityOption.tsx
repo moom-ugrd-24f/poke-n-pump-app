@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
-import { ThemedView } from '../../ThemedView';
-import { ThemedText } from '../../ThemedText';
-import VisibilityToggle from '@/components/VisibilityToggle';
+import { ThemedView } from '../../themedComponents/ThemedView';
+import { ThemedText } from '../../themedComponents/ThemedText';
+import VisibilityToggle from '@/components/tabs/settings/VisibilityToggle';
 
 export default function VisibilityOption() {
 

@@ -1,4 +1,4 @@
-import ThemedButton from '@/components/ThemedButton';
+import ThemedButton from '@/components/themedComponents/ThemedButton';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { Colors } from '@/constants/Colors';
 import { USER_URL } from '@/constants/url';
