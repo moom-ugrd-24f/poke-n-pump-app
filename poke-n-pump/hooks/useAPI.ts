@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { FRIEND_REQUEST_URL, USER_URL, CHECK_USERNAME_URL } from '@/constants/url';
+import { FRIEND_REQUEST_URL, USER_URL, CHECK_USERNAME_URL, POKE_URL, WEEKLY_RANKING_URL } from '@/constants/url';
 
 interface UserData {
     nickname: string;
@@ -7,6 +7,7 @@ interface UserData {
     workoutPlan: Object;
     expoPushToken: string;
     visibility: string;
+    profilePicture: any;
 }
 
 export const addUser = (data: UserData) => {
@@ -16,12 +17,11 @@ export const addUser = (data: UserData) => {
     formData.append('shamePostSettings', JSON.stringify(data.shamePostSettings));
     formData.append('workoutPlan', JSON.stringify(data.workoutPlan));
     formData.append('expoPushToken', data.expoPushToken);
-
-    console.log('Adding user: ' + JSON.stringify(formData));
-
+    if (data.profilePicture) {
+        formData.append('profilePicture', data.profilePicture);
+    }
 
     return axios.post(USER_URL, formData, {headers: { 'Content-Type': 'multipart/form-data' },}).then((res) => {
-        console.log('User created: ' + JSON.stringify(res.data));
         return res;
     }).catch((error) => {
         return { data: 'Error while adding user', status: 400 };
@@ -30,7 +30,6 @@ export const addUser = (data: UserData) => {
 
 export const checkUsername = (username: string) => {
     const checkUsernameUrl = CHECK_USERNAME_URL + '/' + username;
-    console.log(checkUsernameUrl);
     return axios.get(checkUsernameUrl).then((res) => {
         return res;
     }).catch((error) => {
@@ -38,14 +37,29 @@ export const checkUsername = (username: string) => {
     });
 }
 
+export const getUserInfo = (userId: string) => {
+    const getUserInfoUrl = USER_URL + '/' + userId;
+    return axios.get(getUserInfoUrl).then((res) => {
+        return res;
+    }).catch((error) => {
+        return { data: 'Error while fetching user info', status: 400 };
+    });
+}
+
 export const getPokeeList = (userId: string) => {
     const getPokeeListUrl = USER_URL + '/' + userId + '/poke-list';
-    // console.log(getPokeeListUrl);
     return axios.get(getPokeeListUrl).then((res) => {
-        console.log(res);
         return res;
     }).catch((error) => {
         return { data: 'Error while fetching pokees', status: 400 };
+    });
+}
+
+export const sendPoke = (senderId: string, receiverId: string, pokeType: string) => {
+    return axios.post(POKE_URL, { senderId: senderId, receiverId: receiverId, pokeType: pokeType }).then((res) => {
+        return res;
+    }).catch((error) => {
+        return { data: 'Error while sending poke', status: 400 };
     });
 }
 
@@ -76,11 +90,29 @@ export const acceptFriendRequest = (requestId: string) => {
     });
 }
 
+export const removeFriend = (userId: string, id: string) => {
+    const removeFriendUrl = USER_URL + '/' + userId + '/remove-friend';
+    return axios.post(removeFriendUrl, { friendId: id }).then((res) => {
+        return res;
+    }).catch((error) => {
+        return { data: 'Error while removing friend request', status: 400 };
+    });
+}
+
 export const completeWorkout = (userId: string) => {
     const completeWorkoutUrl = USER_URL + '/' + userId + '/complete-workout';
     return axios.post(completeWorkoutUrl).then((res) => {
         return res;
     }).catch((error) => {
         return { data: 'Error while completing workout', status: 400 };
+    });
+}
+
+export const getWeeklyRanking = (userId: string) => {
+    const getWeeklyRankingUrl = WEEKLY_RANKING_URL + '/' + userId;
+    return axios.get(getWeeklyRankingUrl).then((res) => {
+        return res;
+    }).catch((error) => {
+        return { data: 'Error while fetching weekly ranking', status: 400 };
     });
 }

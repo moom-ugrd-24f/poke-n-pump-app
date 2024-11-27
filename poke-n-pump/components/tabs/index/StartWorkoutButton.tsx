@@ -1,4 +1,4 @@
-import ThemedButton from '@/components/ThemedButton';
+import ThemedButton from '@/components/themedComponents/ThemedButton';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { Colors } from '@/constants/Colors';
 import { USER_URL } from '@/constants/url';
@@ -8,7 +8,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast from 'react-native-root-toast';
 import { updateXp } from '@/hooks/useAsyncStorage';
 
-export default function StartWorkoutButton() {
+export default function StartWorkoutButton({setDidWorkout}) {
     const colorScheme = useColorScheme();
     const [user_id, setUserId] = useState('');
 
@@ -31,6 +31,7 @@ export default function StartWorkoutButton() {
             shadow: true,
             animation: true,
         });
+        setDidWorkout(true);
         updateXp(10);
     }
 

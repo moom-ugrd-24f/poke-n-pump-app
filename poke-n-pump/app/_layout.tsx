@@ -39,8 +39,10 @@ export default function RootLayout() {
 
     // Set status bar style based on the theme
     useEffect(() => {
-        setStatusBarStyle(colorScheme === 'light' ? 'dark' : 'light');
-    }, [colorScheme]);
+        setTimeout(() => {
+          setStatusBarStyle(colorScheme === 'light' ? 'light' : 'dark');
+        }, 0);
+    }, []);
 
     // Check AsyncStorage for the username
     useEffect(() => {
@@ -80,6 +82,7 @@ export default function RootLayout() {
                 <Stack.Screen name="(profile)/index" />
                 <Stack.Screen name="(shamePost)/index" />
                 <Stack.Screen name="(notifications)/index" />
+                <Stack.Screen name="(profile)/(friends)/index" />
             </Stack>
         </ThemeProvider>
         </RootSiblingParent>

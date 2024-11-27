@@ -1,4 +1,4 @@
-import { ThemedView } from "@/components/ThemedView";
+import { ThemedView } from "@/components/themedComponents/ThemedView";
 import { Image, StyleSheet } from "react-native";
 import shamePost from '@/assets/images/shamePost.png';
 import shamePostInsta from '@/assets/images/shamePostInsta.png';

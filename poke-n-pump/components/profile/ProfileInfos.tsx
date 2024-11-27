@@ -1,11 +1,12 @@
 import { Image, StyleSheet } from "react-native";
 import avatar from '@/assets/images/avatar.jpeg';
-import { ThemedView } from "@/components/ThemedView"
-import { ThemedText } from "@/components/ThemedText";
+import { ThemedView } from "@/components/themedComponents/ThemedView"
+import { ThemedText } from "@/components/themedComponents/ThemedText";
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { Colors } from "@/constants/Colors";
 import { useEffect, useState } from "react";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { router } from "expo-router";
 
 export default function ProfileInfos() {
     const colorScheme = useColorScheme();
@@ -13,29 +14,29 @@ export default function ProfileInfos() {
     const [username, setUsername] = useState('');
     const [numStreak, setNumStreak] = useState(0);
     const [xp, setXp] = useState(0);
-    const [numFriend, setNumFriend] = useState(0);
+    const [numFriend, setNumFriend] = useState(1);
     const [invitationCode, setInvitationCode] = useState('');
+    const [profilePicture, setProfilePicture] = useState('');
 
     useEffect(() => {
-        AsyncStorage.multiGet(['nickname', 'xp', 'friends', 'inviteCode']).then((res) => {
+        AsyncStorage.multiGet(['nickname', 'xp', 'friends', 'inviteCode', 'profilePicture']).then((res) => {
             const nickname = res[0][1] || '';
             const xp = parseInt(res[1][1] || '0');
             const friends = JSON.parse(res[2][1] || "[]");
             const inviteCode = res[3][1] || '';
-            // const shameStreak = parseInt(res[4][1] || '0');
+            const profilePicture = res[4][1] || '';
 
             setUsername(nickname);
-            // setNumStreak(parseInt(res[1][1] ?? '0'));
             setXp(xp);
             setNumFriend(friends.length);
             setInvitationCode(inviteCode);
-            // setNumStreak(shameStreak);
+            setProfilePicture(profilePicture);
         });
     }, []);
 
     return (
         <ThemedView style={styles.profileView}>
-            <Image source={avatar} style={styles.avatar} />
+            <Image source={profilePicture ? { uri: profilePicture } : avatar} style={styles.avatar} />
             <ThemedText type='subtitle' lightColor={themeColor.main}>{username}</ThemedText>
             <ThemedText type="default" lightColor={themeColor.mainLight}>Invitation Code
                 <ThemedText type="default" lightColor={themeColor.default}>  {invitationCode}</ThemedText>
@@ -51,8 +52,8 @@ export default function ProfileInfos() {
                     <ThemedText type="default" lightColor={themeColor.default}>XP</ThemedText>
                 </ThemedView>
                 <ThemedView style={styles.separator} lightColor={themeColor.default} darkColor={themeColor.default} />
-                <ThemedView lightColor={themeColor.mainDark} darkColor={themeColor.mainDark}>
-                    <ThemedText type="defaultSemiBold" lightColor={themeColor.default}>{numFriend}</ThemedText>
+                <ThemedView lightColor={themeColor.mainDark} darkColor={themeColor.mainDark} onPress={() => router.navigate('/(profile)/(friends)')}>
+                    <ThemedText type="defaultSemiBold" lightColor={themeColor.default}>{numFriend - 1}</ThemedText>
                     <ThemedText type="default" lightColor={themeColor.default}>Friends</ThemedText>
                 </ThemedView>
             </ThemedView>
