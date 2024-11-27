@@ -66,15 +66,20 @@ export default function PokeList() {
     const fetchPokees = async () => {
         if (myself !== undefined && myself.id !== '') {
             const res = await getPokeeList(myself.id);
-            res.data.sort((a: Pokee, b: Pokee) => {
-                if (a.id === myself.id) {
-                    return -1;
-                } else if (b.id === myself.id) {
-                    return 1;
-                } else {
-                    return 0;
-                }
-            });
+            // res.data.sort((a: Pokee, b: Pokee) => {
+            //     console.log('a:', a.id);
+            //     console.log('b:', b.id);
+            //     if (a.id === myself.id) {
+            //         console.log('a is myself');
+            //         return -1;
+            //     } else if (b.id === myself.id) {
+            //         console.log('b is myself');
+            //         return 1;
+            //     } else {
+            //         console.log('neither is myself');
+            //         return 0;
+            //     }
+            // });
             setPokees(res.data);
         }
     };
@@ -176,7 +181,6 @@ export default function PokeList() {
                         }}
                     >
                         <ThemedView
-                            key={index}
                             style={styles.pokeeContainer}
                             lightColor={pokee.isShamePostCandidate ? themeColor.subLight : themeColor.mainLight}
                             darkColor={pokee.isShamePostCandidate ? themeColor.subLight : themeColor.mainLight}

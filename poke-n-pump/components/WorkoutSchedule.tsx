@@ -6,7 +6,6 @@ import { ThemedText } from './ThemedText';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { store } from 'expo-router/build/global-state/router-store';
 
 interface IWorkoutSchedule {
     sun: boolean;
@@ -37,15 +36,19 @@ export default function WorkoutSchedule() {
         "sat": false,
     };
 
-    const [workoutSchedule, setWorkoutSchedule] = useState([
-        { day: 'S', workoutSession: emptySchedule.mon, color: 'red' },
-        { day: 'M', workoutSession: emptySchedule.tue },
-        { day: 'T', workoutSession: emptySchedule.wed },
-        { day: 'W', workoutSession: emptySchedule.thu },
-        { day: 'T', workoutSession: emptySchedule.fri },
-        { day: 'F', workoutSession: emptySchedule.sat },
-        { day: 'S', workoutSession: emptySchedule.sun, color: 'blue' },
-    ]);
+    const getWorkoutDayList = (scheduleJson: IWorkoutSchedule) => {
+        return [
+            { day: 'S', workoutSession: scheduleJson.sun, color: 'red' },
+            { day: 'M', workoutSession: scheduleJson.mon },
+            { day: 'T', workoutSession: scheduleJson.tue },
+            { day: 'W', workoutSession: scheduleJson.wed },
+            { day: 'T', workoutSession: scheduleJson.thu },
+            { day: 'F', workoutSession: scheduleJson.fri },
+            { day: 'S', workoutSession: scheduleJson.sat, color: 'blue' },
+        ];
+    } 
+
+    const [workoutSchedule, setWorkoutSchedule] = useState(getWorkoutDayList(emptySchedule));
 
     useEffect(() => {
         loadWorkoutSchedule();
@@ -55,17 +58,7 @@ export default function WorkoutSchedule() {
         try {
             const scheduleString = await AsyncStorage.getItem('workout-schedule');
             const schedule = scheduleString !== null ? JSON.parse(scheduleString) : emptySchedule;
-            setWorkoutSchedule(
-                [
-                    { day: 'S', workoutSession: emptySchedule.mon, color: 'red' },
-                    { day: 'M', workoutSession: schedule.tue },
-                    { day: 'T', workoutSession: schedule.wed },
-                    { day: 'W', workoutSession: schedule.thu },
-                    { day: 'T', workoutSession: schedule.fri },
-                    { day: 'F', workoutSession: schedule.sat },
-                    { day: 'S', workoutSession: schedule.sun, color: 'blue' },
-                ]
-            );
+            setWorkoutSchedule(getWorkoutDayList(schedule));
         } catch (e) {
             console.error(e);
         }
@@ -131,6 +124,7 @@ const storeWorkoutSchedule = async (workoutSchedule: Array<IWorkoutSession>) => 
     try {
         const value = JSON.stringify(schedule);
         await AsyncStorage.setItem('workout-schedule', value);
+        console.log('Workout schedule updated', schedule);
     } catch (e) {
         console.error(e);
     }
