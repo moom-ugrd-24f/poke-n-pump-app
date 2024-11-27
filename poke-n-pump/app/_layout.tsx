@@ -76,6 +76,7 @@ export default function RootLayout() {
                 <Stack.Screen name="(profile)/index" />
                 <Stack.Screen name="(shamePost)/index" />
                 <Stack.Screen name="(notifications)/index" />
+                <Stack.Screen name="(profile)/(friends)/index" />
             </Stack>
         </ThemeProvider>
         </RootSiblingParent>

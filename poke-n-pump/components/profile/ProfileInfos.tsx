@@ -6,6 +6,7 @@ import { useColorScheme } from '@/hooks/useColorScheme';
 import { Colors } from "@/constants/Colors";
 import { useEffect, useState } from "react";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { router } from "expo-router";
 
 export default function ProfileInfos() {
     const colorScheme = useColorScheme();
@@ -51,7 +52,7 @@ export default function ProfileInfos() {
                     <ThemedText type="default" lightColor={themeColor.default}>XP</ThemedText>
                 </ThemedView>
                 <ThemedView style={styles.separator} lightColor={themeColor.default} darkColor={themeColor.default} />
-                <ThemedView lightColor={themeColor.mainDark} darkColor={themeColor.mainDark}>
+                <ThemedView lightColor={themeColor.mainDark} darkColor={themeColor.mainDark} onPress={() => router.navigate('/(profile)/(friends)')}>
                     <ThemedText type="defaultSemiBold" lightColor={themeColor.default}>{numFriend}</ThemedText>
                     <ThemedText type="default" lightColor={themeColor.default}>Friends</ThemedText>
                 </ThemedView>
