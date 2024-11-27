@@ -57,7 +57,6 @@ export const getPokeeList = (userId: string) => {
 
 export const sendPoke = (senderId: string, receiverId: string, pokeType: string) => {
     return axios.post(POKE_URL, { senderId: senderId, receiverId: receiverId, pokeType: pokeType }).then((res) => {
-        console.log(res);
         return res;
     }).catch((error) => {
         return { data: 'Error while sending poke', status: 400 };
