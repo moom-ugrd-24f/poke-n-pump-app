@@ -36,7 +36,7 @@ export default function PokeList() {
     const [friends, setFriends] = useState<Pokee[]>([]);
     const [refreshing, setRefreshing] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
-    const [myself, setMyself] = useState<Pokee>();
+    const [myself, setMyself] = useState<Pokee>({id: '', nickname: '', expoPushToken: '', isFriend: true, isShamePostCandidate: false});
 
     useEffect(() => {
         AsyncStorage.multiGet(['id', 'nickname', 'expoPushToken']).then((res) => {
@@ -89,6 +89,7 @@ export default function PokeList() {
 
     const onRefresh = async () => {
         setRefreshing(true);
+        console.log('Refreshing pokees');
         await fetchPokees();
         setRefreshing(false);
     };
@@ -127,7 +128,7 @@ export default function PokeList() {
                         darkBorderColor={themeColor.mainLight}
                         onPress={() => {
                             setShowPokeModal(false);
-                            sendNotification(receiverId, { title: 'PokeNPump', body: `You've been poked by ${receiverName}!` });
+                            sendNotification(receiverId, { title: 'PokeNPump', body: `You've been poked by ${myself.nickname}!` });
                             pokeXpUpdate();
                         }}
                     />
@@ -139,7 +140,7 @@ export default function PokeList() {
                         darkBorderColor={themeColor.mainLight}
                         onPress={() => {
                             setShowPokeModal(false);
-                            sendNotification(receiverId, { title: 'PokeNPump', body: `Join ${receiverName} in a workout!` });
+                            sendNotification(receiverId, { title: 'PokeNPump', body: `Join ${myself.nickname} in a workout!` });
                             pokeXpUpdate();
                         }}
                     />
