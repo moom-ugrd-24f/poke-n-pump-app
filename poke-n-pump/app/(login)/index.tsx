@@ -27,12 +27,13 @@ export default function LoginScreen() {
   const notificationToken = usePushNotifications().expoPushToken;
 
   function finishOnboarding() {
-    AsyncStorage.multiGet(['username', 'workout-schedule', 'shame-toggle', 'shame-streak', 'visibility']).then((res) => {
+    AsyncStorage.multiGet(['username', 'workout-schedule', 'shame-toggle', 'shame-streak', 'visibility', 'profilePicture']).then((res) => {
       const nickname = res[0][1] || 'John Doe';
       const shameToggle = res[2][1] || 'false';
       const shameStreak = res[3][1] || '1';
       const workoutPlan = { "daysOfWeek": [ 1, 3, 5 ]};
       const visibility = res[4][1] || 'friend';
+      const profilePicture = res[5][1] || '';
 
       const data = {
         nickname: nickname,
@@ -42,7 +43,8 @@ export default function LoginScreen() {
         },
         workoutPlan: workoutPlan,
         expoPushToken: notificationToken,
-        visibility: visibility
+        visibility: visibility,
+        profilePicture: profilePicture
       };
 
       addUser(data).then((res) => {

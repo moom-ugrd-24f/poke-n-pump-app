@@ -20,7 +20,7 @@ export default function NotificationsScreen() {
 
     const [refreshing, setRefreshing] = useState(false);
     const [receivedRequests, setReceivedRequests] = useState<any[]>([]);
-    const [ notifications, setNotifications ] = useState<any[]>([]);
+    const [notifications, setNotifications ] = useState<any[]>([]);
     const [isLoading, setIsLoading] = useState(true);
 
     const fetchNotifications = async () => {
@@ -106,7 +106,7 @@ export default function NotificationsScreen() {
                     darkColor={themeColor.default}
                     style={styles.notification}
                     >
-                        <ThemedText style={{textAlign: 'left'}} lightColor={themeColor.reverse} darkColor={themeColor.reverse}>
+                        <ThemedText type="default" style={{textAlign: 'left'}} lightColor={themeColor.reverse} darkColor={themeColor.reverse}>
                             {notification}
                         </ThemedText>
                     </ThemedView>

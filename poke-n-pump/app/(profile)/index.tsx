@@ -22,15 +22,15 @@ export default function ProfileScreen() {
 
     const fetchProfile = () => {
         AsyncStorage.getItem('id').then((userId) => {
-            if (userId) {
-                getUserInfo(userId).then((res) => {
-                    AsyncStorage.setItem('xp', res.data.xp.toString());
-                    AsyncStorage.setItem('friends', JSON.stringify(res.data.friends));
-                    AsyncStorage.setItem('inviteCode', res.data.inviteCode);
-                    AsyncStorage.setItem('visibility', res.data.visibility);
-                    setIsLoading(false);
-                });
-            }
+            if (!userId) return;
+            getUserInfo(userId).then((res) => {
+                AsyncStorage.setItem('xp', res.data.xp.toString());
+                AsyncStorage.setItem('friends', JSON.stringify(res.data.friends));
+                AsyncStorage.setItem('inviteCode', res.data.inviteCode);
+                AsyncStorage.setItem('visibility', res.data.visibility);
+                AsyncStorage.setItem('profilePicture', res.data.profilePicture);
+                setIsLoading(false);
+            });
         });
     }
 

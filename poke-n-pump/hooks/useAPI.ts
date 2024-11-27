@@ -7,6 +7,7 @@ interface UserData {
     workoutPlan: Object;
     expoPushToken: string;
     visibility: string;
+    profilePicture: any;
 }
 
 export const addUser = (data: UserData) => {
@@ -16,6 +17,9 @@ export const addUser = (data: UserData) => {
     formData.append('shamePostSettings', JSON.stringify(data.shamePostSettings));
     formData.append('workoutPlan', JSON.stringify(data.workoutPlan));
     formData.append('expoPushToken', data.expoPushToken);
+    if (data.profilePicture) {
+        formData.append('profilePicture', data.profilePicture);
+    }
 
     return axios.post(USER_URL, formData, {headers: { 'Content-Type': 'multipart/form-data' },}).then((res) => {
         return res;
@@ -75,6 +79,15 @@ export const acceptFriendRequest = (requestId: string) => {
         return res;
     }).catch((error) => {
         return { data: 'Error while accepting friend request', status: 400 };
+    });
+}
+
+export const removeFriend = (userId: string, id: string) => {
+    const removeFriendUrl = USER_URL + '/' + userId + '/remove-friend';
+    return axios.post(removeFriendUrl, { friendId: id }).then((res) => {
+        return res;
+    }).catch((error) => {
+        return { data: 'Error while removing friend request', status: 400 };
     });
 }
 
