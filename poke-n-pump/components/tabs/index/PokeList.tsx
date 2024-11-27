@@ -22,7 +22,7 @@ interface Pokee {
     isShamePostCandidate: boolean;
 }
 
-export default function PokeList() {
+export default function PokeList({didWorkout}) {
     const colorScheme = useColorScheme();
     const themeColor = Colors[colorScheme ?? 'light'];
 
@@ -35,10 +35,11 @@ export default function PokeList() {
     const [enableShamePost, setEnableShamePost] = useState(false);
     const [pokees, setPokees] = useState<Pokee[]>([]);
     const [friends, setFriends] = useState<Pokee[]>([]);
+    const [myselfPokee, setMyselfPokee] = useState(false);
     const [refreshing, setRefreshing] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
     const [myself, setMyself] = useState<Pokee>({id: '', nickname: '', expoPushToken: '', isFriend: true, isShamePostCandidate: false});
-
+    
     useEffect(() => {
         AsyncStorage.multiGet(['id', 'nickname', 'expoPushToken']).then((res) => {
             const id = res[0][1] || '';
@@ -64,26 +65,19 @@ export default function PokeList() {
         fetchPokees();
     }, [myself]);
 
+    useEffect(() => {
+        if (didWorkout) {
+            fetchPokees();
+        }
+    }, [didWorkout]);
+
     const fetchPokees = async () => {
         if (myself !== undefined && myself.id !== '') {
             const res = await getPokeeList(myself.id);
-            setPokees(res.data.filter((pokee: Pokee) => !pokee.isFriend));
-            setFriends(res.data.filter((pokee: Pokee) => pokee.isFriend));
-            // res.data.sort((a: Pokee, b: Pokee) => {
-            //     console.log('a:', a.id);
-            //     console.log('b:', b.id);
-            //     if (a.id === myself.id) {
-            //         console.log('a is myself');
-            //         return -1;
-            //     } else if (b.id === myself.id) {
-            //         console.log('b is myself');
-            //         return 1;
-            //     } else {
-            //         console.log('neither is myself');
-            //         return 0;
-            //     }
-            // });
-            // setPokees(res.data);
+            console.log('Pokees:', res.data.map((pokee: Pokee) => pokee.nickname));
+            setMyselfPokee(res.data.some((pokee: Pokee) => pokee.id === myself.id));
+            setPokees(res.data.filter((pokee: Pokee) => !pokee.isFriend && pokee.id !== myself.id));
+            setFriends(res.data.filter((pokee: Pokee) => pokee.isFriend && pokee.id !== myself.id));
             setIsLoading(false);
         }
     };
@@ -175,11 +169,41 @@ export default function PokeList() {
                     
                 </ThemedView>
             </Modal>
-            { isLoading ? <ActivityIndicator color={themeColor.default} style={{ height: "70%" }} /> : <ThemedScrollView 
-            style={styles.pokeesContainer} 
-            showsVerticalScrollIndicator={false} 
-            refreshControl={ <RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={themeColor.default}/> }
+            { isLoading ? 
+            <ActivityIndicator color={themeColor.default} style={{ height: "70%" }} /> : 
+            <ThemedScrollView 
+                style={styles.pokeesContainer} 
+                showsVerticalScrollIndicator={false} 
+                refreshControl={ <RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={themeColor.default}/> }
             >
+                { didWorkout
+                ? <ThemedText style={styles.myselfPlaceholder} type="subtitle">You've worked out today!</ThemedText>
+                : !myselfPokee
+                    ? <ThemedText style={styles.myselfPlaceholder} type="subtitle">You've poked yourself today!</ThemedText>
+                    : <>
+                        <ThemedText type="subtitle">You!</ThemedText>
+                        <Pressable 
+                            onPress={() => {
+                                if (!myself) return;
+                                setShowPokeModal(true);
+                                setReceiverToken(myself.expoPushToken);
+                                setReceiverId(myself.id);
+                                setReceiverName(myself.nickname);
+                                setEnableShamePost(myself.isShamePostCandidate);
+                            }}
+                        >
+                            <ThemedView
+                                style={styles.pokeeContainer}
+                                lightColor={myself.isShamePostCandidate ? themeColor.subLight : themeColor.mainLight}
+                                darkColor={myself.isShamePostCandidate ? themeColor.subLight : themeColor.mainLight}
+                                lightBorderColor={myself.isShamePostCandidate ? themeColor.subDark : themeColor.mainDark}
+                                darkBorderColor={myself.isShamePostCandidate ? themeColor.subDark : themeColor.mainDark}
+                            >
+                                <ThemedText type='default' lightColor={themeColor.reverse} darkColor={themeColor.reverse}>{myself.nickname}</ThemedText>
+                            </ThemedView>
+                        </Pressable>
+                    </>
+                }
                 <ThemedText type="subtitle">Friends</ThemedText>
                 { (!friends.length) ? <ThemedText type='default'>No friends to poke :/</ThemedText> : friends.map((friend, index) => (
                     <Pressable 
@@ -272,5 +296,8 @@ const styles = StyleSheet.create({
         left: 0,
         right: 0,
         backgroundColor: 'rgba(0,0,0,0.5)'
+    },
+    myselfPlaceholder: {
+        marginBottom: 30,
     }
 });
