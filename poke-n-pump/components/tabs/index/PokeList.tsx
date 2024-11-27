@@ -8,7 +8,7 @@ import { Colors } from '@/constants/Colors';
 import { useEffect, useState } from 'react';
 import { Pressable, RefreshControl } from 'react-native';
 import { router } from 'expo-router';
-import { getPokeeList } from '@/hooks/useAPI';
+import { getPokeeList, sendPoke } from '@/hooks/useAPI';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import usePushNotifications from '@/hooks/usePushNotifications';
 import Toast from 'react-native-root-toast';
@@ -30,6 +30,7 @@ export default function PokeList() {
 
     const [showPokeModal, setShowPokeModal] = useState(false);
     const [receiverId, setReceiverId] = useState('');
+    const [receiverToken, setReceiverToken] = useState('');
     const [receiverName, setReceiverName] = useState('');
     const [enableShamePost, setEnableShamePost] = useState(false);
     const [pokees, setPokees] = useState<Pokee[]>([]);
@@ -127,9 +128,11 @@ export default function PokeList() {
                         lightBorderColor={themeColor.mainLight}
                         darkBorderColor={themeColor.mainLight}
                         onPress={() => {
+                            sendPoke(myself.id, receiverId, 'Just Poke');
                             setShowPokeModal(false);
-                            sendNotification(receiverId, { title: 'PokeNPump', body: `You've been poked by ${myself.nickname}!` });
+                            sendNotification(receiverToken, { title: 'PokeNPump', body: `You've been poked by ${myself.nickname}!` });
                             pokeXpUpdate();
+                            fetchPokees();
                         }}
                     />
                     <ThemedButton
@@ -139,9 +142,11 @@ export default function PokeList() {
                         lightBorderColor={themeColor.mainLight}
                         darkBorderColor={themeColor.mainLight}
                         onPress={() => {
+                            sendPoke(myself.id, receiverId, 'Join Me');
                             setShowPokeModal(false);
-                            sendNotification(receiverId, { title: 'PokeNPump', body: `Join ${myself.nickname} in a workout!` });
+                            sendNotification(receiverToken, { title: 'PokeNPump', body: `Join ${myself.nickname} in a workout!` });
                             pokeXpUpdate();
+                            fetchPokees();
                         }}
                     />
                     <ThemedButton
@@ -151,9 +156,11 @@ export default function PokeList() {
                         lightBorderColor={themeColor.mainLight}
                         darkBorderColor={themeColor.mainLight}
                         onPress={() => {
+                            sendPoke(myself.id, receiverId, 'Trash Talk');
                             setShowPokeModal(false);
-                            sendNotification(receiverId, { title: 'PokeNPump', body: `${receiverName} : go hit the gym you fat looser!` });
+                            sendNotification(receiverToken, { title: 'PokeNPump', body: `${receiverName} : go hit the gym you fat looser!` });
                             pokeXpUpdate();
+                            fetchPokees();
                         }}
                     />
                     { enableShamePost ?
@@ -180,8 +187,9 @@ export default function PokeList() {
                         onPress={() => {
                             if (!myself) return;
                             setShowPokeModal(true);
-                            setReceiverId(friend.expoPushToken);
-                            setReceiverName(myself.nickname);
+                            setReceiverToken(friend.expoPushToken);
+                            setReceiverId(friend.id);
+                            setReceiverName(friend.nickname);
                             setEnableShamePost(friend.isShamePostCandidate);
                         }}
                     >
@@ -204,8 +212,9 @@ export default function PokeList() {
                         onPress={() => {
                             if (!myself) return;
                             setShowPokeModal(true);
-                            setReceiverId(pokee.expoPushToken);
-                            setReceiverName(myself.nickname);
+                            setReceiverToken(pokee.expoPushToken);
+                            setReceiverId(pokee.id);
+                            setReceiverName(pokee.nickname);
                             setEnableShamePost(pokee.isShamePostCandidate);
                         }}
                     >
