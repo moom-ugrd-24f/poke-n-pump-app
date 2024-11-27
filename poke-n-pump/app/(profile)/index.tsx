@@ -28,6 +28,7 @@ export default function ProfileScreen() {
                     AsyncStorage.setItem('friends', JSON.stringify(res.data.friends));
                     AsyncStorage.setItem('inviteCode', res.data.inviteCode);
                     AsyncStorage.setItem('visibility', res.data.visibility);
+                    AsyncStorage.setItem('profilePicture', res.data.profilePicture);
                     setIsLoading(false);
                 });
             }

@@ -37,6 +37,7 @@ export default function ProfileInfos({ enableCompleteButton }: ProfileInfosProps
 
         if (!result.canceled) {
             setImage(result.assets[0].uri);
+            AsyncStorage.setItem('profilePicture', result.assets[0].uri);
         }
     };
 
