@@ -6,6 +6,7 @@ import { useColorScheme } from '@/hooks/useColorScheme';
 import { Colors } from '@/constants/Colors';
 import { useState, useEffect } from 'react';
 import { getWeeklyRanking } from '@/hooks/useAPI';
+import { syncXp } from '@/hooks/useAPI';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function RankingList() {
@@ -38,21 +39,28 @@ export default function RankingList() {
     }, []);
 
     useEffect(() => {
-        getRankings();
+        if (userId) {
+            refreshRankings();
+        }
     }, [userId]);
 
-    const getRankings = async () => {
-        getWeeklyRanking(userId).then((res) => {
+    const refreshRankings = async () => {
+        try {
+            await syncXp(userId);
+
+            const res = await getWeeklyRanking(userId);
             if (res.status !== 400) {
                 if (!res.data.weeklyRanking.some((user) => user._id === userId)) {
                     res.data.weeklyRanking.push(res.data.currentUser);
                 }
-                console.log(res.data.weeklyRanking);
                 setRankings(res.data.weeklyRanking);
             }
+        } catch (error) {
+            console.error('Error refreshing rankings:', error);
+        } finally {
             setIsLoading(false);
-        });
-    }
+        }
+    };
 
 
     return (

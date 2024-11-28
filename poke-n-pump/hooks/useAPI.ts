@@ -1,5 +1,7 @@
 import axios from 'axios';
 import { FRIEND_REQUEST_URL, USER_URL, CHECK_USERNAME_URL, POKE_URL, WEEKLY_RANKING_URL } from '@/constants/url';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 
 interface UserData {
     nickname: string;
@@ -116,3 +118,23 @@ export const getWeeklyRanking = (userId: string) => {
         return { data: 'Error while fetching weekly ranking', status: 400 };
     });
 }
+
+export const syncXp = async (userId: string) => {
+    try {
+        const xp = await AsyncStorage.getItem('xp');
+        if (!xp) return { data: 'No XP to sync', status: 200 };
+
+        const syncXpUrl = `${USER_URL}/${userId}`;
+        const response = await axios.put(syncXpUrl, { xp: parseInt(xp, 10) });
+        if (response.status === 200) {
+            //console.log('XP synced successfully:', response.data);
+            return response;
+        } else {
+            console.error('Failed to sync XP:', response.data);
+            return { data: 'Failed to sync XP', status: response.status };
+        }
+    } catch (error) {
+        console.error('Error syncing XP:', error);
+        return { data: 'Error while syncing XP', status: 500 };
+    }
+};
