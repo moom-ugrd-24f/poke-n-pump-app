@@ -1,5 +1,5 @@
 import { ThemedButton } from '@/components/themedComponents/ThemedButton';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Alert } from 'react-native';
 import VisibilityOption from '@/components/tabs/settings/VisibilityOption';
 import WorkoutSchedule from '@/components/tabs/settings/WorkoutSchedule';
 import ShameOption from '@/components/tabs/settings/ShameOption';
@@ -8,15 +8,41 @@ import { useColorScheme } from '@/hooks/useColorScheme';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { router } from 'expo-router';
 import { ThemedView } from '@/components/themedComponents/ThemedView';
+import { deleteUser } from '@/hooks/useAPI';
+import { getUserId } from '@/hooks/useAsyncStorage';
+import { useState, useEffect } from 'react';
 
 export default function SettingsScreen() {
   const colorScheme = useColorScheme();
   const themeColor = Colors[colorScheme ?? 'light'];
+  const [userId, setUserId] = useState('');
 
-  const reset = async () => {
+  useEffect(() => {
+    getUserId().then((res) => {
+      setUserId(res || '');
+    });
+  });
+
+  const deleteUserData = async () => {
+    if (userId === '') return;
+    deleteUser(userId);
     AsyncStorage.clear();
-    router.replace('/(login)');
   }
+
+  const createDeleteAccountAlert = () => 
+    Alert.alert('Delete Account', 'Your data will be deleted. Are you sure to proceed?', [
+      {
+        text: 'OK', 
+        onPress: () => {
+          deleteUserData();
+          router.replace('/(login)');
+        }
+      },
+      {
+        text: 'Cancel',
+      },
+    ]);
+
 
   return (
     <ThemedView style={styles.settingsView} >
@@ -31,7 +57,7 @@ export default function SettingsScreen() {
       darkBorderColor={themeColor.alert}
       lightTextColor={themeColor.white}
       darkTextColor={themeColor.white}
-      onPress={reset} />
+      onPress={createDeleteAccountAlert} />
     </ThemedView>
   );
 }
