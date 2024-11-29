@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { FRIEND_REQUEST_URL, USER_URL, CHECK_USERNAME_URL, POKE_URL, WEEKLY_RANKING_URL } from '@/constants/url';
-import { updateUser as updateLocalUser } from '@/hooks/useAsyncStorage';
+import { getUser, updateUser as updateLocalUser } from '@/hooks/useAsyncStorage';
 
 interface UserData {
     nickname: string;
@@ -40,19 +40,19 @@ export const addAndStoreUser = (data: UserData) => {
     });
 }
 
-export const updateUser = (data: UserData, userId: string) => {
+export const updateUser = (data: any, userId: string) => {
     const updateUserUrl = USER_URL + '/' + userId;
     
-    const formData = new FormData();
-    if (data.nickname) formData.append('nickname', data.nickname);
-    if (data.visibility) formData.append('visibility', data.visibility);
-    if (data.shamePostSettings) formData.append('shamePostSettings', JSON.stringify(data.shamePostSettings));
-    if (data.workoutPlan) formData.append('workoutPlan', JSON.stringify(data.workoutPlan));
-    if (data.expoPushToken) formData.append('expoPushToken', data.expoPushToken);
-    if (data.profilePicture) formData.append('profilePicture', data.profilePicture);
-    if (data.xp) formData.append('xp', data.xp.toString());
+    const body = JSON.parse("{}");
+    if (data.nickname) body["nickname"] = data.nickname;
+    if (data.visibility) body["visibility"] = data.visibility;
+    if (data.shamePostSettings) body["shamePostSettings"] = JSON.stringify(data.shamePostSettings);
+    if (data.workoutPlan) body["workoutPlan"] = JSON.stringify(data.workoutPlan);
+    if (data.expoPushToken) body["expoPushToken"] = data.expoPushToken;
+    if (data.profilePicture) body["profilePicture"] = data.profilePicture;
+    if (data.xp) body["xp"] = data.xp.toString();
 
-    return axios.put(updateUserUrl).then((res) => {
+    return axios.put(updateUserUrl, body, {headers: { 'Content-Type': 'application/json' },}).then((res) => {
         return res;
     }).catch((error) => {
         return { data: 'Error while updating user information: ' + error, status: 400 };
