@@ -10,28 +10,25 @@ import { router } from "expo-router";
 import * as Clipboard from 'expo-clipboard';
 import Toast from "react-native-root-toast";
 
-export default function ProfileInfos() {
+interface ProfileInfosProps {
+    xp: number;
+    numFriend: number;
+    invitationCode: string;
+}
+
+export default function ProfileInfos({ xp, numFriend, invitationCode }: ProfileInfosProps) {
     const colorScheme = useColorScheme();
     const themeColor = Colors[colorScheme ?? 'light'];
     const [username, setUsername] = useState('');
     const [numStreak, setNumStreak] = useState(0);
-    const [xp, setXp] = useState(0);
-    const [numFriend, setNumFriend] = useState(1);
-    const [invitationCode, setInvitationCode] = useState('');
     const [profilePicture, setProfilePicture] = useState('');
 
     useEffect(() => {
-        AsyncStorage.multiGet(['nickname', 'xp', 'friends', 'inviteCode', 'profilePicture']).then((res) => {
+        AsyncStorage.multiGet(['nickname', 'profilePicture']).then((res) => {
             const nickname = res[0][1] || '';
-            const xp = parseInt(res[1][1] || '0');
-            const friends = JSON.parse(res[2][1] || "[]");
-            const inviteCode = res[3][1] || '';
             const profilePicture = res[4][1] || '';
 
             setUsername(nickname);
-            setXp(xp);
-            setNumFriend(friends.length);
-            setInvitationCode(inviteCode);
             setProfilePicture(profilePicture);
         });
     }, []);
