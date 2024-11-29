@@ -7,7 +7,7 @@ interface UserData {
     workoutPlan: Object;
     expoPushToken: string;
     visibility: string;
-    profilePicture: any;
+    // profilePicture: any;
 }
 
 export const addUser = (data: UserData) => {
@@ -17,9 +17,9 @@ export const addUser = (data: UserData) => {
     formData.append('shamePostSettings', JSON.stringify(data.shamePostSettings));
     formData.append('workoutPlan', JSON.stringify(data.workoutPlan));
     formData.append('expoPushToken', data.expoPushToken);
-    if (data.profilePicture) {
-        formData.append('profilePicture', data.profilePicture);
-    }
+    // if (data.profilePicture) {
+    //     formData.append('profilePicture', data.profilePicture);
+    // }
 
     return axios.post(USER_URL, formData, {headers: { 'Content-Type': 'multipart/form-data' },}).then((res) => {
         return res;
