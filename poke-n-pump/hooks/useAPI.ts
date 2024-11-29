@@ -59,7 +59,7 @@ export const updateUser = (data: any, userId: string) => {
     });
 }
 
-export const updateAndStoreUser = (data: UserData, userId: string) => {
+export const updateAndStoreUser = (data: any, userId: string) => {
     return updateUser(data, userId).then((res) => {
         if (res.status !== 400) {
             updateLocalUser(res.data);
@@ -69,6 +69,17 @@ export const updateAndStoreUser = (data: UserData, userId: string) => {
     });
 }
 
+export const updateXp = (userId: string, xp: number) => {
+    return updateAndStoreUser({ xp: xp }, userId);
+}
+
+export const incrementXp = (userId: string, xp: number) => {
+    getUser().then((res) => {
+        if (res) {
+            updateXp(userId, res.xp + xp);
+        }
+    });
+}
 
 export const deleteUser = (userId: string) => {
     const deleteUserUrl = USER_URL + '/' + userId;
