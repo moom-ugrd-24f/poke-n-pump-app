@@ -6,6 +6,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import { useEffect, useState } from 'react';
 import 'react-native-reanimated';
 import { RootSiblingParent } from 'react-native-root-siblings';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { setStatusBarStyle } from 'expo-status-bar';
@@ -68,6 +69,7 @@ export default function RootLayout() {
 
     // Render appropriate stack based on `isFirstTimeLoad`
     return (
+        <SafeAreaView style={{ flex: 1, backgroundColor: Colors[colorScheme ?? 'light'].background }}>
         <RootSiblingParent>
         <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
             <Stack
@@ -86,5 +88,6 @@ export default function RootLayout() {
             </Stack>
         </ThemeProvider>
         </RootSiblingParent>
+        </SafeAreaView>
     );
 }
