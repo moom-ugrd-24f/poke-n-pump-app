@@ -7,6 +7,8 @@ import { Colors } from "@/constants/Colors";
 import { useEffect, useState } from "react";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { router } from "expo-router";
+import * as Clipboard from 'expo-clipboard';
+import Toast from "react-native-root-toast";
 
 export default function ProfileInfos() {
     const colorScheme = useColorScheme();
@@ -34,12 +36,23 @@ export default function ProfileInfos() {
         });
     }, []);
 
+    const copyInvitationCode = () => {
+        Clipboard.setString(invitationCode);
+        Toast.show('Invitation code copied', {
+            duration: Toast.durations.SHORT,
+            position: Toast.positions.CENTER,
+            hideOnPress: true,
+            shadow: true,
+            animation: true,
+        });
+    }
+
     return (
         <ThemedView style={styles.profileView}>
             <Image source={profilePicture ? { uri: profilePicture } : avatar} style={styles.avatar} />
             <ThemedText type='subtitle' lightColor={themeColor.main}>{username}</ThemedText>
             <ThemedText type="default" lightColor={themeColor.mainLight}>Invitation Code
-                <ThemedText type="default" lightColor={themeColor.default}>  {invitationCode}</ThemedText>
+                <ThemedText type="default" lightColor={themeColor.default} onPress={copyInvitationCode}>  {invitationCode}</ThemedText>
             </ThemedText>
             <ThemedView style={styles.stats} lightColor={themeColor.mainDark} darkColor={themeColor.mainDark}>
                 <ThemedView lightColor={themeColor.mainDark} darkColor={themeColor.mainDark}>
