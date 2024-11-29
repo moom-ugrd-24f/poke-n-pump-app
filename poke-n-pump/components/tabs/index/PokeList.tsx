@@ -12,7 +12,8 @@ import { getPokeeList, sendPoke } from '@/hooks/useAPI';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import usePushNotifications from '@/hooks/usePushNotifications';
 import Toast from 'react-native-root-toast';
-import { updateXp } from '@/hooks/useAsyncStorage';
+import { incrementXp } from '@/hooks/useAPI';
+import { getUser } from '@/hooks/useAsyncStorage';
 
 interface Pokee {
     id: string;
@@ -90,14 +91,16 @@ export default function PokeList({didWorkout}) {
     };
 
     const pokeXpUpdate = () => {
-        updateXp(10);
-        Toast.show('Earned 10XP by poking a lazy gym buddy!', {
-            duration: Toast.durations.SHORT,
-            position: Toast.positions.CENTER,
-            shadow: true,
-            animation: true,
-            hideOnPress: true,
-        });
+        if (myself !== undefined && myself.id !== '') {
+            incrementXp(myself.id, 10);
+            Toast.show('Earned 10XP by poking a lazy gym buddy!', {
+                duration: Toast.durations.SHORT,
+                position: Toast.positions.CENTER,
+                shadow: true,
+                animation: true,
+                hideOnPress: true,
+            });
+        }
     };
 
     return (
