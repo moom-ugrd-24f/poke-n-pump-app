@@ -54,27 +54,27 @@ export default function LoginScreen() {
         workoutPlan: workoutPlan,
         expoPushToken: notificationToken,
         visibility: visibility,
-        profilePicture: profilePicture
+        // profilePicture: profilePicture
       };
 
       // Temporarily store user data 2 times
       addUser(data).then((res) => {
-          AsyncStorage.multiSet([
-            ["nickname", res.data.nickname],
-            ["inviteCode", res.data.inviteCode],
-            ["xp", JSON.stringify(res.data.xp)],
-            ["profilePicture", res.data.profilePicture],
-            ["shamePostSettings", JSON.stringify(res.data.shamePostSettings)],
-            ["workoutPlan", JSON.stringify(res.data.workoutPlan)],
-            ["todayAttendance", JSON.stringify(res.data.todayAttendance)],
-            ["noGymStreak", JSON.stringify(res.data.noGymStreak)],
-            ["friends", JSON.stringify(res.data.friends)],
-            ["id", res.data._id],
-            ["visibility", res.data.visibility],
-            ["expoPushToken", notificationToken],
-          ]);
-          updateUser(res.data);
-          router.replace('/(tabs)');
+        AsyncStorage.multiSet([
+          ["nickname", res.data.nickname],
+          ["inviteCode", res.data.inviteCode],
+          ["xp", JSON.stringify(res.data.xp)],
+          // ["profilePicture", res.data.profilePicture],
+          ["shamePostSettings", JSON.stringify(res.data.shamePostSettings)],
+          ["workoutPlan", JSON.stringify(res.data.workoutPlan)],
+          ["todayAttendance", JSON.stringify(res.data.todayAttendance)],
+          ["noGymStreak", JSON.stringify(res.data.noGymStreak)],
+          ["friends", JSON.stringify(res.data.friends)],
+          ["id", res.data._id],
+          ["visibility", res.data.visibility],
+          ["expoPushToken", notificationToken],
+        ]);
+        updateUser(res.data);
+        router.replace('/(tabs)')
       });
 
       // addAndStoreUser(data).then((res) => {

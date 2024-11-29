@@ -7,39 +7,49 @@ import { Colors } from "@/constants/Colors";
 import { useEffect, useState } from "react";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { router } from "expo-router";
+import * as Clipboard from 'expo-clipboard';
+import Toast from "react-native-root-toast";
 
-export default function ProfileInfos() {
+interface ProfileInfosProps {
+    xp: number;
+    numFriend: number;
+    invitationCode: string;
+}
+
+export default function ProfileInfos({ xp, numFriend, invitationCode }: ProfileInfosProps) {
     const colorScheme = useColorScheme();
     const themeColor = Colors[colorScheme ?? 'light'];
     const [username, setUsername] = useState('');
     const [numStreak, setNumStreak] = useState(0);
-    const [xp, setXp] = useState(0);
-    const [numFriend, setNumFriend] = useState(1);
-    const [invitationCode, setInvitationCode] = useState('');
     const [profilePicture, setProfilePicture] = useState('');
 
     useEffect(() => {
-        AsyncStorage.multiGet(['nickname', 'xp', 'friends', 'inviteCode', 'profilePicture']).then((res) => {
+        AsyncStorage.multiGet(['nickname', 'profilePicture']).then((res) => {
             const nickname = res[0][1] || '';
-            const xp = parseInt(res[1][1] || '0');
-            const friends = JSON.parse(res[2][1] || "[]");
-            const inviteCode = res[3][1] || '';
             const profilePicture = res[4][1] || '';
 
             setUsername(nickname);
-            setXp(xp);
-            setNumFriend(friends.length);
-            setInvitationCode(inviteCode);
             setProfilePicture(profilePicture);
         });
     }, []);
+
+    const copyInvitationCode = () => {
+        Clipboard.setString(invitationCode);
+        Toast.show('Invitation code copied', {
+            duration: Toast.durations.SHORT,
+            position: Toast.positions.CENTER,
+            hideOnPress: true,
+            shadow: true,
+            animation: true,
+        });
+    }
 
     return (
         <ThemedView style={styles.profileView}>
             <Image source={profilePicture ? { uri: profilePicture } : avatar} style={styles.avatar} />
             <ThemedText type='subtitle' lightColor={themeColor.main}>{username}</ThemedText>
             <ThemedText type="default" lightColor={themeColor.mainLight}>Invitation Code
-                <ThemedText type="default" lightColor={themeColor.default}>  {invitationCode}</ThemedText>
+                <ThemedText type="default" lightColor={themeColor.default} onPress={copyInvitationCode}>  {invitationCode}</ThemedText>
             </ThemedText>
             <ThemedView style={styles.stats} lightColor={themeColor.mainDark} darkColor={themeColor.mainDark}>
                 <ThemedView lightColor={themeColor.mainDark} darkColor={themeColor.mainDark}>
