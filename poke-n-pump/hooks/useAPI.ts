@@ -8,6 +8,7 @@ interface UserData {
     expoPushToken: string;
     visibility: string;
     profilePicture: any;
+    xp: number;
 }
 
 export const addUser = (data: UserData) => {
@@ -27,6 +28,35 @@ export const addUser = (data: UserData) => {
         return { data: 'Error while adding user', status: 400 };
     });
 }
+
+export const updateUser = (data: UserData, userId: string) => {
+    const updateUserUrl = USER_URL + '/' + userId;
+    
+    const formData = new FormData();
+    if (data.nickname) formData.append('nickname', data.nickname);
+    if (data.visibility) formData.append('visibility', data.visibility);
+    if (data.shamePostSettings) formData.append('shamePostSettings', JSON.stringify(data.shamePostSettings));
+    if (data.workoutPlan) formData.append('workoutPlan', JSON.stringify(data.workoutPlan));
+    if (data.expoPushToken) formData.append('expoPushToken', data.expoPushToken);
+    if (data.profilePicture) formData.append('profilePicture', data.profilePicture);
+    if (data.xp) formData.append('xp', data.xp.toString());
+
+    return axios.put(updateUserUrl).then((res) => {
+        return res;
+    }).catch((error) => {
+        return { data: 'Error while updating user information: ' + error, status: 400 };
+    });
+}
+
+export const deleteUser = (userId: string) => {
+    const deleteUserUrl = USER_URL + '/' + userId;
+    return axios.delete(deleteUserUrl).then((res) => {
+        return res;
+    }).catch((error) => {
+        return { data: 'Error while deleting user', status: 400 };
+    });
+}
+
 
 export const checkUsername = (username: string) => {
     const checkUsernameUrl = CHECK_USERNAME_URL + '/' + username;
