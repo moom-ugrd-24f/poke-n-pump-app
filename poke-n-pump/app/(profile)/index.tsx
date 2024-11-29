@@ -20,15 +20,17 @@ export default function ProfileScreen() {
     const [isLoading, setIsLoading] = useState(true);
     const [refreshing, setRefreshing] = useState(false);
 
+    const [xp, setXp] = useState(0);
+    const [numFriend, setNumFriend] = useState(0);
+    const [invitationCode, setInvitationCode] = useState('');
+
     const fetchProfile = () => {
         AsyncStorage.getItem('id').then((userId) => {
             if (!userId) return;
             getUserInfo(userId).then((res) => {
-                AsyncStorage.setItem('xp', res.data.xp.toString());
-                AsyncStorage.setItem('friends', JSON.stringify(res.data.friends));
-                AsyncStorage.setItem('inviteCode', res.data.inviteCode);
-                AsyncStorage.setItem('visibility', res.data.visibility);
-                // AsyncStorage.setItem('profilePicture', res.data.profilePicture);
+                setXp(res.data.xp);
+                setNumFriend(res.data.friends.length);
+                setInvitationCode(res.data.inviteCode);
                 setIsLoading(false);
             });
         });
@@ -51,7 +53,7 @@ export default function ProfileScreen() {
                 <Image source={profile} style={styles.backImage} />
             </ThemedView>
             { isLoading ? <ActivityIndicator color={themeColor.default} style={{ height: "70%" }} /> : <ThemedScrollView style={{ height: '100%' }} contentContainerStyle={{ alignItems: 'center', gap: 50 }} showsVerticalScrollIndicator={false} refreshControl={ <RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={themeColor.default}/> }>
-                <ProfileInfos />
+            <ProfileInfos xp={xp} numFriend={numFriend} invitationCode={invitationCode} />
                 <ProfileStats />
                 <FriendRequest />
             </ThemedScrollView> }
