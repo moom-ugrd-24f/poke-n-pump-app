@@ -4,6 +4,7 @@ import { StyleSheet } from 'react-native';
 import RankingList from '@/components/tabs/ranking/RankingList';
 import { useFocusEffect } from 'expo-router';
 import { useState, useCallback } from 'react';
+import { Colors } from '@/constants/Colors';
 
 export default function RankingScreen() {
   const [update, setUpdate] = useState(false);
@@ -16,10 +17,7 @@ export default function RankingScreen() {
 
   return (
     <ThemedView style={styles.rankingView}>
-      <ThemedText 
-        type='header'
-        style={styles.titleText}
-      >
+      <ThemedText type='header'>
         Weekly Ranking
       </ThemedText>
       <RankingList update={update} setUpdate={setUpdate} />
@@ -28,9 +26,6 @@ export default function RankingScreen() {
 }
 
 const styles = StyleSheet.create({
-  titleText: {
-    top: 50,
-  },
   rankingView: {
     flex: 1,
     alignItems: 'center',

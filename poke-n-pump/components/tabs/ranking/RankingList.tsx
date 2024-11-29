@@ -103,7 +103,7 @@ export default function RankingList({update, setUpdate}) {
 
 const styles = StyleSheet.create({
     rankingListView: {
-        top: 50,
+        top: 20,
         height: '80%',
         width: '90%',
         alignItems: 'center',

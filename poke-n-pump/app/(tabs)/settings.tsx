@@ -1,4 +1,5 @@
 import { ThemedButton } from '@/components/themedComponents/ThemedButton';
+import { ThemedText } from '@/components/themedComponents/ThemedText';
 import { StyleSheet, Alert } from 'react-native';
 import VisibilityOption from '@/components/tabs/settings/VisibilityOption';
 import WorkoutSchedule from '@/components/tabs/settings/WorkoutSchedule';
@@ -46,6 +47,9 @@ export default function SettingsScreen() {
 
   return (
     <ThemedView style={styles.settingsView} >
+      <ThemedText type='header'>
+        Settings
+      </ThemedText>
       <VisibilityOption />
       <WorkoutSchedule />
       <ShameOption />
@@ -67,7 +71,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingTop: '15%',
+    // paddingTop: '15%',
     paddingBottom: '5%',
   }
 });

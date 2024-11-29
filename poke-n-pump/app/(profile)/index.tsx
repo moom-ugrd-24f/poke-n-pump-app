@@ -64,7 +64,6 @@ export default function ProfileScreen() {
 const styles = StyleSheet.create({
     backNavigation: {
         width: '100%',
-        marginTop: 25,
         flexDirection: 'row',
         justifyContent: 'flex-start',
         alignItems: 'center',
