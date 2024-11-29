@@ -53,7 +53,7 @@ export default function LoginScreen() {
         workoutPlan: workoutPlan,
         expoPushToken: notificationToken,
         visibility: visibility,
-        profilePicture: profilePicture
+        // profilePicture: profilePicture
       };
 
       addUser(data).then((res) => {
@@ -61,7 +61,7 @@ export default function LoginScreen() {
           ["nickname", res.data.nickname],
           ["inviteCode", res.data.inviteCode],
           ["xp", JSON.stringify(res.data.xp)],
-          ["profilePicture", res.data.profilePicture],
+          // ["profilePicture", res.data.profilePicture],
           ["shamePostSettings", JSON.stringify(res.data.shamePostSettings)],
           ["workoutPlan", JSON.stringify(res.data.workoutPlan)],
           ["todayAttendance", JSON.stringify(res.data.todayAttendance)],
