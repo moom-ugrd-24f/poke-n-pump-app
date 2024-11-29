@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { FRIEND_REQUEST_URL, USER_URL, CHECK_USERNAME_URL, POKE_URL, WEEKLY_RANKING_URL } from '@/constants/url';
+import { updateUser as updateLocalUser } from '@/hooks/useAsyncStorage';
 
 interface UserData {
     nickname: string;
@@ -29,6 +30,16 @@ export const addUser = (data: UserData) => {
     });
 }
 
+export const addAndStoreUser = (data: UserData) => {
+    return addUser(data).then((res) => {
+        if (res.status !== 400) {
+            updateLocalUser(res.data);
+            console.log('User added successfully: ', res.data);
+        }
+        return res;
+    });
+}
+
 export const updateUser = (data: UserData, userId: string) => {
     const updateUserUrl = USER_URL + '/' + userId;
     
@@ -47,6 +58,17 @@ export const updateUser = (data: UserData, userId: string) => {
         return { data: 'Error while updating user information: ' + error, status: 400 };
     });
 }
+
+export const updateAndStoreUser = (data: UserData, userId: string) => {
+    return updateUser(data, userId).then((res) => {
+        if (res.status !== 400) {
+            updateLocalUser(res.data);
+            console.log('User updated successfully: ', res.data);
+        }
+        return res;
+    });
+}
+
 
 export const deleteUser = (userId: string) => {
     const deleteUserUrl = USER_URL + '/' + userId;
