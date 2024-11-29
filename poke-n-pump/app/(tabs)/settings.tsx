@@ -50,7 +50,7 @@ export default function SettingsScreen() {
       <WorkoutSchedule />
       <ShameOption />
       <ThemedButton 
-      title="Reset"
+      title="Delete Account"
       lightColor={themeColor.alert}
       darkColor={themeColor.alert}
       lightBorderColor={themeColor.alert}
