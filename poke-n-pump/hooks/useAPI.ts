@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { FRIEND_REQUEST_URL, USER_URL, CHECK_USERNAME_URL, POKE_URL, WEEKLY_RANKING_URL } from '@/constants/url';
+import { getUser, updateUser as updateLocalUser } from '@/hooks/useAsyncStorage';
 
 interface UserData {
     nickname: string;
@@ -8,6 +9,7 @@ interface UserData {
     expoPushToken: string;
     visibility: string;
     // profilePicture: any;
+    xp: number;
 }
 
 export const addUser = (data: UserData) => {
@@ -27,6 +29,67 @@ export const addUser = (data: UserData) => {
         return { data: 'Error while adding user', status: 400 };
     });
 }
+
+export const addAndStoreUser = (data: UserData) => {
+    return addUser(data).then((res) => {
+        if (res.status !== 400) {
+            updateLocalUser(res.data);
+            console.log('User added successfully: ', res.data);
+        }
+        return res;
+    });
+}
+
+export const updateUser = (data: any, userId: string) => {
+    const updateUserUrl = USER_URL + '/' + userId;
+    
+    const body = JSON.parse("{}");
+    if (data.nickname) body["nickname"] = data.nickname;
+    if (data.visibility) body["visibility"] = data.visibility;
+    if (data.shamePostSettings) body["shamePostSettings"] = JSON.stringify(data.shamePostSettings);
+    if (data.workoutPlan) body["workoutPlan"] = JSON.stringify(data.workoutPlan);
+    if (data.expoPushToken) body["expoPushToken"] = data.expoPushToken;
+    if (data.profilePicture) body["profilePicture"] = data.profilePicture;
+    if (data.xp) body["xp"] = data.xp.toString();
+
+    return axios.put(updateUserUrl, body, {headers: { 'Content-Type': 'application/json' },}).then((res) => {
+        return res;
+    }).catch((error) => {
+        return { data: 'Error while updating user information: ' + error, status: 400 };
+    });
+}
+
+export const updateAndStoreUser = (data: any, userId: string) => {
+    return updateUser(data, userId).then((res) => {
+        if (res.status !== 400) {
+            updateLocalUser(res.data);
+            console.log('User updated successfully: ', res.data);
+        }
+        return res;
+    });
+}
+
+export const updateXp = (userId: string, xp: number) => {
+    return updateAndStoreUser({ xp: xp }, userId);
+}
+
+export const incrementXp = (userId: string, xp: number) => {
+    getUser().then((res) => {
+        if (res) {
+            updateXp(userId, res.xp + xp);
+        }
+    });
+}
+
+export const deleteUser = (userId: string) => {
+    const deleteUserUrl = USER_URL + '/' + userId;
+    return axios.delete(deleteUserUrl).then((res) => {
+        return res;
+    }).catch((error) => {
+        return { data: 'Error while deleting user', status: 400 };
+    });
+}
+
 
 export const checkUsername = (username: string) => {
     const checkUsernameUrl = CHECK_USERNAME_URL + '/' + username;

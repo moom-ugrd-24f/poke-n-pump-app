@@ -8,8 +8,9 @@ import ThemedButton from '@/components/themedComponents/ThemedButton';
 import { ThemedView } from '@/components/themedComponents/ThemedView';
 import ShameOption from '@/components/login/ShameOption';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { addUser } from '@/hooks/useAPI';
+import { addUser, addAndStoreUser } from '@/hooks/useAPI';
 import usePushNotifications from '@/hooks/usePushNotifications';
+import { updateUser } from '@/hooks/useAsyncStorage';
 
 enum LOGIN_STAGE {
   PROFILE = 'PROFILE',
@@ -56,6 +57,7 @@ export default function LoginScreen() {
         // profilePicture: profilePicture
       };
 
+      // Temporarily store user data 2 times
       addUser(data).then((res) => {
         AsyncStorage.multiSet([
           ["nickname", res.data.nickname],
@@ -71,8 +73,13 @@ export default function LoginScreen() {
           ["visibility", res.data.visibility],
           ["expoPushToken", notificationToken],
         ]);
+        updateUser(res.data);
         router.replace('/(tabs)')
       });
+
+      // addAndStoreUser(data).then((res) => {
+      //   router.replace('/(tabs)')
+      // });
     });
   }
 

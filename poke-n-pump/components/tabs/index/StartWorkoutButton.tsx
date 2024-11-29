@@ -7,10 +7,11 @@ import { completeWorkout } from '@/hooks/useAPI';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast from 'react-native-root-toast';
 import { updateXp } from '@/hooks/useAsyncStorage';
+import { incrementXp } from '@/hooks/useAPI';
 
 export default function StartWorkoutButton({setDidWorkout}) {
     const colorScheme = useColorScheme();
-    const [user_id, setUserId] = useState('');
+    const [userId, setUserId] = useState('');
 
     useEffect(() => {
         AsyncStorage.getItem('id').then((res) => {
@@ -19,11 +20,11 @@ export default function StartWorkoutButton({setDidWorkout}) {
     }, []);
 
     function onWorkoutButtonPressed() {
-        if (user_id === '') {
+        if (userId === '') {
             return;
         }
         
-        completeWorkout(user_id);
+        completeWorkout(userId);
         let toast = Toast.show('Congratulations! Earned 10XP by working out.', {
             duration: Toast.durations.SHORT,
             position: Toast.positions.CENTER,
@@ -32,7 +33,7 @@ export default function StartWorkoutButton({setDidWorkout}) {
             animation: true,
         });
         setDidWorkout(true);
-        updateXp(10);
+        incrementXp(userId, 10);
     }
 
     return (

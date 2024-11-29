@@ -4,11 +4,12 @@ import { ThemedText } from '@/components/themedComponents/ThemedText';
 import { ThemedScrollView } from '@/components/themedComponents/ThemedScrollView';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { Colors } from '@/constants/Colors';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { getWeeklyRanking } from '@/hooks/useAPI';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { getUser, getUserId } from '@/hooks/useAsyncStorage';
 
-export default function RankingList() {
+export default function RankingList({update, setUpdate}) {
     const colorScheme = useColorScheme();
 
     const themeColor = Colors[colorScheme ?? 'light'];
@@ -30,16 +31,28 @@ export default function RankingList() {
     const [userId, setUserId] = useState('');
     const [isLoading, setIsLoading] = useState(true);
 
-    useEffect(() => {
-        AsyncStorage.getItem('id').then((storedId) => {
-            if (!storedId) return;
-            setUserId(storedId);
-        });
-    }, []);
+    // useEffect(() => {
+    //     getUserId().then((res) => {
+    //         setUserId(res || '');
+    //     });
+    // }, []);
 
     useEffect(() => {
         getRankings();
     }, [userId]);
+
+    useEffect(() => {
+        if (update) {
+            if (!userId) {
+                getUserId().then((res) => {
+                    setUserId(res || '');
+                });
+            } else {
+                getRankings();
+            }
+            setUpdate(false);
+        }
+    }), [update];
 
     const getRankings = async () => {
         getWeeklyRanking(userId).then((res) => {
@@ -53,7 +66,6 @@ export default function RankingList() {
             setIsLoading(false);
         });
     }
-
 
     return (
         <ThemedView style={styles.rankingListView}>
