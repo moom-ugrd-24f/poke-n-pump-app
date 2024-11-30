@@ -6,11 +6,15 @@ import * as SplashScreen from 'expo-splash-screen';
 import { useEffect, useState } from 'react';
 import 'react-native-reanimated';
 import { RootSiblingParent } from 'react-native-root-siblings';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { setStatusBarStyle } from 'expo-status-bar';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Root from './+html';
+
+import React from "react";
+import firebaseApp from "../constants/firebaseConfig"; // Firebase 초기화 가져오기
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -23,6 +27,9 @@ export default function RootLayout() {
 
     const [isLoading, setIsLoading] = useState(true);
     const [isFirstTimeLoad, setIsFirstTimeLoad] = useState(false);
+    useEffect(() => {
+        console.log("Firebase Initialized:", firebaseApp.name);
+    }, []);
 
     // Hide splash screen once fonts are loaded
     useEffect(() => {
@@ -62,6 +69,7 @@ export default function RootLayout() {
 
     // Render appropriate stack based on `isFirstTimeLoad`
     return (
+        <SafeAreaView style={{ flex: 1, backgroundColor: Colors[colorScheme ?? 'light'].background }}>
         <RootSiblingParent>
         <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
             <Stack
@@ -80,5 +88,6 @@ export default function RootLayout() {
             </Stack>
         </ThemeProvider>
         </RootSiblingParent>
+        </SafeAreaView>
     );
 }

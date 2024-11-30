@@ -7,20 +7,25 @@ import ProfileContainer from '@/components/tabs/index/ProfileContainer';
 import StartWorkoutButton from '@/components/tabs/index/StartWorkoutButton';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { getUserInfo } from '@/hooks/useAPI';
+import { getUserId } from '@/hooks/useAsyncStorage';
 
 export default function HomeScreen() {
   const [didWorkout, setDidworkout] = useState(false);
 
+  const [userId, setUserId] = useState('');
+
   useEffect(() => {
-    AsyncStorage.getItem('id').then((res) => {
-      if (res === null) {
-        return;
-      }
-      getUserInfo(res).then((res) => {
-        setDidworkout(res.data.todayAttendance);
-      });
+    getUserId().then((res) => {
+      setUserId(res || '');
     });
   }, []);
+
+  useEffect(() => {
+    if (userId === '') return;
+    getUserInfo(userId).then((res) => {
+      setDidworkout(res.data.todayAttendance);
+    });
+  }, [userId]);
 
   return (
     <ThemedView style={styles.homeView}>
@@ -37,7 +42,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingTop: '5%',
   },
   image: {
     width: '100%',

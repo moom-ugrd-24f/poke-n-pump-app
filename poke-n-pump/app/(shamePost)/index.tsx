@@ -9,15 +9,26 @@ import { Colors } from "@/constants/Colors";
 import * as Sharing from 'expo-sharing';
 import { Asset } from 'expo-asset';
 import Toast from 'react-native-root-toast';
-import { updateXp } from "@/hooks/useAsyncStorage";
+import { incrementXp } from "@/hooks/useAPI";
+import { getUserId } from "@/hooks/useAsyncStorage";
+import { useEffect, useState } from "react";
 
 export default function ShamePostScreen() {
     const colorScheme = useColorScheme();
 
     const themeColor = Colors[colorScheme ?? 'light'];
 
+    const [userId, setUserId] = useState('');
+
+    useEffect(() => {
+        getUserId().then((res) => {
+            setUserId(res || '');
+        });
+    }, []);
+
     const shamePostXpUpdate = () => {
-        updateXp(50);
+        if (!userId) return;
+        incrementXp(userId, 50);
         let toast = Toast.show('You earned 50XP by shaming your friend :)', {
             duration: Toast.durations.SHORT,
             position: Toast.positions.CENTER,
@@ -68,7 +79,6 @@ const styles = StyleSheet.create({
     },
     backNavigation: {
         width: '100%',
-        marginTop: 25,
         flexDirection: 'row',
         justifyContent: 'flex-start',
         alignItems: 'center',
