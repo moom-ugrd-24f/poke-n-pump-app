@@ -27,23 +27,25 @@ export default function LoginScreen() {
   const [enableCompleteButton, setEnableCompleteButton] = useState(true);
   const notificationToken = usePushNotifications().expoPushToken;
 
+  const [workoutDays, setWorkoutDays] = useState([]);
+
   function finishOnboarding() {
-    AsyncStorage.multiGet(['username', 'workout-schedule', 'shame-toggle', 'shame-streak', 'visibility', 'profilePicture']).then((res) => {
+    AsyncStorage.multiGet(['username', 'shame-toggle', 'shame-streak', 'visibility', 'profilePicture']).then((res) => {
       const nickname = res[0][1] || 'John Doe';
-      const workoutScheduleJson = JSON.parse(res[1][1]? res[1][1] : '{}');
-      const workoutSchedule = [];
-      if (workoutScheduleJson.sun) workoutSchedule.push(0);
-      if (workoutScheduleJson.mon) workoutSchedule.push(1);
-      if (workoutScheduleJson.tue) workoutSchedule.push(2);
-      if (workoutScheduleJson.wed) workoutSchedule.push(3);
-      if (workoutScheduleJson.thu) workoutSchedule.push(4);
-      if (workoutScheduleJson.fri) workoutSchedule.push(5);
-      if (workoutScheduleJson.sat) workoutSchedule.push(6);
-      const shameToggle = res[2][1] || 'false';
-      const shameStreak = res[3][1] || '1';
-      const workoutPlan = { "daysOfWeek": workoutSchedule};
-      const visibility = res[4][1] || 'friend';
-      const profilePicture = res[5][1] || '';
+      // const workoutScheduleJson = JSON.parse(res[1][1]? res[1][1] : '{}');
+      // const workoutSchedule = [];
+      // if (workoutScheduleJson.sun) workoutSchedule.push(0);
+      // if (workoutScheduleJson.mon) workoutSchedule.push(1);
+      // if (workoutScheduleJson.tue) workoutSchedule.push(2);
+      // if (workoutScheduleJson.wed) workoutSchedule.push(3);
+      // if (workoutScheduleJson.thu) workoutSchedule.push(4);
+      // if (workoutScheduleJson.fri) workoutSchedule.push(5);
+      // if (workoutScheduleJson.sat) workoutSchedule.push(6);
+      const shameToggle = res[1][1] || 'false';
+      const shameStreak = res[2][1] || '1';
+      const workoutPlan = { "daysOfWeek": workoutDays};
+      const visibility = res[3][1] || 'friend';
+      const profilePicture = res[4][1] || '';
 
       const data = {
         nickname: nickname,
@@ -105,7 +107,8 @@ export default function LoginScreen() {
         stage === LOGIN_STAGE.VISIBILITY ? 
         <VisibilityOption /> : 
         stage === LOGIN_STAGE.WORKOUT ? 
-        <WorkoutInfos /> : <ShameOption />
+        <WorkoutInfos workoutDays={workoutDays} setWorkoutDays={setWorkoutDays}/> :
+        <ShameOption />
       }
       <ThemedButton 
         title="Complete"
