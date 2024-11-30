@@ -42,31 +42,37 @@ export default function ProfileInfos({ enableCompleteButton }: ProfileInfosProps
     };
 
     const onCheckButtonPressed = async () => {
-        enableCompleteButton(true);
-        saveUsername();
-        let toast = Toast.show('Username is available', {
-            duration: Toast.durations.SHORT,
-            position: Toast.positions.CENTER,
-            hideOnPress: true,
-            shadow: true,
-            animation: true,
-        });
-        return;
-
-        // API call to check if username is already taken
         const res = await checkUsername(username);
         if (res.status === 400) {
-            console.log(res.data);
-            // Show server error toast
+            enableCompleteButton(false);
+            Toast.show('Error occurred while checking the nickname', {
+                duration: Toast.durations.SHORT,
+                position: Toast.positions.CENTER,
+                hideOnPress: true,
+                shadow: true,
+                animation: true,
+            });
             return;
         }
         if (res.data.exists === false) {
-            console.log('Username is available');
             enableCompleteButton(true);
             saveUsername();
+            Toast.show('Username is available', {
+                duration: Toast.durations.SHORT,
+                position: Toast.positions.CENTER,
+                hideOnPress: true,
+                shadow: true,
+                animation: true,
+            });
         } else {
-            console.log('Username is taken');
-            // Show duplicate alert toast
+            enableCompleteButton(false);
+            Toast.show('Username \'' + username + '\'is already taken', {
+                duration: Toast.durations.SHORT,
+                position: Toast.positions.CENTER,
+                hideOnPress: true,
+                shadow: true,
+                animation: true,
+            });
         }
     }
 

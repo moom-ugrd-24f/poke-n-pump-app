@@ -22,12 +22,12 @@ export default function SettingsScreen() {
     getUserId().then((res) => {
       setUserId(res || '');
     });
-  });
+  }, []);
 
   const deleteUserData = async () => {
+    await AsyncStorage.clear();
     if (userId === '') return;
     deleteUser(userId);
-    AsyncStorage.clear();
   }
 
   const createDeleteAccountAlert = () => 
