@@ -5,25 +5,25 @@ import { Ionicons } from '@expo/vector-icons';
 import { ThemedText } from '../../themedComponents/ThemedText';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+// import AsyncStorage from '@react-native-async-storage/async-storage';
 
-interface IWorkoutSchedule {
-    sun: boolean;
-    mon: boolean;
-    tue: boolean;
-    wed: boolean;
-    thu: boolean;
-    fri: boolean;
-    sat: boolean;
-}
+// interface IWorkoutSchedule {
+//     sun: boolean;
+//     mon: boolean;
+//     tue: boolean;
+//     wed: boolean;
+//     thu: boolean;
+//     fri: boolean;
+//     sat: boolean;
+// }
 
-interface IWorkoutSession {
-    day: string;
-    workoutSession: boolean;
-    color?: string;
-}
+// interface IWorkoutSession {
+//     day: string;
+//     workoutSession: boolean;
+//     color?: string;
+// }
 
-export default function WorkoutSchedule() {
+export default function WorkoutSchedule({workoutDays, setWorkoutDays}) {
     const colorScheme = useColorScheme();
     const themeColor = Colors[colorScheme ?? 'light'];
     const emptySchedule = {
@@ -36,41 +36,43 @@ export default function WorkoutSchedule() {
         "sat": false,
     };
 
-    const getWorkoutDayList = (scheduleJson: IWorkoutSchedule) => {
+    const getWorkoutSchedule = (workoutDays: [number]) => {
         return [
-            { day: 'S', workoutSession: scheduleJson.sun, color: 'red' },
-            { day: 'M', workoutSession: scheduleJson.mon },
-            { day: 'T', workoutSession: scheduleJson.tue },
-            { day: 'W', workoutSession: scheduleJson.wed },
-            { day: 'T', workoutSession: scheduleJson.thu },
-            { day: 'F', workoutSession: scheduleJson.fri },
-            { day: 'S', workoutSession: scheduleJson.sat, color: 'blue' },
+            { day: 'S', workoutSession: workoutDays.includes(0), color: 'red' },
+            { day: 'M', workoutSession: workoutDays.includes(1) },
+            { day: 'T', workoutSession: workoutDays.includes(2) },
+            { day: 'W', workoutSession: workoutDays.includes(3) },
+            { day: 'T', workoutSession: workoutDays.includes(4) },
+            { day: 'F', workoutSession: workoutDays.includes(5) },
+            { day: 'S', workoutSession: workoutDays.includes(6), color: 'blue' },
         ];
     } 
 
-    const [workoutSchedule, setWorkoutSchedule] = useState(getWorkoutDayList(emptySchedule));
+    const [workoutSchedule, setWorkoutSchedule] = useState(getWorkoutSchedule(workoutDays));
 
     useEffect(() => {
-        loadWorkoutSchedule();
-    }, []);
+        setWorkoutDays(getWorkoutSchedule(workoutDays));
+    }, [workoutDays.length]);
 
-    const loadWorkoutSchedule = async () => {
-        try {
-            const scheduleString = await AsyncStorage.getItem('workout-schedule');
-            const schedule = scheduleString !== null ? JSON.parse(scheduleString) : emptySchedule;
-            setWorkoutSchedule(getWorkoutDayList(schedule));
-        } catch (e) {
-            console.error(e);
-        }
-    }
+    // const loadWorkoutSchedule = async () => {
+    //     try {
+    //         const scheduleString = await AsyncStorage.getItem('workout-schedule');
+    //         const schedule = scheduleString !== null ? JSON.parse(scheduleString) : emptySchedule;
+    //         setWorkoutSchedule(getWorkoutDayList(schedule));
+    //     } catch (e) {
+    //         console.error(e);
+    //     }
+    // }
 
     const toggleWorkoutSession = async (index: number) => {
-        setWorkoutSchedule((prevSchedule) =>
-            prevSchedule.map((session, i) =>
-                i === index ? { ...session, workoutSession: !session.workoutSession } : session
-            )
-        );
-        await storeWorkoutSchedule(workoutSchedule);
+        setWorkoutDays((prevWorkoutDays: [number]) => {
+            if (prevWorkoutDays.includes(index)) {
+                return prevWorkoutDays.filter((day) => day !== index);
+            } else {
+                return [...prevWorkoutDays, index];
+            }
+        });
+        // await storeWorkoutSchedule(workoutSchedule);
     };
 
     return (
@@ -111,21 +113,21 @@ const styles = StyleSheet.create({
     }
 });
 
-const storeWorkoutSchedule = async (workoutSchedule: Array<IWorkoutSession>) => {
-    const schedule = {
-        "sun": workoutSchedule[0].workoutSession,
-        "mon": workoutSchedule[1].workoutSession,
-        "tue": workoutSchedule[2].workoutSession,
-        "wed": workoutSchedule[3].workoutSession,
-        "thu": workoutSchedule[4].workoutSession,
-        "fri": workoutSchedule[5].workoutSession,
-        "sat": workoutSchedule[6].workoutSession,
-    }
-    try {
-        const value = JSON.stringify(schedule);
-        await AsyncStorage.setItem('workout-schedule', value);
-        console.log('Workout schedule updated', schedule);
-    } catch (e) {
-        console.error(e);
-    }
-}
+// const storeWorkoutSchedule = async (workoutSchedule: Array<IWorkoutSession>) => {
+//     const schedule = {
+//         "sun": workoutSchedule[0].workoutSession,
+//         "mon": workoutSchedule[1].workoutSession,
+//         "tue": workoutSchedule[2].workoutSession,
+//         "wed": workoutSchedule[3].workoutSession,
+//         "thu": workoutSchedule[4].workoutSession,
+//         "fri": workoutSchedule[5].workoutSession,
+//         "sat": workoutSchedule[6].workoutSession,
+//     }
+//     try {
+//         const value = JSON.stringify(schedule);
+//         await AsyncStorage.setItem('workout-schedule', value);
+//         console.log('Workout schedule updated', schedule);
+//     } catch (e) {
+//         console.error(e);
+//     }
+// }
