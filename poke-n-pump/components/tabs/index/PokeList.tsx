@@ -41,23 +41,16 @@ export default function PokeList({didWorkout}) {
     const [myself, setMyself] = useState<Pokee>({id: '', nickname: '', expoPushToken: '', isFriend: true, isShamePostCandidate: false});
     
     useEffect(() => {
-        AsyncStorage.multiGet(['id', 'nickname', 'expoPushToken']).then((res) => {
-            const id = res[0][1] || '';
-            const nickname = res[1][1] || '';
-            const expoPushToken = res[2][1] || '';
-
-            if (!id || !nickname || !expoPushToken) {
-                return;
+        getUser().then((res) => {
+            if (res) {
+                setMyself({
+                    id: res._id,
+                    nickname: res.nickname,
+                    expoPushToken: res.expoPushToken,
+                    isFriend: true,
+                    isShamePostCandidate: res.shamePostSettings.isEnabled
+                });
             }
-      
-            const myself = {
-                id: id,
-                nickname: nickname,
-                expoPushToken: expoPushToken,
-                isFriend: true,
-                isShamePostCandidate: false
-            };
-            setMyself(myself);
         });
     }, []);
 
