@@ -105,7 +105,7 @@ export default function LoginScreen() {
         stage === LOGIN_STAGE.PROFILE ? 
         <ProfileInfos enableCompleteButton={setEnableCompleteButton}/> : 
         stage === LOGIN_STAGE.VISIBILITY ? 
-        <VisibilityOption /> : 
+        <VisibilityOption orientation={'column'} /> : 
         stage === LOGIN_STAGE.WORKOUT ? 
         <WorkoutInfos workoutDays={workoutDays} setWorkoutDays={setWorkoutDays}/> :
         <ShameOption />
