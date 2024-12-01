@@ -30,6 +30,9 @@ export default function NotificationsScreen() {
                     if (Array.isArray(res.data)) {
                         setReceivedRequests(res.data.filter((request) => request.status === 'pending'));
                         setIsLoading(false);
+                    } else if(res.data) {
+                        setReceivedRequests([]);
+                        setIsLoading(false);
                     } else {
                         console.error("Unexpected data format:", res.data);
                     }
