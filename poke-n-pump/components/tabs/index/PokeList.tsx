@@ -175,7 +175,7 @@ export default function PokeList({didWorkout}) {
                 { didWorkout
                 ? <ThemedText style={styles.myselfPlaceholder} type="subtitle">You've worked out today!</ThemedText>
                 : !myselfPokee
-                    ? <ThemedText style={styles.myselfPlaceholder} type="subtitle">You've poked yourself today!</ThemedText>
+                    ? <ThemedText style={styles.myselfPlaceholder} type="subtitle">No more pokes for yourself today!</ThemedText>
                     : <>
                         <ThemedText type="subtitle">You!</ThemedText>
                         <Pressable 
