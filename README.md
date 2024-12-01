@@ -11,11 +11,15 @@ git clone git@github.com:moom-ugrd-24f/poke-n-pump-app.git
 ~~~bash
 cd ${REPO_ROOT}/poke-n-pump
 ~~~
-4. Run a local expo app
+4. Install node modules
+~~~bash
+npm install
+~~~
+5. Run a local expo app
 ~~~bash
 npx expo start
 ~~~
-5. Connect to running app using your client device
+6. Connect to running app using your client device
 
 ## License
 This project is licensed under team Escargots
