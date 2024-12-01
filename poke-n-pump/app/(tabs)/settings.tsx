@@ -1,5 +1,6 @@
 import { ThemedButton } from '@/components/themedComponents/ThemedButton';
 import { ThemedText } from '@/components/themedComponents/ThemedText';
+import { ThemedScrollView } from '@/components/themedComponents/ThemedScrollView';
 import { StyleSheet, Alert } from 'react-native';
 import VisibilityOption from '@/components/tabs/settings/VisibilityOption';
 import WorkoutSchedule from '@/components/tabs/settings/WorkoutSchedule';
@@ -96,29 +97,38 @@ export default function SettingsScreen() {
       <ThemedText type='header'>
         Settings
       </ThemedText>
-      <VisibilityOption />
-      <WorkoutSchedule workoutDays={workoutDays} setWorkoutDays={setWorkoutDays} />
-      <ShameOption />
-      <ThemedButton 
-        title="Apply Changes"
-        lightColor={themeColor.sub}
-        darkColor={themeColor.sub}
-        lightBorderColor={themeColor.subDark}
-        darkBorderColor={themeColor.subDark}
-        lightTextColor={themeColor.reverse}
-        darkTextColor={themeColor.reverse}
-        onPress={createApplyChangesAlert}
-      />
-      <ThemedButton 
-        title="Delete Account"
-        lightColor={themeColor.alert}
-        darkColor={themeColor.alert}
-        lightBorderColor={themeColor.alert}
-        darkBorderColor={themeColor.alert}
-        lightTextColor={themeColor.white}
-        darkTextColor={themeColor.white}
-        onPress={createDeleteAccountAlert}
-      />
+      <ThemedScrollView 
+        style={styles.scrollView}
+        // contentContainerStyle={{ flex: 2, justifyContent: 'space-between' }}  
+      >
+        <VisibilityOption />
+        <WorkoutSchedule 
+          workoutDays={workoutDays} 
+          setWorkoutDays={setWorkoutDays} />
+        <ShameOption />
+        <ThemedButton
+          style={styles.applyChangeButton} 
+          title="Apply Changes"
+          lightColor={themeColor.sub}
+          darkColor={themeColor.sub}
+          lightBorderColor={themeColor.subDark}
+          darkBorderColor={themeColor.subDark}
+          lightTextColor={themeColor.reverse}
+          darkTextColor={themeColor.reverse}
+          onPress={createApplyChangesAlert}
+        />
+        <ThemedButton 
+          style={styles.deleteAccountButton}
+          title="Delete Account"
+          lightColor={themeColor.alert}
+          darkColor={themeColor.alert}
+          lightBorderColor={themeColor.alert}
+          darkBorderColor={themeColor.alert}
+          lightTextColor={themeColor.white}
+          darkTextColor={themeColor.white}
+          onPress={createDeleteAccountAlert}
+        />
+      </ThemedScrollView>
     </ThemedView>
   );
 }
@@ -130,5 +140,25 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     // paddingTop: '15%',
     paddingBottom: '5%',
-  }
+  },
+  scrollView: {
+    width: '100%',
+    height: '80%',
+    paddingTop: 20,
+  },
+  visibilityOption: {
+    paddingTop: 20,
+  },
+  workoutSchedule: {
+    paddingTop: 20,
+  },
+  shameOption: {
+    paddingTop: 20,
+  },
+  applyChangeButton: {
+    padding: 10,
+  },
+  deleteAccountButton: {
+    padding: 10,
+  },
 });
