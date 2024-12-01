@@ -167,14 +167,15 @@ export default function PokeList({didWorkout}) {
             { isLoading ? 
             <ActivityIndicator color={themeColor.default} style={{ height: "70%" }} /> : 
             <ThemedScrollView 
-                style={styles.pokeesContainer} 
+                style={styles.pokeesContainer}
+                contentContainerStyle={{paddingBottom: 100}}
                 showsVerticalScrollIndicator={false} 
                 refreshControl={ <RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={themeColor.default}/> }
             >
                 { didWorkout
                 ? <ThemedText style={styles.myselfPlaceholder} type="subtitle">You've worked out today!</ThemedText>
                 : !myselfPokee
-                    ? <ThemedText style={styles.myselfPlaceholder} type="subtitle">You've poked yourself today!</ThemedText>
+                    ? <ThemedText style={styles.myselfPlaceholder} type="subtitle">No more pokes for yourself today!</ThemedText>
                     : <>
                         <ThemedText type="subtitle">You!</ThemedText>
                         <Pressable 
@@ -255,7 +256,7 @@ export default function PokeList({didWorkout}) {
 
 const styles = StyleSheet.create({
     pokeListView: {
-        height: '70%',
+        height: '65%',
         width: '90%',
         alignItems: 'center',
         marginBottom: 5,

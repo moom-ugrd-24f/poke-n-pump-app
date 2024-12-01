@@ -104,7 +104,7 @@ export default function SettingsScreen() {
       </ThemedText>
       <ThemedScrollView 
         style={styles.scrollView}
-        // contentContainerStyle={{ flex: 2, justifyContent: 'space-between' }}  
+        contentContainerStyle={{ paddingBottom: 100 }}  
       >
         <VisibilityOption 
           visibility={visibility}

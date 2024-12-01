@@ -32,3 +32,8 @@ export const getUserId = async () => {
     const user = await getUser();
     return user?._id;
 }
+
+export const getExpoToken = async () => {
+    const user = await getUser();
+    return user?.expoPushToken;
+}

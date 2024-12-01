@@ -16,15 +16,15 @@ export default function TabLayout() {
         headerShown: false,
         tabBarActiveTintColor: themeColor.icon,
         tabBarInactiveTintColor: themeColor.default,
-        tabBarStyle: { 
+        tabBarStyle: {
+          alignContent: 'center',
           backgroundColor: themeColor.backgroundLight,
           borderTopColor: themeColor.backgroundLight,
           marginLeft: 10, 
-          marginRight: 10, 
-          borderTopLeftRadius: 10,
-          borderTopRightRadius: 10,
-          borderBottomLeftRadius: 0,
-          borderBottomRightRadius: 0
+          marginRight: 10,
+          borderRadius: 10,
+          paddingBottom: 0,
+          height: 60,
         },
     }}>
       <Tabs.Screen
