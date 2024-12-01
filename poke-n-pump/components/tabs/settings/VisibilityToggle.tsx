@@ -60,10 +60,10 @@ export default function VisibilityToggle({orientation}) {
         <ThemedView style={styles.visibilityView}>
             <ThemedView 
                 style={styles.optionView} 
-                lightColor={themeColor.default} 
-                darkColor={themeColor.default}
-                lightBorderColor={isPrivate ? themeColor.main : themeColor.default}
-                darkBorderColor={isPrivate ? themeColor.main : themeColor.default}
+                lightColor={isPrivate ? themeColor.main : themeColor.default} 
+                darkColor={isPrivate ? themeColor.main : themeColor.default}
+                lightBorderColor={isPrivate ? themeColor.mainDark : themeColor.default}
+                darkBorderColor={isPrivate ? themeColor.mainDark : themeColor.default}
                 onPress={() => {
                     setIsPrivate(true);
                     storeVisibility('friend');
@@ -73,10 +73,10 @@ export default function VisibilityToggle({orientation}) {
             </ThemedView>
             <ThemedView 
                 style={styles.optionView}
-                lightColor={themeColor.default}
-                darkColor={themeColor.default}
-                lightBorderColor={!isPrivate ? themeColor.main : themeColor.default}
-                darkBorderColor={!isPrivate ? themeColor.main : themeColor.default}
+                lightColor={!isPrivate ? themeColor.main : themeColor.default} 
+                darkColor={!isPrivate ? themeColor.main : themeColor.default}
+                lightBorderColor={!isPrivate ? themeColor.mainDark : themeColor.default}
+                darkBorderColor={!isPrivate ? themeColor.mainDark : themeColor.default}
                 onPress={() => {
                     setIsPrivate(false);
                     storeVisibility('global');
