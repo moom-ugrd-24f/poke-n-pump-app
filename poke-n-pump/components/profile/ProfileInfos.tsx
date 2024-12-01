@@ -24,7 +24,7 @@ export default function ProfileInfos({ xp, numFriend, invitationCode }: ProfileI
     const [profilePicture, setProfilePicture] = useState('');
 
     useEffect(() => {
-        AsyncStorage.multiGet(['nickname', 'profilePicture']).then((res) => {
+        AsyncStorage.multiGet(['username', 'profilePicture']).then((res) => {
             const nickname = res[0][1] || '';
             const profilePicture = res[4][1] || '';
 
