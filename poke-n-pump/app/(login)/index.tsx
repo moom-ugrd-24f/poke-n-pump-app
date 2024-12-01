@@ -30,7 +30,7 @@ export default function LoginScreen() {
   const [visibility, setVisibility] = useState('friend');
   const [workoutDays, setWorkoutDays] = useState([]);
   const [shame, setShame] = useState(false);
-  const [noGymStreak, setNoGymStreak] = useState(0);
+  const [noGymStreakLimit, setNoGymStreakLimit] = useState(1);
 
   function finishOnboarding() {
     AsyncStorage.getItem('username').then((res) => {
@@ -41,7 +41,7 @@ export default function LoginScreen() {
         nickname: nickname,
         shamePostSettings: {
           isEnabled: shame,
-          noGymStreak: noGymStreak
+          noGymStreakLimit: noGymStreakLimit
         },
         workoutPlan: workoutPlan,
         expoPushToken: notificationToken,
@@ -86,12 +86,13 @@ export default function LoginScreen() {
         <ShameOption 
           shame={shame}
           setShame={setShame}
-          noGymStreak={noGymStreak}
-          setNoGymStreak={setNoGymStreak}
+          noGymStreakLimit={noGymStreakLimit}
+          setNoGymStreakLimit={setNoGymStreakLimit}
         />
       }
       <ThemedButton 
         title="Complete"
+        style={styles.completeButton}
         disabled={!enableCompleteButton}
         onPress={() => {
           stage === LOGIN_STAGE.PROFILE ? setStage(LOGIN_STAGE.VISIBILITY) :
@@ -110,4 +111,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-evenly',
   },
+  completeButton: {
+    // paddingTop: 20,
+  }
 });

@@ -24,7 +24,7 @@ export default function SettingsScreen() {
   const [visibility, setVisibility] = useState('friend');
   const [workoutDays, setWorkoutDays] = useState([]);
   const [shame, setShame] = useState(false);
-  const [noGymStreak, setNoGymStreak] = useState(0);
+  const [noGymStreakLimit, setNoGymStreakLimit] = useState(1);
 
   useFocusEffect(
     useCallback(() => {
@@ -49,7 +49,7 @@ export default function SettingsScreen() {
     setVisibility(userInfo.data.visibility);
     setWorkoutDays(userInfo.data.workoutPlan.daysOfWeek);
     setShame(userInfo.data.shamePostSettings.isEnabled);
-    setNoGymStreak(userInfo.data.shamePostSettings.noGymStreakLimit);
+    setNoGymStreakLimit(userInfo.data.shamePostSettings.noGymStreakLimit);
   }
 
   const deleteUserData = async () => {
@@ -67,7 +67,7 @@ export default function SettingsScreen() {
             { 
               visibility: visibility,
               workoutPlan: { daysOfWeek: workoutDays },
-              shamePostSettings: { isEnabled: shame, noGymStreakLimit: noGymStreak }
+              shamePostSettings: { isEnabled: shame, noGymStreakLimit: noGymStreakLimit }
             }, userId);
           Toast.show('Changes applied!', {
             duration: Toast.durations.SHORT,
@@ -120,8 +120,8 @@ export default function SettingsScreen() {
           <ShameOption 
             shame={shame} 
             setShame={setShame} 
-            noGymStreak={noGymStreak} 
-            setNoGymStreak={setNoGymStreak} 
+            noGymStreakLimit={noGymStreakLimit} 
+            setNoGymStreakLimit={setNoGymStreakLimit} 
           />
         </ThemedView>
         <ThemedButton
