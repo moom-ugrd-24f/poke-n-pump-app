@@ -30,12 +30,6 @@ export default function RankingList({update, setUpdate}) {
     const [userId, setUserId] = useState('');
     const [isLoading, setIsLoading] = useState(true);
 
-    // useEffect(() => {
-    //     getUserId().then((res) => {
-    //         setUserId(res || '');
-    //     });
-    // }, []);
-
     useEffect(() => {
         getRankings();
     }, [userId]);
@@ -70,7 +64,10 @@ export default function RankingList({update, setUpdate}) {
         <ThemedView style={styles.rankingListView}>
             { isLoading 
             ? <ActivityIndicator color={themeColor.default} style={{ height: '70%' }} /> 
-            : <ThemedScrollView style={styles.rankingsContainer} showsVerticalScrollIndicator={false}>
+            : <ThemedScrollView 
+                style={styles.rankingsContainer} 
+                showsVerticalScrollIndicator={false}
+                contentContainerStyle={{paddingBottom: 100}}>
                 { rankings.map((ranking, index) => (
                     <ThemedView
                         key={index}
@@ -78,8 +75,7 @@ export default function RankingList({update, setUpdate}) {
                         lightColor={themeColor.mainLight}
                         darkColor={themeColor.mainLight}
                         lightBorderColor={themeColor.mainLight}
-                        darkBorderColor={themeColor.mainLight}
-                    >
+                        darkBorderColor={themeColor.mainLight}>
                         { ranking._id === userId
                         ? <>
                             <ThemedText type='default' lightColor={themeColor.subDark} darkColor={themeColor.subDark}>{ranking.rank}</ThemedText>

@@ -72,49 +72,74 @@ export default function NotificationsScreen() {
                 <Ionicons name="arrow-back" size={75} color={themeColor.main} />
                 <Image source={notification} style={styles.backImage} />
             </ThemedView>
-            { isLoading ? <ActivityIndicator color={themeColor.default} style={{ height: "70%" }} /> : <ThemedScrollView 
-            showsVerticalScrollIndicator={false} 
-            refreshControl={ <RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={themeColor.default}/> }
-            >
-                {receivedRequests.length === 0 && notifications.length === 0 && (
-                    <ThemedText lightColor={themeColor.default} darkColor={themeColor.default}>No notifications</ThemedText>
-                )}
-                {receivedRequests.map((request, index) => (
-                    <ThemedView 
-                    key={index} 
-                    lightColor={themeColor.default}
-                    darkColor={themeColor.default}
-                    style={styles.notification}>
-                        <ThemedText style={{textAlign: 'left'}} lightColor={themeColor.reverse} darkColor={themeColor.reverse}>
-                            {request.senderNickname} sent you a friend request
+            { isLoading 
+            ? <ActivityIndicator 
+                color={themeColor.default} 
+                style={{ height: "70%" }} /> 
+            : <ThemedScrollView 
+                showsVerticalScrollIndicator={false} 
+                contentContainerStyle={{ paddingBottom: 100 }}
+                refreshControl={ 
+                    <RefreshControl 
+                        refreshing={refreshing} 
+                        onRefresh={onRefresh}
+                        tintColor={themeColor.default}
+                    />
+                }>
+                    { receivedRequests.length === 0 && notifications.length === 0 && (
+                        <ThemedText 
+                            lightColor={themeColor.default} 
+                            darkColor={themeColor.default}>
+                            No notifications
                         </ThemedText>
+                    )}
+                    { receivedRequests.map((request, index) => (
                         <ThemedView 
-                        lightColor={themeColor.default}
-                        darkColor={themeColor.default}
-                        style={styles.friendRequestButtons}>
+                            key={index} 
+                            lightColor={themeColor.default}
+                            darkColor={themeColor.default}
+                            style={styles.notification}>
                             <ThemedText 
-                            type='default' 
-                            lightColor={themeColor.reverse} 
-                            darkColor={themeColor.reverse}
-                            onPress={() => { handleAccept(request.id, request.senderNickname)}}>
-                                Accept
+                                style={{textAlign: 'left'}} 
+                                lightColor={themeColor.reverse} 
+                                darkColor={themeColor.reverse}>
+                                {request.senderNickname} sent you a friend request
                             </ThemedText>
-                            <ThemedText type='default' lightColor={themeColor.reverse} onPress={() => {}}>Reject</ThemedText>
+                            <ThemedView 
+                                lightColor={themeColor.default}
+                                darkColor={themeColor.default}
+                                style={styles.friendRequestButtons}>
+                                <ThemedText 
+                                    type='default' 
+                                    lightColor={themeColor.reverse} 
+                                    darkColor={themeColor.reverse}
+                                    onPress={() => { handleAccept(request.id, request.senderNickname)}}>
+                                    Accept
+                                </ThemedText>
+                                <ThemedText 
+                                    type='default' 
+                                    lightColor={themeColor.reverse} 
+                                    onPress={() => {}}>
+                                    Reject
+                                </ThemedText>
+                            </ThemedView>
                         </ThemedView>
-                    </ThemedView>
-                ))}
-                {notifications.map((notification, index) => (
-                    <ThemedView 
-                    key={index} 
-                    lightColor={themeColor.default}
-                    darkColor={themeColor.default}
-                    style={styles.notification}
-                    >
-                        <ThemedText type="default" style={{textAlign: 'left'}} lightColor={themeColor.reverse} darkColor={themeColor.reverse}>
-                            {notification}
-                        </ThemedText>
-                    </ThemedView>
-                ))}
+                    ))}
+                    { notifications.map((notification, index) => (
+                        <ThemedView 
+                            key={index} 
+                            lightColor={themeColor.default}
+                            darkColor={themeColor.default}
+                            style={styles.notification}>
+                            <ThemedText 
+                                type="default" 
+                                style={{textAlign: 'left'}} 
+                                lightColor={themeColor.reverse} 
+                                darkColor={themeColor.reverse}>
+                                {notification}
+                            </ThemedText>
+                        </ThemedView>
+                    ))}
             </ThemedScrollView> }
         </ThemedView>
     );

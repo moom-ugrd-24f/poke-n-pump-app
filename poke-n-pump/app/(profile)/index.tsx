@@ -52,12 +52,27 @@ export default function ProfileScreen() {
                 <Ionicons name="arrow-back" size={75} color={themeColor.main} />
                 <Image source={profile} style={styles.backImage} />
             </ThemedView>
-            { isLoading ? <ActivityIndicator color={themeColor.default} style={{ height: "70%" }} /> : <ThemedScrollView style={{ height: '100%' }} contentContainerStyle={{ alignItems: 'center', gap: 50 }} showsVerticalScrollIndicator={false} refreshControl={ <RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={themeColor.default}/> }>
-            <ProfileInfos xp={xp} numFriend={numFriend} invitationCode={invitationCode} />
-                <ProfileStats />
-                <FriendRequest />
-            </ThemedScrollView> }
-        </ThemedView>
+                { isLoading 
+                ? <ActivityIndicator color={themeColor.default} style={{ height: "70%" }} /> 
+                : <ThemedScrollView 
+                    style={styles.scrollView} 
+                    contentContainerStyle={{ 
+                        alignItems: 'center', 
+                        gap: 50,
+                        paddingBottom: 200,
+                    }} 
+                    showsVerticalScrollIndicator={false} 
+                    refreshControl={ 
+                        <RefreshControl 
+                            refreshing={refreshing} 
+                            onRefresh={onRefresh} 
+                            tintColor={themeColor.default}/> 
+                    }>
+                    <ProfileInfos xp={xp} numFriend={numFriend} invitationCode={invitationCode} />
+                    <ProfileStats />
+                    <FriendRequest />
+                </ThemedScrollView>}
+            </ThemedView>
     );
 }
 
@@ -80,4 +95,7 @@ const styles = StyleSheet.create({
         borderRadius: 100,
         resizeMode: 'cover',
     },
+    scrollView: {
+        // marginBottom: 50,
+    }
 });
