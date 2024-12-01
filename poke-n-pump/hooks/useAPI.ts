@@ -46,8 +46,8 @@ export const updateUser = (data: any, userId: string) => {
     const body = JSON.parse("{}");
     if (data.nickname) body["nickname"] = data.nickname;
     if (data.visibility) body["visibility"] = data.visibility;
-    if (data.shamePostSettings) body["shamePostSettings"] = JSON.stringify(data.shamePostSettings);
-    if (data.workoutPlan) body["workoutPlan"] = JSON.stringify(data.workoutPlan);
+    if (data.shamePostSettings) body["shamePostSettings"] = data.shamePostSettings;
+    if (data.workoutPlan) body["workoutPlan"] = data.workoutPlan;
     if (data.expoPushToken) body["expoPushToken"] = data.expoPushToken;
     if (data.profilePicture) body["profilePicture"] = data.profilePicture;
     if (data.xp) body["xp"] = data.xp.toString();
@@ -109,8 +109,10 @@ export const checkUsername = (username: string) => {
 export const getUserInfo = (userId: string) => {
     const getUserInfoUrl = USER_URL + '/' + userId;
     return axios.get(getUserInfoUrl).then((res) => {
+        console.log('User info: ', res.data);
         return res;
     }).catch((error) => {
+        if (axios.isAxiosError(error)) console.log(error.response);
         return { data: 'Error while fetching user info', status: 400 };
     });
 }
