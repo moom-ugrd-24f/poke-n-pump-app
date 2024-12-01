@@ -8,7 +8,7 @@ export default function VisibilityOption() {
   return (
     <ThemedView style={styles.visibilityView}>
         <ThemedText type='subtitle'>Visibility setting</ThemedText>
-        <VisibilityToggle />
+        <VisibilityToggle orientation={'row'} />
     </ThemedView>
   );
 }

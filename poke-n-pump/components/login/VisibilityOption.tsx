@@ -5,7 +5,7 @@ import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import VisibilityToggle from '@/components/tabs/settings/VisibilityToggle';
 
-export default function ProfileInfos() {
+export default function VisibilityOption({orientation}) {
   const colorScheme = useColorScheme();
   
   const themeColor = Colors[colorScheme ?? 'light'];
@@ -14,7 +14,7 @@ export default function ProfileInfos() {
     <ThemedView style={styles.visibilityView}>
         <ThemedText type='title'>Choose your visibility setting</ThemedText>
         <ThemedText type='subtitle' lightColor={themeColor.default} darkColor={themeColor.default}>You can change your setting anytime</ThemedText>
-        <VisibilityToggle />
+        <VisibilityToggle orientation={'column'} />
     </ThemedView>
   );
 }
