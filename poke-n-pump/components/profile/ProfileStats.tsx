@@ -4,8 +4,7 @@ import { ThemedView } from "@/components/themedComponents/ThemedView";
 import { Ionicons } from "@expo/vector-icons";
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { Colors } from "@/constants/Colors";
-import { useEffect, useState } from "react";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useState } from "react";
 
 export default function ProfileStats() {
     const colorScheme = useColorScheme();

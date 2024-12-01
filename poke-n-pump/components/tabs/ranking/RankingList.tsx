@@ -6,8 +6,7 @@ import { useColorScheme } from '@/hooks/useColorScheme';
 import { Colors } from '@/constants/Colors';
 import { useState, useEffect, useCallback } from 'react';
 import { getWeeklyRanking } from '@/hooks/useAPI';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { getUser, getUserId } from '@/hooks/useAsyncStorage';
+import { getUserId } from '@/hooks/useAsyncStorage';
 
 export default function RankingList({update, setUpdate}) {
     const colorScheme = useColorScheme();

@@ -3,16 +3,16 @@ import { ThemedView } from "@/components/themedComponents/ThemedView";
 import { ThemedText } from "@/components/themedComponents/ThemedText";
 import { ThemedTextInput } from "@/components/themedComponents/ThemedTextInput";
 import ThemedButton from "@/components/themedComponents/ThemedButton";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { sendFriendRequest } from "@/hooks/useAPI";
 import { useState } from "react";
+import { getUserId } from "@/hooks/useAsyncStorage";
 
 export default function FriendRequest() {
 
   const [friendCode, setFriendCode] = useState('');
 
   const addFriend = () => {
-    AsyncStorage.getItem('id').then((userId) => {
+    getUserId().then((userId) => {
         if (userId) sendFriendRequest(userId, friendCode);
     });
   };

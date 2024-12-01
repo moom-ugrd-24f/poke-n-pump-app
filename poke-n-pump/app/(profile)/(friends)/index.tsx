@@ -5,10 +5,10 @@ import { ActivityIndicator, RefreshControl, StyleSheet } from "react-native";
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { Colors } from "@/constants/Colors";
 import { useEffect, useState } from "react";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ThemedText } from "@/components/themedComponents/ThemedText";
 import { getUserInfo, removeFriend } from "@/hooks/useAPI";
 import { ThemedScrollView } from "@/components/themedComponents/ThemedScrollView";
+import { getUserId } from "@/hooks/useAsyncStorage";
 
 export default function FriendsScreen() {
     const colorScheme = useColorScheme();
@@ -17,31 +17,35 @@ export default function FriendsScreen() {
     const [friends, setFriends] = useState<any[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [refreshing, setRefreshing] = useState(false);
+    const [userId, setUserId] = useState('');
 
     const fetchFriends = () => {
-        AsyncStorage.getItem('id').then((userId) => {
-            if (!userId) return;
-            getUserInfo(userId).then((res) => {
-                if (!res.data.friends) return;
-                Promise.all(res.data.friends.map((friend: string) => getUserInfo(friend).then((res) => res.data)))
-                .then((results) => {
-                    setFriends(results.filter((friend) => friend._id !== userId));
-                    setIsLoading(false);
-                });
+        if (!userId) return;
+        getUserInfo(userId).then((res) => {
+            if (!res.data.friends) return;
+            Promise.all(res.data.friends.map((friend: string) => getUserInfo(friend).then((res) => res.data)))
+            .then((results) => {
+                setFriends(results.filter((friend) => friend._id !== userId));
+                setIsLoading(false);
             });
         });
     };
 
     const handleRemoveFriend = (id: string) => {
-        AsyncStorage.getItem('id').then((userId) => {
-            if (!userId) return;
-            removeFriend(userId, id).then((res) => setFriends(friends.filter((friend) => friend._id !== id)) );
-        });
+        if (!userId) return;
+        removeFriend(userId, id).then((res) => 
+            setFriends(friends.filter((friend) => friend._id !== id))
+    );
     }
 
     useEffect(() => {
+        getUserId().then((id) => setUserId(id));
         fetchFriends();
     }, []);
+
+    useEffect(() => {
+        fetchFriends();
+    }, [userId]);
 
     const onRefresh = async () => {
         setRefreshing(true);

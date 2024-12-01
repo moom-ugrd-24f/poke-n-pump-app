@@ -8,9 +8,8 @@ import ThemedButton from '@/components/themedComponents/ThemedButton';
 import { ThemedView } from '@/components/themedComponents/ThemedView';
 import ShameOption from '@/components/login/ShameOption';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { addUser, addAndStoreUser } from '@/hooks/useAPI';
+import { addAndStoreUser } from '@/hooks/useAPI';
 import usePushNotifications from '@/hooks/usePushNotifications';
-import { updateUser } from '@/hooks/useAsyncStorage';
 
 enum LOGIN_STAGE {
   PROFILE = 'PROFILE',

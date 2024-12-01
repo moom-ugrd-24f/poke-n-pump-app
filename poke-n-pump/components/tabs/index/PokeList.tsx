@@ -9,7 +9,6 @@ import { useEffect, useState } from 'react';
 import { Pressable, RefreshControl } from 'react-native';
 import { router } from 'expo-router';
 import { getPokeeList, sendPoke } from '@/hooks/useAPI';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import usePushNotifications from '@/hooks/usePushNotifications';
 import Toast from 'react-native-root-toast';
 import { incrementXp } from '@/hooks/useAPI';

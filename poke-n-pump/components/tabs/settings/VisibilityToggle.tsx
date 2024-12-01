@@ -5,7 +5,6 @@ import { Ionicons } from '@expo/vector-icons';
 import { ThemedText } from '../../themedComponents/ThemedText';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function VisibilityToggle({orientation, visibility, setVisibility}) {
     const colorScheme = useColorScheme();

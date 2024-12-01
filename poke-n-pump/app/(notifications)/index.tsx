@@ -11,6 +11,7 @@ import { acceptFriendRequest, getReceivedRequests } from "@/hooks/useAPI";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import usePushNotifications from "@/hooks/usePushNotifications";
 import { ThemedScrollView } from "@/components/themedComponents/ThemedScrollView";
+import { getUserId } from "@/hooks/useAsyncStorage";
 
 export default function NotificationsScreen() {
     const colorScheme = useColorScheme();
@@ -24,7 +25,7 @@ export default function NotificationsScreen() {
     const [isLoading, setIsLoading] = useState(true);
 
     const fetchNotifications = async () => {
-        AsyncStorage.getItem('id').then((userId) => {
+        getUserId().then((userId) => {
             if (userId) {
                 getReceivedRequests(userId).then((res) => {
                     if (Array.isArray(res.data)) {

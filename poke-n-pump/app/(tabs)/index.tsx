@@ -5,7 +5,6 @@ import logo from '@/assets/images/logo.png';
 import { useState, useEffect } from 'react';
 import ProfileContainer from '@/components/tabs/index/ProfileContainer';
 import StartWorkoutButton from '@/components/tabs/index/StartWorkoutButton';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { getUserInfo } from '@/hooks/useAPI';
 import { getUserId } from '@/hooks/useAsyncStorage';
 

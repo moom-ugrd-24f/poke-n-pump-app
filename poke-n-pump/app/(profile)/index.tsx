@@ -9,9 +9,9 @@ import ProfileStats from "@/components/profile/ProfileStats";
 import FriendRequest from "@/components/profile/FriendRequest";
 import { router } from "expo-router";
 import { useEffect, useState } from "react";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { getUserInfo } from "@/hooks/useAPI";
 import { ThemedScrollView } from "@/components/themedComponents/ThemedScrollView";
+import { getUserId } from "@/hooks/useAsyncStorage";
 
 export default function ProfileScreen() {
     const colorScheme = useColorScheme();
@@ -25,7 +25,7 @@ export default function ProfileScreen() {
     const [invitationCode, setInvitationCode] = useState('');
 
     const fetchProfile = () => {
-        AsyncStorage.getItem('id').then((userId) => {
+        getUserId().then((userId) => {
             if (!userId) return;
             getUserInfo(userId).then((res) => {
                 setXp(res.data.xp);

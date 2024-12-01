@@ -1,10 +1,8 @@
 import { Platform } from "react-native";
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { Colors } from "@/constants/Colors";
-import { useEffect, useState } from "react";
 import { ThemedPicker } from "../themedComponents/ThemedPicker";
 import { Picker } from "@react-native-picker/picker";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function ShameOption({noGymStreakLimit, setNoGymStreakLimit}) {
     const colorScheme = useColorScheme();
