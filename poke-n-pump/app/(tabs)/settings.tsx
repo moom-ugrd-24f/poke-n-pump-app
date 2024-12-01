@@ -20,7 +20,10 @@ export default function SettingsScreen() {
   const colorScheme = useColorScheme();
   const themeColor = Colors[colorScheme ?? 'light'];
   const [userId, setUserId] = useState('');
+  const [visibility, setVisibility] = useState('friend');
   const [workoutDays, setWorkoutDays] = useState([]);
+  const [shame, setShame] = useState(false);
+  const [noGymStreak, setNoGymStreak] = useState(0);
 
   useFocusEffect(
     useCallback(() => {
@@ -28,10 +31,10 @@ export default function SettingsScreen() {
         getUserId().then((res) => {
           console.log('User id: ', res);
           setUserId(res || '');
-          fetchWorkoutDays(res);
+          fetchUserInfo(res);
         });
       } else {
-        fetchWorkoutDays(userId);
+        fetchUserInfo(userId);
       }
     }, [])
   );
@@ -40,9 +43,12 @@ export default function SettingsScreen() {
     console.log("WorkoutDays: ", workoutDays);
   }, [workoutDays]);
 
-  const fetchWorkoutDays = async (userId: string) => {
+  const fetchUserInfo = async (userId: string) => {
     const userInfo = await getUserInfo(userId);
+    setVisibility(userInfo.data.visibility);
     setWorkoutDays(userInfo.data.workoutPlan.daysOfWeek);
+    setShame(userInfo.data.shamePostSettings.isEnabled);
+    setNoGymStreak(userInfo.data.shamePostSettings.noGymStreakLimit);
   }
 
   const deleteUserData = async () => {
