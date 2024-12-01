@@ -7,7 +7,7 @@ import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default function VisibilityToggle({orientation}) {
+export default function VisibilityToggle({orientation, visibility, setVisibility}) {
     const colorScheme = useColorScheme();
 
     const themeColor = Colors[colorScheme ?? 'light'];
@@ -15,25 +15,12 @@ export default function VisibilityToggle({orientation}) {
     const [isPrivate, setIsPrivate] = useState<boolean>(false);
 
     useEffect(() => {
-        loadVisibility();
-    }, []);
+        setIsPrivate(visibility === 'friend');
+    }, [visibility]);
 
-    const loadVisibility = async () => {
-        try {
-            const visibilityString = await AsyncStorage.getItem('visibility');
-            const visibility = visibilityString !== null ? visibilityString : 'friend';
-            setIsPrivate(visibility === 'friend');
-        } catch (e) {
-            console.error(e);
-        }
-    }
-
-    const storeVisibility = async (visibility: string) => {
-        try {
-            await AsyncStorage.setItem('visibility', visibility);
-        } catch (e) {
-            console.error(e);
-        }
+    const updateVisibility = (visibility: string) => {
+        setIsPrivate(visibility === 'friend');
+        setVisibility(visibility);
     }
 
     const styles = StyleSheet.create({
@@ -65,8 +52,7 @@ export default function VisibilityToggle({orientation}) {
                 lightBorderColor={isPrivate ? themeColor.mainDark : themeColor.default}
                 darkBorderColor={isPrivate ? themeColor.mainDark : themeColor.default}
                 onPress={() => {
-                    setIsPrivate(true);
-                    storeVisibility('friend');
+                    updateVisibility('friend');
                 }}>
                 <Ionicons name="person" size={24} color={themeColor.reverse} />
                 <ThemedText lightColor={themeColor.reverse} darkColor={themeColor.reverse}>Friends</ThemedText>
@@ -78,8 +64,7 @@ export default function VisibilityToggle({orientation}) {
                 lightBorderColor={!isPrivate ? themeColor.mainDark : themeColor.default}
                 darkBorderColor={!isPrivate ? themeColor.mainDark : themeColor.default}
                 onPress={() => {
-                    setIsPrivate(false);
-                    storeVisibility('global');
+                    updateVisibility('global');
                 }}>
                 <Ionicons name="earth" size={24} color={themeColor.reverse} />
                 <ThemedText lightColor={themeColor.reverse} darkColor={themeColor.reverse}>Anyone</ThemedText>

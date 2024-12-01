@@ -63,7 +63,12 @@ export default function SettingsScreen() {
       {
         text: 'OK',
         onPress: () => {
-          updateAndStoreUser({ workoutPlan: { daysOfWeek: workoutDays } }, userId);
+          updateAndStoreUser(
+            { 
+              visibility: visibility,
+              workoutPlan: { daysOfWeek: workoutDays },
+              shamePostSettings: { isEnabled: shame, noGymStreakLimit: noGymStreak }
+            }, userId);
           Toast.show('Changes applied!', {
             duration: Toast.durations.SHORT,
             position: Toast.positions.CENTER,
@@ -101,14 +106,23 @@ export default function SettingsScreen() {
         style={styles.scrollView}
         // contentContainerStyle={{ flex: 2, justifyContent: 'space-between' }}  
       >
-        <VisibilityOption />
+        <VisibilityOption 
+          visibility={visibility}
+          setVisibility={setVisibility} 
+        />
         <ThemedView style={styles.workoutSchedule}>
           <WorkoutSchedule 
             workoutDays={workoutDays} 
-            setWorkoutDays={setWorkoutDays} />
+            setWorkoutDays={setWorkoutDays} 
+          />
         </ThemedView>
         <ThemedView style={styles.shameOption}>
-          <ShameOption />
+          <ShameOption 
+            shame={shame} 
+            setShame={setShame} 
+            noGymStreak={noGymStreak} 
+            setNoGymStreak={setNoGymStreak} 
+          />
         </ThemedView>
         <ThemedButton
           style={styles.applyChangeButton} 
@@ -142,7 +156,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'space-between',
-    // paddingTop: '15%',
     paddingBottom: '5%',
   },
   scrollView: {

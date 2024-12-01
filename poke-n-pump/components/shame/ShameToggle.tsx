@@ -2,37 +2,37 @@ import { useEffect, useState } from "react";
 import { ThemedSwitch } from "../themedComponents/ThemedSwitch";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export default function ShameToggle() {
+export default function ShameToggle({shame, setShame}) {
 
-    const [isShamePostAllowed, setIsShamePostAllowed] = useState(false);
+    // const [isShamePostAllowed, setIsShamePostAllowed] = useState(false);
     
-    useEffect(() => {
-        loadShameToggle()
-    }, []);
+    // useEffect(() => {
+    //     loadShameToggle()
+    // }, []);
 
-    const loadShameToggle = async () => {
-        try {
-            const shameToggleString = await AsyncStorage.getItem('shame-toggle');
-            const shameToggle = shameToggleString !== null ? JSON.parse(shameToggleString) : false;
-            setIsShamePostAllowed(shameToggle);
-        } catch (e) {
-            console.error(e);
-        }
-    }
+    // const loadShameToggle = async () => {
+    //     try {
+    //         const shameToggleString = await AsyncStorage.getItem('shame-toggle');
+    //         const shameToggle = shameToggleString !== null ? JSON.parse(shameToggleString) : false;
+    //         setIsShamePostAllowed(shameToggle);
+    //     } catch (e) {
+    //         console.error(e);
+    //     }
+    // }
 
-    const storeShameToggle = async (value: boolean) => {
-        try {
-            await AsyncStorage.setItem('shame-toggle', JSON.stringify(value));
-        } catch (e) {
-            console.error(e);
-        }
-    }
+    // const storeShameToggle = async (value: boolean) => {
+    //     try {
+    //         await AsyncStorage.setItem('shame-toggle', JSON.stringify(value));
+    //     } catch (e) {
+    //         console.error(e);
+    //     }
+    // }
 
     const toggleSwitch = () => {
-        storeShameToggle(!isShamePostAllowed);
-        setIsShamePostAllowed(previousState => !previousState);
+        setShame(!shame);
+        // setIsShamePostAllowed(previousState => !previousState);
     }
     return (
-        <ThemedSwitch onValueChange={toggleSwitch} value={isShamePostAllowed} />
+        <ThemedSwitch onValueChange={toggleSwitch} value={shame} />
     );
 }

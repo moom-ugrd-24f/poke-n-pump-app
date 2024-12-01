@@ -4,7 +4,7 @@ import { ThemedText } from '@/components/themedComponents/ThemedText';
 import { useState, useEffect } from 'react';
 import WorkoutSchedule from '@/components/tabs/settings/WorkoutSchedule';
 
-export default function ProfileInfos({workoutDays, setWorkoutDays}) {
+export default function WorkoutInfos({workoutDays, setWorkoutDays}) {
 
   return (
     <ThemedView style={styles.visibilityView}>

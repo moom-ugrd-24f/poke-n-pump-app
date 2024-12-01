@@ -3,12 +3,16 @@ import { ThemedView } from '../../themedComponents/ThemedView';
 import { ThemedText } from '../../themedComponents/ThemedText';
 import VisibilityToggle from '@/components/tabs/settings/VisibilityToggle';
 
-export default function VisibilityOption() {
+export default function VisibilityOption({visibility, setVisibility}) {
 
   return (
     <ThemedView style={styles.visibilityView}>
         <ThemedText type='subtitle'>Visibility setting</ThemedText>
-        <VisibilityToggle orientation={'row'} />
+        <VisibilityToggle 
+          orientation={'row'}
+          visibility={visibility}
+          setVisibility={setVisibility}
+        />
     </ThemedView>
   );
 }

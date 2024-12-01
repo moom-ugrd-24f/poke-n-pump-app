@@ -6,41 +6,16 @@ import { ThemedPicker } from "../themedComponents/ThemedPicker";
 import { Picker } from "@react-native-picker/picker";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export default function ShameOption() {
+export default function ShameOption({noGymStreak, setNoGymStreak}) {
     const colorScheme = useColorScheme();
 
     const themeColor = Colors[colorScheme ?? 'light'];
 
-    const [selectedValue, setSelectedValue] = useState(0);
-    
-    useEffect(() => {
-        loadShameStreak();
-    }, []);
-
-    const loadShameStreak = async () => {
-        try {
-            const shameStreakString = await AsyncStorage.getItem('shame-streak');
-            const shameStreak = shameStreakString !== null ? JSON.parse(shameStreakString) : 0;
-            setSelectedValue(shameStreak);
-        } catch (e) {
-            console.error(e);
-        }
-    }
-
-    const storeShameStreak = async (value: number) => {
-        try {
-            await AsyncStorage.setItem('shame-streak', JSON.stringify(value));
-        } catch (e) {
-            console.error(e);
-        }
-    }
-
     return (
         <ThemedPicker
-            selectedValue={selectedValue}
+            selectedValue={noGymStreak}
             onValueChange={(itemValue) => {
-                setSelectedValue(Number(itemValue));
-                storeShameStreak(Number(itemValue));
+                setNoGymStreak(Number(itemValue));
             }}
             style={{ height: 50, width: 100 }}
         >

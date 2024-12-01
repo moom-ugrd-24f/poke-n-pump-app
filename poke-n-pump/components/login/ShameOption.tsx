@@ -6,7 +6,7 @@ import { Colors } from "@/constants/Colors";
 import ShameToggle from "@/components/shame/ShameToggle";
 import ShameStreakPicker from "@/components/shame/ShameStreakPicker";
 
-export default function ShameOption() {
+export default function ShameOption({shame, setShame, noGymStreak, setNoGymStreak}) {
     const colorScheme = useColorScheme();
 
     const themeColor = Colors[colorScheme ?? 'light'];
@@ -21,7 +21,7 @@ export default function ShameOption() {
                     shame post 
                 </ThemedText>
             {" "}on you?</ThemedText>
-            <ShameToggle />
+            <ShameToggle shame={shame} setShame={setShame}/>
             <ThemedText type='title'>Set{" "}
                 <ThemedText 
                 type='title' 
@@ -30,7 +30,7 @@ export default function ShameOption() {
                     no-gym streak
                 </ThemedText>
             {" "}to be shame posted</ThemedText>
-            <ShameStreakPicker />
+            <ShameStreakPicker noGymStreak={noGymStreak} setNoGymStreak={setNoGymStreak} />
         </ThemedView>
     );
 }
