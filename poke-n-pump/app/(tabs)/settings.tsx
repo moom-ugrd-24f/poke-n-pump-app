@@ -102,10 +102,14 @@ export default function SettingsScreen() {
         // contentContainerStyle={{ flex: 2, justifyContent: 'space-between' }}  
       >
         <VisibilityOption />
-        <WorkoutSchedule 
-          workoutDays={workoutDays} 
-          setWorkoutDays={setWorkoutDays} />
-        <ShameOption />
+        <ThemedView style={styles.workoutSchedule}>
+          <WorkoutSchedule 
+            workoutDays={workoutDays} 
+            setWorkoutDays={setWorkoutDays} />
+        </ThemedView>
+        <ThemedView style={styles.shameOption}>
+          <ShameOption />
+        </ThemedView>
         <ThemedButton
           style={styles.applyChangeButton} 
           title="Apply Changes"
@@ -156,9 +160,11 @@ const styles = StyleSheet.create({
     paddingTop: 20,
   },
   applyChangeButton: {
-    padding: 10,
+    paddingHorizontal: 10,
+    paddingTop: 10,
   },
   deleteAccountButton: {
-    padding: 10,
+    paddingHorizontal: 10,
+    paddingTop: 15,
   },
 });
