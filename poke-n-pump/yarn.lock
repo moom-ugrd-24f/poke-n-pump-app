@@ -3049,17 +3049,17 @@ ajv-keywords@^5.1.0:
   dependencies:
     fast-deep-equal "^3.1.3"
 
-ajv@8.11.0:
-  version "8.11.0"
-  resolved "https://registry.yarnpkg.com/ajv/-/ajv-8.11.0.tgz#977e91dd96ca669f54a11e23e378e33b884a565f"
-  integrity sha512-wGgprdCvMalC0BztXvitD2hC04YffAvtsUn93JbGXYLAtCUO4xd17mCCZQxUOItiBwZvJScWo8NIvQMQ71rdpg==
+ajv@^6.12.5, ajv@^6.9.1:
+  version "6.12.6"
+  resolved "https://registry.npmjs.org/ajv/-/ajv-6.12.6.tgz"
+  integrity sha512-j3fVLgvTo527anyYyJOGTYJbG+vnnQYvE0m5mmkc1TK+nxAppkCLMIL0aZ4dblVCNoGShhm+kzE4ZUykBoMg4g==
   dependencies:
     fast-deep-equal "^3.1.1"
-    json-schema-traverse "^1.0.0"
-    require-from-string "^2.0.2"
+    fast-json-stable-stringify "^2.0.0"
+    json-schema-traverse "^0.4.1"
     uri-js "^4.2.2"
 
-ajv@^8.0.0, ajv@^8.11.0, ajv@^8.9.0:
+ajv@^8.0.0, ajv@^8.11.0, ajv@^8.8.2, ajv@^8.9.0:
   version "8.17.1"
   resolved "https://registry.npmjs.org/ajv/-/ajv-8.17.1.tgz"
   integrity sha512-B/gBuNg5SiMTrPkC+A2+cW0RszwxYmn6VYxB/inlBStS5nx6xHIt/ehKRhIMhqusl7a8LjQoZnjCs5vhwxOQ1g==
@@ -4453,7 +4453,7 @@ expo-constants@*, expo-constants@~17.0.0, expo-constants@~17.0.3:
 
 expo-dev-client@~5.0.5:
   version "5.0.5"
-  resolved "https://registry.yarnpkg.com/expo-dev-client/-/expo-dev-client-5.0.5.tgz#2ecae855c6365abd4c48d436b1486c7559709622"
+  resolved "https://registry.npmjs.org/expo-dev-client/-/expo-dev-client-5.0.5.tgz"
   integrity sha512-LfrJ/a1UVqU1LxQ2oaduKWx2F0/1wDsiUv4lic4a2ug9wazGSR+bZ88fRlnAbhdMBfuymUKBMyUA+X3WDqf/bw==
   dependencies:
     expo-dev-launcher "5.0.18"
@@ -4484,7 +4484,7 @@ expo-dev-menu@6.0.13:
   dependencies:
     expo-dev-menu-interface "1.9.2"
 
-expo-device@~7.0.1:
+expo-device@^7.0.1:
   version "7.0.1"
   resolved "https://registry.npmjs.org/expo-device/-/expo-device-7.0.1.tgz"
   integrity sha512-/3lk0f9wvle+6svHqWSCBC1B5NYFmXp1D7hmIyecJJVYRLwzrwwTDyNs76oG/UDU5Appdu8QyDKycsx2hqv71w==
@@ -8709,11 +8709,7 @@ update-browserslist-db@^1.1.1:
 
 uri-js@^4.2.2:
   version "4.4.1"
-<<<<<<< HEAD
   resolved "https://registry.npmjs.org/uri-js/-/uri-js-4.4.1.tgz"
-=======
-  resolved "https://registry.yarnpkg.com/uri-js/-/uri-js-4.4.1.tgz#9b1a52595225859e55f669d928f88c6c57f2a77e"
->>>>>>> feature-native-dev-build
   integrity sha512-7rKUyy33Q1yc98pQ1DAmLtwX109F7TIfWlW1Ydo8Wl1ii1SeHieeh0HHfPeL2fMXK6z0s8ecKs9frCuLJvndBg==
   dependencies:
     punycode "^2.1.0"
