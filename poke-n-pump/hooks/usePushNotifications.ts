@@ -3,6 +3,7 @@ import * as Device from 'expo-device';
 import * as Notifications from 'expo-notifications';
 import { Platform } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import firebaseApp from "../constants/firebaseConfig";
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -63,9 +64,11 @@ async function registerForPushNotificationsAsync() {
       handleRegistrationError('Permission not granted to get push token for push notification!');
       return;
     }
-
+    const projectId = "9633e3a6-cd01-4939-891b-70d5f1bec831";
     try {
-      const pushTokenString = (await Notifications.getExpoPushTokenAsync()).data;
+      const pushTokenString = (await Notifications.getExpoPushTokenAsync({
+        projectId,
+      })).data;
       return pushTokenString;
     } catch (e: unknown) {
       handleRegistrationError(`${e}`);

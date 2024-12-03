@@ -90,19 +90,12 @@ export const deleteUser = (userId: string) => {
     });
 }
 
-
 export const checkUsername = (username: string) => {
     const checkUsernameUrl = CHECK_USERNAME_URL + '/' + username;
-    console.log(checkUsernameUrl);
     return axios.get(checkUsernameUrl).then((res) => {
         return res;
     }).catch((error) => {
-        if (axios.isAxiosError(error)) {
-            if (error.status == 404) {
-                return error.response;
-            }
-        }
-        return { data: 'Error while checking username: ' + error, status: 400 };
+        return { data: 'Error while checking username availability', status: 400 };
     });
 }
 
