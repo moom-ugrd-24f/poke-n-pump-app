@@ -18,7 +18,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "assets/images/icon.png  ",
+        "foregroundImage": "assets/images/icon.png",
         "backgroundColor": "#003030"
       },
       "package": "com.escargots.pokenpump"
