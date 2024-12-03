@@ -69,8 +69,8 @@ export default function RootLayout() {
 
     // Render appropriate stack based on `isFirstTimeLoad`
     return (
-        <SafeAreaView style={{ flex: 1, backgroundColor: Colors[colorScheme ?? 'light'].background }}>
         <RootSiblingParent>
+        <SafeAreaView style={{ flex: 1, backgroundColor: Colors[colorScheme ?? 'light'].background }}>
         <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
             <Stack
                 initialRouteName={isFirstTimeLoad ? '(login)/index' : '(tabs)'}
@@ -87,7 +87,7 @@ export default function RootLayout() {
                 <Stack.Screen name="(profile)/(friends)/index" />
             </Stack>
         </ThemeProvider>
-        </RootSiblingParent>
         </SafeAreaView>
+        </RootSiblingParent>
     );
 }
