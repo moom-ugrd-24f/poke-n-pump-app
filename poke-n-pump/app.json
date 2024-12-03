@@ -14,10 +14,7 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.escargots.poke-n-pump",
-      "config": {
-        "usesNonExemptEncryption": true
-      }
+      "bundleIdentifier": "com.escargots.poke-n-pump"
     },
     "android": {
       "adaptiveIcon": {
