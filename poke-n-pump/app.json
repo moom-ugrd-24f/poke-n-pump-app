@@ -41,11 +41,19 @@
           ]
         }
       ],
-      ["expo-build-properties", {
-        "android": {
-          "usesCleartextTraffic": true
+      [
+        "expo-build-properties", {
+          "android": {
+            "usesCleartextTraffic": true
+          }
         }
-      }]
+      ],
+      [
+        "expo-dev-launcher",
+        {
+          "launchMode": "most-recent"
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true
