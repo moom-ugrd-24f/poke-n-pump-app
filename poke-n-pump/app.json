@@ -37,7 +37,12 @@
             "./assets/fonts/PoorStory-Regular.ttf"
           ]
         }
-      ]
+      ],
+      ["expo-build-properties", {
+        "android": {
+          "usesCleartextTraffic": true
+        }
+      }]
     ],
     "experiments": {
       "typedRoutes": true
