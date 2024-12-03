@@ -20,6 +20,8 @@
       }
     },
     "android": {
+      "usesCleartextTraffic": true,
+      "permissions": ["INTERNET"],
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#003030"
@@ -41,7 +43,12 @@
             "./assets/fonts/PoorStory-Regular.ttf"
           ]
         }
-      ]
+      ],
+      ["expo-build-properties", {
+        "android": {
+          "usesCleartextTraffic": true
+        }
+      }]
     ],
     "experiments": {
       "typedRoutes": true
