@@ -24,6 +24,7 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#003030"
       },
+      "googleServicesFile": "./google-services.json",
       "package": "com.escargots.pokenpump"
     },
     "web": {
