@@ -16,7 +16,10 @@
     "production": {
       "android": {
         "buildType": "apk"
-      }}
+      }
+    }
+  },
+  "cli": {
+    "appVersionSource": "remote"
   }
 }
-  
