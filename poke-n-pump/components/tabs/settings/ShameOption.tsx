@@ -6,7 +6,14 @@ import { Colors } from "@/constants/Colors";
 import ShameToggle from "../../shame/ShameToggle";
 import ShameStreakPicker from "../../shame/ShameStreakPicker";
 
-export default function ShameOption({shame, setShame, noGymStreakLimit, setNoGymStreakLimit}) {
+interface ShameOptionProps {
+    shame: boolean;
+    setShame: (value: boolean) => void;
+    noGymStreakLimit: number;
+    setNoGymStreakLimit: (value: number) => void;
+}
+
+export default function ShameOption({shame, setShame, noGymStreakLimit, setNoGymStreakLimit}: ShameOptionProps) {
     const colorScheme = useColorScheme();
 
     const themeColor = Colors[colorScheme ?? 'light'];

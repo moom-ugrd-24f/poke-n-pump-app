@@ -4,7 +4,12 @@ import { Colors } from "@/constants/Colors";
 import { ThemedPicker } from "../themedComponents/ThemedPicker";
 import { Picker } from "@react-native-picker/picker";
 
-export default function ShameOption({noGymStreakLimit, setNoGymStreakLimit}) {
+interface ShameOptionProps {
+    noGymStreakLimit: number;
+    setNoGymStreakLimit: (value: number) => void;
+}
+
+export default function ShameOption({ noGymStreakLimit, setNoGymStreakLimit }: ShameOptionProps) {
     const colorScheme = useColorScheme();
 
     const themeColor = Colors[colorScheme ?? 'light'];

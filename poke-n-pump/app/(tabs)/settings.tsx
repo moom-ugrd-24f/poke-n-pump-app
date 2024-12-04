@@ -143,7 +143,7 @@ export default function SettingsScreen() {
             darkBorderColor={themeColor.alert}
             lightTextColor={themeColor.white}
             darkTextColor={themeColor.white}
-            onP ress={createDeleteAccountAlert}
+            onPress={createDeleteAccountAlert}
           />
         </ThemedView>
       </ThemedScrollView>
@@ -176,6 +176,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'space-evenly',
-    gap: 10
+    gap: 20
   }
 });
