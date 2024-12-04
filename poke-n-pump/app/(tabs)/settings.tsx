@@ -102,10 +102,7 @@ export default function SettingsScreen() {
       <ThemedText type='header'>
         Settings
       </ThemedText>
-      <ThemedScrollView 
-        style={styles.scrollView}
-        contentContainerStyle={{ paddingBottom: 100 }}  
-      >
+      <ThemedScrollView style={styles.scrollView}>
         <VisibilityOption 
           visibility={visibility}
           setVisibility={setVisibility} 
@@ -124,27 +121,27 @@ export default function SettingsScreen() {
             setNoGymStreakLimit={setNoGymStreakLimit} 
           />
         </ThemedView>
-        <ThemedView style={styles.buttonsContainer}>
-          <ThemedButton
-            title="Apply Changes"
-            lightColor={themeColor.sub}
-            darkColor={themeColor.sub}
-            lightBorderColor={themeColor.subDark}
-            darkBorderColor={themeColor.subDark}
-            lightTextColor={themeColor.reverse}
-            darkTextColor={themeColor.reverse}
-            onPress={createApplyChangesAlert}
-          />
-          <ThemedButton 
-            title="Delete Account"
-            lightColor={themeColor.alert}
-            darkColor={themeColor.alert}
-            lightBorderColor={themeColor.alert}
-            darkBorderColor={themeColor.alert}
-            lightTextColor={themeColor.white}
-            darkTextColor={themeColor.white}
-            onPress={createDeleteAccountAlert}
-          />
+        <ThemedView style={ styles.buttons } >
+        <ThemedButton
+          title="Apply Changes"
+          lightColor={themeColor.sub}
+          darkColor={themeColor.sub}
+          lightBorderColor={themeColor.subDark}
+          darkBorderColor={themeColor.subDark}
+          lightTextColor={themeColor.reverse}
+          darkTextColor={themeColor.reverse}
+          onPress={createApplyChangesAlert}
+        />
+        <ThemedButton 
+          title="Delete Account"
+          lightColor={themeColor.alert}
+          darkColor={themeColor.alert}
+          lightBorderColor={themeColor.alert}
+          darkBorderColor={themeColor.alert}
+          lightTextColor={themeColor.white}
+          darkTextColor={themeColor.white}
+          onPress={createDeleteAccountAlert}
+        />
         </ThemedView>
       </ThemedScrollView>
     </ThemedView>
@@ -172,10 +169,9 @@ const styles = StyleSheet.create({
   shameOption: {
     paddingTop: 20,
   },
-  buttonsContainer: {
-    flex: 1,
+  buttons: {
     alignItems: 'center',
-    justifyContent: 'space-evenly',
-    gap: 20
-  }
+    justifyContent: 'center',
+    gap: 20,
+  },
 });
