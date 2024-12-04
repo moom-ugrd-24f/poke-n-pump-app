@@ -20,7 +20,7 @@
       "usesCleartextTraffic": true,
       "permissions": ["INTERNET"],
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "foregroundImage": "assets/images/icon.png",
         "backgroundColor": "#003030"
       },
       "googleServicesFile": "./google-services.json",

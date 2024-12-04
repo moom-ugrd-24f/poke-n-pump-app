@@ -124,28 +124,28 @@ export default function SettingsScreen() {
             setNoGymStreakLimit={setNoGymStreakLimit} 
           />
         </ThemedView>
-        <ThemedButton
-          style={styles.applyChangeButton} 
-          title="Apply Changes"
-          lightColor={themeColor.sub}
-          darkColor={themeColor.sub}
-          lightBorderColor={themeColor.subDark}
-          darkBorderColor={themeColor.subDark}
-          lightTextColor={themeColor.reverse}
-          darkTextColor={themeColor.reverse}
-          onPress={createApplyChangesAlert}
-        />
-        <ThemedButton 
-          style={styles.deleteAccountButton}
-          title="Delete Account"
-          lightColor={themeColor.alert}
-          darkColor={themeColor.alert}
-          lightBorderColor={themeColor.alert}
-          darkBorderColor={themeColor.alert}
-          lightTextColor={themeColor.white}
-          darkTextColor={themeColor.white}
-          onPress={createDeleteAccountAlert}
-        />
+        <ThemedView style={styles.buttonsContainer}>
+          <ThemedButton
+            title="Apply Changes"
+            lightColor={themeColor.sub}
+            darkColor={themeColor.sub}
+            lightBorderColor={themeColor.subDark}
+            darkBorderColor={themeColor.subDark}
+            lightTextColor={themeColor.reverse}
+            darkTextColor={themeColor.reverse}
+            onPress={createApplyChangesAlert}
+          />
+          <ThemedButton 
+            title="Delete Account"
+            lightColor={themeColor.alert}
+            darkColor={themeColor.alert}
+            lightBorderColor={themeColor.alert}
+            darkBorderColor={themeColor.alert}
+            lightTextColor={themeColor.white}
+            darkTextColor={themeColor.white}
+            onP ress={createDeleteAccountAlert}
+          />
+        </ThemedView>
       </ThemedScrollView>
     </ThemedView>
   );
@@ -172,12 +172,10 @@ const styles = StyleSheet.create({
   shameOption: {
     paddingTop: 20,
   },
-  applyChangeButton: {
-    paddingHorizontal: 10,
-    paddingTop: 10,
-  },
-  deleteAccountButton: {
-    paddingHorizontal: 10,
-    paddingTop: 15,
-  },
+  buttonsContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'space-evenly',
+    gap: 10
+  }
 });
