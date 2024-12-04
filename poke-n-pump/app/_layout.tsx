@@ -11,9 +11,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { setStatusBarStyle } from 'expo-status-bar';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import Root from './+html';
 
-import React from "react";
 import firebaseApp from "../constants/firebaseConfig"; // Firebase 초기화 가져오기
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
