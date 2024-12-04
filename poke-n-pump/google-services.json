@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "504995580982",
+    "project_id": "poke-n-pump",
+    "storage_bucket": "poke-n-pump.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:504995580982:android:c62674f5e07fbe133adc97",
+        "android_client_info": {
+          "package_name": "com.escargots.pokenpump"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC80L3DfDZU-Jxi5PqMAyXmCtyDs3mwO6E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
