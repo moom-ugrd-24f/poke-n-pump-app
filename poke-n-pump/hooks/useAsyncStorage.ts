@@ -1,3 +1,4 @@
+import { BASE_URL } from "@/constants/url";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 interface UserData {
@@ -36,4 +37,9 @@ export const getUserId = async () => {
 export const getExpoToken = async () => {
     const user = await getUser();
     return user?.expoPushToken;
+}
+
+export const getUserProfilePicture = async () => {
+    const user = await getUser();
+    return BASE_URL + '/' + user?.profilePicture;
 }

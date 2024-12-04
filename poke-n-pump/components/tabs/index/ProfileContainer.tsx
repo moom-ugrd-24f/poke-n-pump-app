@@ -8,6 +8,7 @@ import { useColorScheme } from '@/hooks/useColorScheme';
 import { router } from 'expo-router';
 import { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { getUserProfilePicture } from '@/hooks/useAsyncStorage';
 
 export default function ProfileContainer() {
   const colorScheme = useColorScheme();
@@ -27,6 +28,8 @@ export default function ProfileContainer() {
       }
       if (storedProfilePicture !== null) {
         setProfilePicture(storedProfilePicture);
+      } else {
+        getUserProfilePicture().then((res) => setProfilePicture(res));
       }
     } catch (e) {
       console.error(e);

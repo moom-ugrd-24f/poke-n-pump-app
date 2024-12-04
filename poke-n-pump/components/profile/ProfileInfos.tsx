@@ -9,6 +9,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { router } from "expo-router";
 import * as Clipboard from 'expo-clipboard';
 import Toast from "react-native-root-toast";
+import { getUserProfilePicture } from "@/hooks/useAsyncStorage";
 
 interface ProfileInfosProps {
     xp: number;
@@ -29,7 +30,11 @@ export default function ProfileInfos({ xp, numFriend, invitationCode }: ProfileI
             const profilePicture = res[1][1] || '';
 
             setUsername(nickname);
-            setProfilePicture(profilePicture);
+            if (profilePicture) {
+                setProfilePicture(profilePicture);
+            } else {
+                getUserProfilePicture().then((res) => setProfilePicture(res));
+            }
         });
     }, []);
 
