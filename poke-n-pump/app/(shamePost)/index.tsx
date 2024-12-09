@@ -12,6 +12,7 @@ import Toast from 'react-native-root-toast';
 import { incrementXp } from "@/hooks/useAPI";
 import { getUserId } from "@/hooks/useAsyncStorage";
 import { useEffect, useState } from "react";
+import { ThemedScrollView } from "@/components/themedComponents/ThemedScrollView";
 
 export default function ShamePostScreen() {
     const colorScheme = useColorScheme();
@@ -64,8 +65,11 @@ export default function ShamePostScreen() {
                 <Ionicons name="arrow-back" size={75} color={themeColor.main} />
                 <Image source={shamePost} style={styles.backImage} />
             </ThemedView>
-            <Image source={shamePostInsta} style={styles.shamePostInsta}/>
-            <Ionicons name="logo-instagram" size={75} color={themeColor.main} onPress={openInstagramStoryWithImage} />
+            <ThemedScrollView
+                contentContainerStyle={styles.scrollContainer}>
+                <Image source={shamePostInsta} style={styles.shamePostInsta}/>
+                <Ionicons name="logo-instagram" size={75} color={themeColor.main} onPress={openInstagramStoryWithImage} />
+            </ThemedScrollView>
         </ThemedView>
     );
 }
@@ -90,9 +94,14 @@ const styles = StyleSheet.create({
         resizeMode: 'contain',
     },
     shamePostInsta: {
-        width: 300,
+        width: '80%',
         height: undefined,
         aspectRatio: 494 / 880,
         resizeMode: 'contain'
     },
+    scrollContainer: {
+        alignItems: 'center',
+        gap: 20,
+        paddingBottom: 100,
+    }
 });
