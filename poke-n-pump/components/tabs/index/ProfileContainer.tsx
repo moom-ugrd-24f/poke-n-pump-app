@@ -1,5 +1,5 @@
 import { StyleSheet, Image, Pressable } from 'react-native';
-import avatar from '@/assets/images/avatar.jpeg';
+import avatar from '@/assets/images/avatar.jpg';
 import { Ionicons } from '@expo/vector-icons';
 import { ThemedView } from '@/components/themedComponents/ThemedView';
 import { ThemedText } from '@/components/themedComponents/ThemedText';

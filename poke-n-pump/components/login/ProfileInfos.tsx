@@ -1,6 +1,6 @@
-import { Ionicons } from '@expo/vector-icons';
 import { StyleSheet, Image } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
+import avatar from '@/assets/images/avatar.jpg';
 import { useEffect, useState } from 'react';
 import { ThemedView } from '@/components/themedComponents/ThemedView';
 import { ThemedText } from '@/components/themedComponents/ThemedText';
@@ -108,18 +108,10 @@ export default function ProfileInfos({ enableCompleteButton }: ProfileInfosProps
                 </ThemedText>
                 !
             {"\n"}Let me know about you.</ThemedText>
-            { image ? 
             <Image 
-                source={{ uri: image }} 
+                source={ image ? { uri: image } : avatar } 
                 style={styles.image} 
-            /> : 
-            <Ionicons 
-                name="person-circle" 
-                size={150} 
-                color="white" 
-                onPress={pickImage} 
-            /> 
-            }
+            />
             <ThemedView style={styles.username}>
                 <ThemedText type='subtitle' lightColor={themeColor.default} darkColor={themeColor.default}>Nickname</ThemedText>
                 <ThemedView style={styles.usernameInput}>
