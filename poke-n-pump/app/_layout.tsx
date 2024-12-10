@@ -11,6 +11,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { setStatusBarStyle } from 'expo-status-bar';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { KeyboardProvider } from 'react-native-keyboard-controller';
 
 import firebaseApp from "../constants/firebaseConfig"; // Firebase 초기화 가져오기
 
@@ -69,6 +70,7 @@ export default function RootLayout() {
     return (
         <RootSiblingParent>
         <SafeAreaView style={{ flex: 1, backgroundColor: Colors[colorScheme ?? 'light'].background }}>
+        <KeyboardProvider>
         <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
             <Stack
                 initialRouteName={isFirstTimeLoad ? '(login)/index' : '(tabs)'}
@@ -85,6 +87,7 @@ export default function RootLayout() {
                 <Stack.Screen name="(profile)/(friends)/index" />
             </Stack>
         </ThemeProvider>
+        </KeyboardProvider>
         </SafeAreaView>
         </RootSiblingParent>
     );

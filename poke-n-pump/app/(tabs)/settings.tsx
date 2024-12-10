@@ -102,7 +102,9 @@ export default function SettingsScreen() {
       <ThemedText type='header'>
         Settings
       </ThemedText>
-      <ThemedScrollView style={styles.scrollView}>
+      <ThemedScrollView 
+        style={styles.scrollView}
+        contentContainerStyle={{paddingBottom: 100}}>
         <VisibilityOption 
           visibility={visibility}
           setVisibility={setVisibility} 

@@ -12,6 +12,7 @@ import { useEffect, useState } from "react";
 import { getUserInfo } from "@/hooks/useAPI";
 import { ThemedScrollView } from "@/components/themedComponents/ThemedScrollView";
 import { getUserId } from "@/hooks/useAsyncStorage";
+import { KeyboardAwareScrollView, KeyboardToolbar } from 'react-native-keyboard-controller';
 
 export default function ProfileScreen() {
     const colorScheme = useColorScheme();
@@ -54,13 +55,9 @@ export default function ProfileScreen() {
             </ThemedView>
                 { isLoading 
                 ? <ActivityIndicator color={themeColor.default} style={{ height: "70%" }} /> 
-                : <ThemedScrollView 
-                    style={styles.scrollView} 
-                    contentContainerStyle={{ 
-                        alignItems: 'center', 
-                        gap: 50,
-                        paddingBottom: 200,
-                    }} 
+                : <KeyboardAwareScrollView 
+                    bottomOffset={100}
+                    contentContainerStyle={styles.scrollContainer} 
                     showsVerticalScrollIndicator={false} 
                     refreshControl={ 
                         <RefreshControl 
@@ -71,7 +68,7 @@ export default function ProfileScreen() {
                     <ProfileInfos xp={xp} numFriend={numFriend} invitationCode={invitationCode} />
                     <ProfileStats />
                     <FriendRequest />
-                </ThemedScrollView>}
+                </KeyboardAwareScrollView>}
             </ThemedView>
     );
 }
@@ -95,7 +92,8 @@ const styles = StyleSheet.create({
         borderRadius: 100,
         resizeMode: 'cover',
     },
-    scrollView: {
-        // marginBottom: 50,
-    }
+    scrollContainer: { 
+        alignItems: 'center', 
+        gap: 50,
+    },
 });
