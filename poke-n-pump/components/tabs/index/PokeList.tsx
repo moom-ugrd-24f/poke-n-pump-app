@@ -147,7 +147,7 @@ export default function PokeList({didWorkout}) {
                         onPress={() => {
                             sendPoke(myself.id, receiverId, 'Trash Talk');
                             setShowPokeModal(false);
-                            sendNotification(receiverToken, { title: 'PokeNPump', body: `${receiverName} : go hit the gym you fat looser!` });
+                            sendNotification(receiverToken, { title: 'PokeNPump', body: `${myself.nickname} : go hit the gym you fat looser!` });
                             pokeXpUpdate();
                             fetchPokees();
                         }}
