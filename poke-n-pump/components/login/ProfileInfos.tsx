@@ -1,4 +1,4 @@
-import { StyleSheet, Image } from 'react-native';
+import { StyleSheet, Image, Pressable } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import avatar from '@/assets/images/avatar.jpg';
 import { useEffect, useState } from 'react';
@@ -108,10 +108,12 @@ export default function ProfileInfos({ enableCompleteButton }: ProfileInfosProps
                 </ThemedText>
                 !
             {"\n"}Let me know about you.</ThemedText>
-            <Image 
-                source={ image ? { uri: image } : avatar } 
-                style={styles.image} 
-            />
+            <Pressable onPress={pickImage}>
+                <Image 
+                    source={ image ? { uri: image } : avatar } 
+                    style={styles.image} 
+                />
+            </Pressable>
             <ThemedView style={styles.username}>
                 <ThemedText type='subtitle' lightColor={themeColor.default} darkColor={themeColor.default}>Nickname</ThemedText>
                 <ThemedView style={styles.usernameInput}>
