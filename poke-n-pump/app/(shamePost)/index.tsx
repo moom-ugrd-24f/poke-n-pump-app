@@ -9,7 +9,7 @@ import { Colors } from "@/constants/Colors";
 import * as Sharing from 'expo-sharing';
 import { Asset } from 'expo-asset';
 import Toast from 'react-native-root-toast';
-import { incrementXp } from "@/hooks/useAPI";
+import { incrementShamePost } from "@/hooks/useAPI";
 import { getUserId } from "@/hooks/useAsyncStorage";
 import { useEffect, useState } from "react";
 import { ThemedScrollView } from "@/components/themedComponents/ThemedScrollView";
@@ -29,7 +29,8 @@ export default function ShamePostScreen() {
 
     const shamePostXpUpdate = () => {
         if (!userId) return;
-        incrementXp(userId, 50);
+
+        incrementShamePost(userId);
         let toast = Toast.show('You earned 50XP by shaming your friend :)', {
             duration: Toast.durations.SHORT,
             position: Toast.positions.CENTER,
