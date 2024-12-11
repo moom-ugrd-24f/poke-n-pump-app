@@ -24,6 +24,9 @@ export default function ProfileScreen() {
     const [xp, setXp] = useState(0);
     const [numFriend, setNumFriend] = useState(0);
     const [invitationCode, setInvitationCode] = useState('');
+    const [gymStreak, setGymStreak] = useState(0);
+    const [pokeCount, setPokeCount] = useState(0);
+    const [shamePostCount, setShamePostCount] = useState(0);
 
     const fetchProfile = () => {
         getUserId().then((userId) => {
@@ -32,6 +35,9 @@ export default function ProfileScreen() {
                 setXp(res.data.xp);
                 setNumFriend(res.data.friends.length);
                 setInvitationCode(res.data.inviteCode);
+                setGymStreak(res.data.gymStreak);
+                setPokeCount(res.data.pokeCount);
+                setShamePostCount(res.data.shamePostCount);
                 setIsLoading(false);
             });
         });
@@ -66,7 +72,7 @@ export default function ProfileScreen() {
                             tintColor={themeColor.default}/> 
                     }>
                     <ProfileInfos xp={xp} numFriend={numFriend} invitationCode={invitationCode} />
-                    <ProfileStats />
+                    <ProfileStats gymStreak={gymStreak} pokeCount={pokeCount} shamePostCount={shamePostCount} />
                     <FriendRequest />
                 </KeyboardAwareScrollView>}
             </ThemedView>
