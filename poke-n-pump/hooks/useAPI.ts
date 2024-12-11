@@ -51,6 +51,7 @@ export const updateUser = (data: any, userId: string) => {
     if (data.expoPushToken) body["expoPushToken"] = data.expoPushToken;
     if (data.profilePicture) body["profilePicture"] = data.profilePicture;
     if (data.xp) body["xp"] = data.xp.toString();
+    if (data.shamePostCount) body["shamePostCount"] = data.shamePostCount.toString();
 
     return axios.put(updateUserUrl, body, {headers: { 'Content-Type': 'application/json' },}).then((res) => {
         return res;
@@ -77,6 +78,17 @@ export const incrementXp = (userId: string, xp: number) => {
     getUser().then((res) => {
         if (res) {
             updateXp(userId, res.xp + xp);
+        }
+    });
+}
+
+export const incrementShamePost = (userId: string) => {
+    getUser().then((res) => {
+        if (res) {
+            updateAndStoreUser({ 
+                shamePostCount: res.shamePostCount + 1,
+                xp: res.xp + 50
+            }, userId);
         }
     });
 }
